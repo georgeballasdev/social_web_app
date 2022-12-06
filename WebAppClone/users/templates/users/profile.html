@@ -1,1 +1,3 @@
-<p>Profile page for user:{{ user.name}} with id:{{ user.id }}</p>
+<p>Profile page for user:{{ profile_user.username}} with id:{{ profile_user.id }}</p>
+<p>You are viewing as {{ user.username }}</p>
+<a href="{% url 'users:logout' %}">LOGOUT</a>

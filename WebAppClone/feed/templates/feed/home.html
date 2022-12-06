@@ -1,4 +1,5 @@
 <h1>Welcome {{ user.username }} with id {{ user.id }}</h1>
+<a href="{% url 'users:profile' %}">GO TO PROFILE</a>
 <p>Feed:</p>
 {% if posts %}
 <ul>

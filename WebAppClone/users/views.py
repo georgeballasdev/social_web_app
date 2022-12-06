@@ -1,10 +1,9 @@
-from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
-from django.shortcuts import HttpResponse, HttpResponseRedirect, get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views import View
 from .forms import ProfileForm, UserForm
 
 
@@ -14,14 +13,14 @@ def welcome(request):
         return redirect(reverse('feed:home'))
     return redirect(reverse('users:login'))
 
-class ProfileView(LoginRequiredMixin, View):
-    def get(self, request, id):
-        model = User
-        try:
-            user = model.objects.get(id=id)
-            return render(request, 'users/profile.html')
-        except model.DoesNotExist:           
-            return render(request, 'users/fail.html')
+@login_required
+def profile(request, id=None):
+    user = request.user
+    context = {'profile_user': user}
+    if id and id != user.id:
+        profile_user = get_object_or_404(User, id=id)
+        context['profile_user'] = profile_user
+    return render(request, 'users/profile.html', context)
 
 def register(request):
     if request.method == 'POST':
@@ -40,11 +39,10 @@ def register(request):
     context = {'user_form':user_form, 'profile_form': profile_form}
     return render(request, 'users/register.html', context)
 
+def logout_view(request):
+    logout(request)
+    return redirect('users:login')
 
 class UserLoginView(LoginView):
-    # Note: Problems with login, user doesn't change and unathenticated users go 404
     template_name = 'users/login.html'
-
-    def form_valid(self, form):
-        user_id = str(form.get_user().id)
-        return redirect('users:profile',user_id)
+    next_page = 'users:profile'
