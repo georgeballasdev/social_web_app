@@ -1,9 +1,10 @@
 from django.urls import include, path
-from .views import ProfileView, UserLoginView, welcomeview
+from . import views
 
 app_name = 'users'
 urlpatterns = [
-    path('', welcomeview, name='welcome'),
-    path('login/', UserLoginView.as_view(), name='login'),
-    path('profile/<int:id>', ProfileView.as_view(), name='profile'),
+    path('', views.welcome, name='welcome'),
+    path('login/', views.UserLoginView.as_view(), name='login'),
+    path('register/', views.register, name='register'),
+    path('profile/<int:id>', views.ProfileView.as_view(), name='profile'),
 ]
