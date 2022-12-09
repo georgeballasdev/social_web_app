@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Social Web App</title>
+</head>
+<body>
+    {% block navbar %}
+    <nav>
+        <ul>
+            <li>
+                {% if user.profile.pic %}
+                <img src="{{ user.profile.pic.url }}" alt="{{ user.profile.img.url }}"
+                    height="20px" width="20px">
+                {% else %}
+                <img src="/media/images/no_pic.jpeg" alt="no pic" height="20px" width="20px">
+                {% endif %}
+                <p>Hello {{ user.username }}</p>
+            </li>
+            <li>
+                <a href="{% url 'feed:home' %}">HOME</a>
+            </li>
+            <li>
+                <a href="{% url 'users:profile' %}">PROFILE</a>
+            </li>
+            <li>
+                <a href="{% url 'users:logout' %}">LOGOUT</a>
+            </li>
+        </ul>
+    </nav>
+    {% endblock %}
+    {% block content %}{% endblock %}
+</body>

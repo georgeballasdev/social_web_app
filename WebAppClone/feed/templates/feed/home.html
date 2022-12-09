@@ -1,5 +1,5 @@
-<h1>Welcome {{ user.username }} with id {{ user.id }}</h1>
-<a href="{% url 'users:profile' %}">GO TO PROFILE</a>
+{% extends 'feed/base.html' %}
+{% block content %}
 <p>Feed:</p>
 {% if posts %}
 <ul>
@@ -14,3 +14,4 @@
 </ul>
 {% endif %}
 <p>End of posts</p>
+{% endblock %}

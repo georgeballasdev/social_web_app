@@ -45,4 +45,4 @@ def logout_view(request):
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'
-    next_page = 'users:profile'
+    next_page = 'feed:home'
