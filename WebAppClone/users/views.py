@@ -34,6 +34,8 @@ def register(request):
             login(request, usr)
             return redirect('users:profile', usr.id)
     else:
+        if request.user.is_authenticated:
+            return redirect('feed:home')
         user_form = UserForm()
         profile_form = ProfileForm()
     context = {'user_form':user_form, 'profile_form': profile_form}
@@ -46,3 +48,4 @@ def logout_view(request):
 class UserLoginView(LoginView):
     template_name = 'users/login.html'
     next_page = 'feed:home'
+    redirect_authenticated_user = True

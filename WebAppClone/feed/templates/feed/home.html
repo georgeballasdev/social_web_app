@@ -1,25 +1,11 @@
 {% extends 'feed/base.html' %}
 {% block content %}
-    {% load humanize %}
     <p>Feed:</p>
     {% if posts %}
     <ul>
         {% for post in posts %}
         <li>
-            <p>Post by {{ post.owner.first_name }} {{ post.owner.last_name }}</p>
-            <p>Created {{ post.created_at|naturaltime }} and last edited {{ post.last_edited_at|naturaltime }}</p>
-            <p>Likes: {{ post.liked_by.all.count }} <button>Like</button></p>
-            <p>Body: {{ post.text }}</p>
-            {% if post.img %}<img src="{{ post.img.url }}" alt="{{ post.img.url }}">{% endif %}
-            <button>Share</button>
-            {% if post.commentmodel_set.all %}
-                {% for comment in post.commentmodel_set.all %}
-                    <p><b>{{ comment.owner.username }}:</b> {{ comment.text }} - {{ comment.created_at|naturaltime }}</p>
-                {% endfor %}
-            {% else %}
-                <p>No comments</p>
-            {% endif %}
-            <button>Add comment</button>
+            {% include 'feed/post.html' with post=post %}
         </li>
         {% endfor %}
     </ul>
