@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import homeview, PostDetailView
+from . import views
 
 
 app_name = 'feed'
 urlpatterns = [
-    path('', homeview, name='home'),
-    path('post/<int:id>/', PostDetailView.as_view(), name='post'),
+    path('', views.homeview, name='home'),
+    path('post/<int:id>/', views.PostDetailView.as_view(), name='post'),
 ]

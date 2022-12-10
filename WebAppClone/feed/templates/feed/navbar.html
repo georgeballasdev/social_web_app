@@ -1,0 +1,22 @@
+<nav>
+    <ul>
+        <li>
+            {% if user.profile.pic %}
+            <img src="{{ user.profile.pic.url }}" alt="{{ user.profile.img.url }}"
+                height="20px" width="20px">
+            {% else %}
+            <img src="/media/images/no_pic.jpeg" alt="no pic" height="20px" width="20px">
+            {% endif %}
+            <h3>Hello {{ user.username }}</h3>
+        </li>
+        <li>
+            <a href="{% url 'feed:home' %}">HOME</a>
+        </li>
+        <li>
+            <a href="{% url 'users:profile' %}">PROFILE</a>
+        </li>
+        <li>
+            <a href="{% url 'users:logout' %}">LOGOUT</a>
+        </li>
+    </ul>
+</nav>

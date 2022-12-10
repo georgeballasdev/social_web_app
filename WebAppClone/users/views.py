@@ -2,9 +2,11 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
+from django.views.generic import UpdateView
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .forms import ProfileForm, UserForm
+from .models import Profile
 
 
 def welcome(request):
@@ -32,7 +34,7 @@ def register(request):
             prof.user = usr
             prof.save()
             login(request, usr)
-            return redirect('users:profile', usr.id)
+            return redirect('users:profile')
     else:
         if request.user.is_authenticated:
             return redirect('feed:home')
@@ -49,3 +51,13 @@ class UserLoginView(LoginView):
     template_name = 'users/login.html'
     next_page = 'feed:home'
     redirect_authenticated_user = True
+
+class UserUpdateView(UpdateView):
+    template_name = 'users/update.html'
+    fields = ['bio', 'pic']
+
+    def get_object(self):
+        return self.request.user.profile
+
+    def get_success_url(self):
+        return reverse('users:profile')
