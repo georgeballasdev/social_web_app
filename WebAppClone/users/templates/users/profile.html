@@ -1,5 +1,6 @@
 {% extends 'feed/base.html' %}
 {% block content %}
+    {% load humanize %}
     <p>Profile page for user:{{ profile_user.username}} with id:{{ profile_user.id }}</p>
     {% if profile_user.profile.pic %}
         <img src="{{ profile_user.profile.pic.url }}" alt="{{ profile_user.profile.img.url }}"
@@ -7,6 +8,6 @@
     {% else %}
         <img src="/media/images/no_pic.jpeg" alt="no pic" height="200px" width="200px">
     {% endif %}
-    <p>Joined at {{ profile_user.profile.joined_at }}</p>
+    <p>Joined at {{ profile_user.profile.joined_at|naturalday }}</p>
     <p>Bio:</p><p>{{ profile_user.profile.bio }}</p>
 {% endblock %}
