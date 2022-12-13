@@ -47,6 +47,14 @@ def logout_view(request):
     logout(request)
     return redirect('users:login')
 
+def add_view(request, id):
+    if request.method == 'POST':
+        new_friend = get_object_or_404(User, id=id)
+        request.user.profile.friends.add(new_friend)
+        new_friend.profile.friends.add(request.user)
+        return redirect(reverse('users:other_profile', args=[id,]))
+    return redirect(reverse('feed:home'))
+
 class UserLoginView(LoginView):
     template_name = 'users/login.html'
     next_page = 'feed:home'
