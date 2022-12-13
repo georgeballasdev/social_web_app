@@ -1,16 +1,23 @@
 {% extends 'feed/base.html' %}
+{% load humanize %}
 {% block content %}
-    {% load humanize %}
-    <p>Profile page for user:{{ profile_user.username}} with id:{{ profile_user.id }}</p>
-    {% if profile_user.profile.pic %}
-        <img src="{{ profile_user.profile.pic.url }}" alt="{{ profile_user.profile.img.url }}"
-            height="200px" width="200px">
-    {% else %}
-        <img src="/media/images/no_pic.jpeg" alt="no pic" height="200px" width="200px">
-    {% endif %}
+    <h1>Profile page for user:{{ profile_user.username}} with id:{{ profile_user.id }}</h1>
+    <img src="{{ profile_user.profile.pic.url }}" alt="{{ profile_user.profile.img.url }}"
+         height="200px" width="200px">
     <p>Joined at {{ profile_user.profile.joined_at|naturalday }}</p>
     <p>Bio:</p><p>{{ profile_user.profile.bio }}</p>
     {% if user == profile_user %}
         <a href="{% url 'users:update' %}">EDIT PROFILE</a>
     {% endif %}
+    <p>User posts:</p>
+    {% if profile_user.postmodel_set.all %}
+    <ul>
+        {% for post in profile_user.postmodel_set.all %}
+        <li>
+            {% include 'feed/post.html' with post=post %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <p>End of posts</p>
 {% endblock %}

@@ -1,5 +1,7 @@
 {% extends 'feed/base.html' %}
+{% load bootstrap5 %}
 {% block content %}
+    <a href="{% url 'feed:post_create' %}">NEW POST</a>
     <p>Feed:</p>
     {% if posts %}
     <ul>

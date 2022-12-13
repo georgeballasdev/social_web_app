@@ -1,22 +1,44 @@
-<nav>
-    <ul>
-        <li>
-            {% if user.profile.pic %}
-            <img src="{{ user.profile.pic.url }}" alt="{{ user.profile.img.url }}"
-                height="20px" width="20px">
-            {% else %}
-            <img src="/media/images/no_pic.jpeg" alt="no pic" height="20px" width="20px">
-            {% endif %}
-            <h3>Hello {{ user.username }}</h3>
+{% load bootstrap5 %}
+<nav class="navbar fixed-top navbar-expand-sm navbar-light bg-primary">
+  <div class="container">
+    <a href="{% url 'feed:home' %}" class="navbar-brand">WebSocialApp</a>
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse" 
+        data-bs-target="#navbarNav" 
+        aria-controls="navbarNav" 
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a href="#"
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            >
+            <img src="{{ user.profile.pic.url }}"
+                class="align-top"
+                alt="{{ user.profile.img.url }}"
+                height="50" width="50"
+            >
+            <span class="h2" style="padding-left:0.5em;">{{ user.username }}</span>
+            </a>
+            <ul class="dropdown-menu"
+            aria-labelledby="navbarDropdown"
+            >
+            <li><a href="{% url 'users:profile' %}" class="dropdown-item">Profile</a></li>
+            <li><a href="{% url 'users:update' %}" class="dropdown-item">Settings</a></li>
+            <li><a href="{% url 'users:logout' %}" class="dropdown-item">Logout</a></li>
+            </ul>
         </li>
-        <li>
-            <a href="{% url 'feed:home' %}">HOME</a>
-        </li>
-        <li>
-            <a href="{% url 'users:profile' %}">PROFILE</a>
-        </li>
-        <li>
-            <a href="{% url 'users:logout' %}">LOGOUT</a>
-        </li>
-    </ul>
+        </ul>
+    </div>
+  </div>
 </nav>

@@ -2,8 +2,21 @@
 <head>
     <meta charset="utf-8">
     <title>Social Web App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
 </head>
-<body>
-    {% include 'feed/navbar.html' %}
-    {% block content %}{% endblock %}
+<body style="padding-top: 90px;">
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'feed/navbar.html' %}
+        </div>
+        <div class="row">
+            <div class="col-2"><div class="box" style="background-color: lightblue; min-height:100%">BOX</div></div>
+            <div class="col">{% block content %}{% endblock %}</div>
+            <div class="col-2"><div class="box" style="background-color: lightblue; min-height:100%">BOX</div></div>
+        </div>
+    </div>
 </body>

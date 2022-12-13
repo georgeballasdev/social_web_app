@@ -1,7 +1,7 @@
 {% extends 'feed/base.html' %}
 {% load bootstrap5 %}
 {% block content %}
-    <p>update user</p>
+<h2>Create new post</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
