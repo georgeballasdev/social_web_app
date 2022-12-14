@@ -1,12 +1,12 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
 from django.views.generic import UpdateView
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .forms import ProfileForm, UserForm
-from .models import Profile
 
 
 def welcome(request):
@@ -47,11 +47,21 @@ def logout_view(request):
     logout(request)
     return redirect('users:login')
 
-def add_view(request, id):
+@login_required
+def befriend_view(request, id):
     if request.method == 'POST':
-        new_friend = get_object_or_404(User, id=id)
-        request.user.profile.friends.add(new_friend)
-        new_friend.profile.friends.add(request.user)
+        friend = get_object_or_404(User, id=id)
+        request.user.profile.friends.add(friend)
+        friend.profile.friends.add(request.user)
+        return redirect(reverse('users:other_profile', args=[id,]))
+    return redirect(reverse('feed:home'))
+
+@login_required
+def unfriend_view(request, id):
+    if request.method == 'POST':
+        friend = get_object_or_404(User, id=id)
+        request.user.profile.friends.remove(friend)
+        friend.profile.friends.remove(request.user)
         return redirect(reverse('users:other_profile', args=[id,]))
     return redirect(reverse('feed:home'))
 
@@ -60,7 +70,7 @@ class UserLoginView(LoginView):
     next_page = 'feed:home'
     redirect_authenticated_user = True
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'users/update.html'
     fields = ['bio', 'pic']
 

@@ -7,6 +7,26 @@ from .forms import PostCreateForm
 from .models import PostModel
 
 
+@login_required
+def homeview(request):
+    posts = PostModel.objects.all().order_by('-created_at')[:10]
+    context = {'posts': posts}
+    return render(request, 'feed/home.html', context)
+
+@login_required
+def like_view(request, id):
+    if request.method == 'POST':
+        post = get_object_or_404(PostModel, id=id)
+        post.liked_by.add(request.user)
+    return HttpResponseRedirect(reverse_lazy('feed:home'))
+
+@login_required
+def unlike_view(request, id):
+    if request.method == 'POST':
+        post = get_object_or_404(PostModel, id=id)
+        post.liked_by.remove(request.user)
+    return HttpResponseRedirect(reverse_lazy('feed:home'))
+
 class PostCreateView(LoginRequiredMixin, CreateView):
      def get(self, request):
         context = {'form': PostCreateForm()}
@@ -20,12 +40,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
              post.save()
              return HttpResponseRedirect(reverse_lazy('feed:home'))
          return render(request, 'feed/post_create.html', {'form': form})
-
-@login_required
-def homeview(request):
-    posts = PostModel.objects.all().order_by('-created_at')[:10]
-    context = {'posts': posts}
-    return render(request, 'feed/home.html', context)
 
 class PostDetailView(LoginRequiredMixin, DetailView):
     model = PostModel

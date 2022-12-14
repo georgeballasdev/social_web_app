@@ -3,9 +3,15 @@
 <p>Created {{ post.created_at|naturaltime }} and last edited {{ post.last_edited_at|naturaltime }}</p>
 <p>Likes: {{ post.liked_by.all.count }}</p>
 {% if user in post.liked_by.all %}
-    <button>Unike</button>
+    <form method="POST" action="{% url 'feed:unlike' post.id %}">
+        {% csrf_token %}
+        <input type="submit" value="Unlike">
+    </form>
 {% else %}
-    <button>Like</button>
+    <form method="POST" action="{% url 'feed:like' post.id %}">
+        {% csrf_token %}
+        <input type="submit" value="Like">
+    </form>
 {% endif %}
 <p>Body: {{ post.text }}</p>
 {% if post.img %}<img src="{{ post.img.url }}" alt="{{ post.img.url }}">{% endif %}

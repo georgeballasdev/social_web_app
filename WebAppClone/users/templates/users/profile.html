@@ -10,10 +10,17 @@
     {% if user == profile_user %}
         <a href="{% url 'users:update' %}">EDIT PROFILE</a>
     {% else %}
-        <form method="POST" action="{% url 'users:add' profile_user.id %}">
-            {% csrf_token %}
-            <input type="submit" value="ADD FRIEND">
-        </form>
+        {% if user in profile_user.profile.friends.all %}
+            <form method="POST" action="{% url 'users:unfriend' profile_user.id %}">
+                {% csrf_token %}
+                <input type="submit" value="UNFRIEND">
+            </form>
+        {% else %}
+            <form method="POST" action="{% url 'users:befriend' profile_user.id %}">
+                {% csrf_token %}
+                <input type="submit" value="ADD FRIEND">
+            </form>
+        {% endif %}
     {% endif %}
     <p>User posts:</p>
     {% if profile_user.postmodel_set.all %}
