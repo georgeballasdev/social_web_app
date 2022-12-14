@@ -2,3 +2,4 @@
 {% block content %}
     {% include 'feed/post.html' with post=object %}
 {% endblock %}
+{% block js %}{% include 'feed/post_handling_js.html' %}{% endblock %}

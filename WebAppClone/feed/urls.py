@@ -7,6 +7,8 @@ urlpatterns = [
     path('', views.homeview, name='home'),
     path('post/<int:id>/', views.PostDetailView.as_view(), name='post'),
     path('post/create/', views.PostCreateView.as_view(), name='post_create'),
-    path('post/<int:id>/like/', views.like_view, name='like'),
-    path('post/<int:id>/unlike/', views.unlike_view, name='unlike'),
+    path('post/like/', views.like_view, name='like'),
+    path('post/unlike/', views.unlike_view, name='unlike'),
+    path('post/getlikes/', views.getlikes, name='getlikesurl'),
+    path('post/getlikes/<int:id>/', views.GetLikesView.as_view(), name='getlikes'),
 ]

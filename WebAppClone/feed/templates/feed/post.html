@@ -1,26 +1,23 @@
 {% load humanize %}
 <h2><a href="{% url 'feed:post' post.id %}">Post</a> by <a href="{% url 'users:other_profile' post.owner.id %}">{{ post.owner.username }}</a></h2>
 <p>Created {{ post.created_at|naturaltime }} and last edited {{ post.last_edited_at|naturaltime }}</p>
-<p>Likes: {{ post.liked_by.all.count }}</p>
-{% if user in post.liked_by.all %}
-    <form method="POST" action="{% url 'feed:unlike' post.id %}">
-        {% csrf_token %}
-        <input type="submit" value="Unlike">
-    </form>
-{% else %}
-    <form method="POST" action="{% url 'feed:like' post.id %}">
-        {% csrf_token %}
-        <input type="submit" value="Like">
-    </form>
-{% endif %}
+<p id="likes_of_{{ post.id }}">{{ post.liked_by.all.count }}</p>
+<form method="POST" id="unlike_btn_{{ post.id }}" {% if user not in post.liked_by.all %}style="display: none;"{% endif %}>
+{% csrf_token %}
+<button type="submit">Unlike</button>
+</form> 
+<form method="POST" id="like_btn_{{ post.id }}" {% if user in post.liked_by.all %}style="display: none;"{% endif %}>
+{% csrf_token %}
+<button type="submit">Like</button>
+</form>
 <p>Body: {{ post.text }}</p>
 {% if post.img %}<img src="{{ post.img.url }}" alt="{{ post.img.url }}">{% endif %}
 <button>Share</button>
 {% if post.commentmodel_set.all %}
-    {% for comment in post.commentmodel_set.all %}
-        <p><b>{{ comment.owner.username }}:</b> {{ comment.text }} - {{ comment.created_at|naturaltime }}</p>
-    {% endfor %}
+  {% for comment in post.commentmodel_set.all %}
+    <p><b>{{ comment.owner.username }}:</b> {{ comment.text }} - {{ comment.created_at|naturaltime }}</p>
+  {% endfor %}
 {% else %}
-    <p>No comments</p>
+  <p>No comments</p>
 {% endif %}
-<button>Add comment</button>    
+<button>Add comment</button>
