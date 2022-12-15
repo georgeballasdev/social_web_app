@@ -13,11 +13,17 @@
 <p>Body: {{ post.text }}</p>
 {% if post.img %}<img src="{{ post.img.url }}" alt="{{ post.img.url }}">{% endif %}
 <button>Share</button>
-{% if post.commentmodel_set.all %}
-  {% for comment in post.commentmodel_set.all %}
-    <p><b>{{ comment.owner.username }}:</b> {{ comment.text }} - {{ comment.created_at|naturaltime }}</p>
-  {% endfor %}
-{% else %}
-  <p>No comments</p>
-{% endif %}
-<button>Add comment</button>
+<div id="comments_of_{{ post.id }}">
+  {% if post.commentmodel_set.all %}
+    {% for comment in post.commentmodel_set.all %}
+      <p><b>{{ comment.owner.username }}:</b> {{ comment.text }} - {{ comment.created_at|naturaltime }}</p>
+    {% endfor %}
+  {% else %}
+    <p>No comments</p>
+  {% endif %}
+</div>
+<form method="POST" id="add_comment_to_{{ post.id }}">
+  {% csrf_token %}
+  <input type="text" placeholder="Add comment..." name="text">
+  <button type="submit">Add</button>
+</form>

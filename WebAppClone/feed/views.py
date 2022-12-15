@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, HttpResponseRedirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, View
 from .forms import PostCreateForm
-from .models import PostModel
+from .models import CommentModel, PostModel
 
 
 @login_required
@@ -32,6 +32,23 @@ def unlike_view(request):
 
 def getlikes(request):
     return render(request, 'feed/home.html')
+
+@login_required
+def add_comment_view(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        post = get_object_or_404(PostModel, id=id)
+        comment = CommentModel.objects.create(owner=request.user, of_post=post,
+                                              text=request.POST.get('text'))
+        comment.save()
+    return render(request, 'feed/home.html')
+
+class GetCommentsView(LoginRequiredMixin, View):
+    def get(self, request):
+        id = request.GET.get('id')
+        post = get_object_or_404(PostModel, id=id)
+        comments = [[p.owner.username+':', p.text] for p in post.commentmodel_set.all()]
+        return JsonResponse(comments, safe=False)
 
 class GetLikesView(LoginRequiredMixin, View):
     def get(self, request, id):

@@ -4,7 +4,17 @@
 </script>
 <script>
   // FUNCTIONS
-  
+  function updateComments(id) {
+    url = "{% url 'feed:get_comments' %}";
+    $.getJSON(url, {id:id}, function(comments) {
+      $('#comments_of_'+id).empty();
+      for (var i = 0; i < comments.length; i++) {
+        x = comments[i];
+        $('#comments_of_'+id).append('<p>'+x[0]+':'+x[1]+'</p>\n');
+      }
+    })
+  };
+
   function updateLikes(id) {
     url = "{% url 'feed:getlikesurl' %}" + id;
     $.getJSON(url, function(n) {
@@ -50,4 +60,21 @@
     $(this).toggle();
   });
 
+  $("form[id^='add_comment_to']").submit(function(e) {
+    post_id = $(this).attr('id').slice(15,);
+    comment = $(this).children("input:last").val();
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: "{% url 'feed:add_comment' %}",
+      data:
+      {
+        id: post_id,
+        text: comment,
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+      }
+    });
+    $(this).children("input:last").val('');
+    updateComments(post_id);
+  });
 </script>   

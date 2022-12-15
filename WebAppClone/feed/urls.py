@@ -11,4 +11,6 @@ urlpatterns = [
     path('post/unlike/', views.unlike_view, name='unlike'),
     path('post/getlikes/', views.getlikes, name='getlikesurl'),
     path('post/getlikes/<int:id>/', views.GetLikesView.as_view(), name='getlikes'),
+    path('post/add-comment/', views.add_comment_view, name='add_comment'),
+    path('post/get-comments/', views.GetCommentsView.as_view(), name='get_comments'),
 ]
