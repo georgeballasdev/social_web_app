@@ -1,0 +1,12 @@
+<p>Groups page for {{group.title}}</p>
+<p>{{ group.members.count }} members</p>
+<!--  -->
+{% if user in group.members.all %}
+  <ul>
+    {% for post in group.group_posts.all %}
+      <li>{% include 'feed/post.html' with post=post %}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>You have to be a member to view group posts</p>
+{% endif %}

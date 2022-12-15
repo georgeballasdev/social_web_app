@@ -14,7 +14,7 @@
             {% include 'feed/navbar.html' %}
         </div>
         <div class="row">
-            <div class="col-2"><div class="box" style="background-color: lightblue; min-height:100%">BOX</div></div>
+            <div class="col-2">{% include 'groups/group_list.html' %}</div>
             <div class="col">{% block content %}{% endblock %}</div>
             <div class="col-2"><div class="box" style="background-color: lightblue; min-height:100%">BOX</div></div>
         </div>
