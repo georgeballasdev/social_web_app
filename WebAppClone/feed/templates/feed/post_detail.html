@@ -1,5 +1,19 @@
 {% extends 'feed/base.html' %}
+{% load static %}
 {% block content %}
     {% include 'feed/post.html' with post=object %}
 {% endblock %}
-{% block js %}{% include 'feed/post_handling_js.html' %}{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        let get_comments_url = "{% url 'feed:get_comments' %}";
+        let get_likes_url = "{% url 'feed:getlikesurl' %}";
+        let like_url = "{% url 'feed:like' %}";
+        let unlike_url = "{% url 'feed:unlike' %}";
+        let add_comment_url = "{% url 'feed:add_comment' %}";
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" 
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+            crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="{% static 'js/post_handling.js' %}"></script>
+{% endblock %}

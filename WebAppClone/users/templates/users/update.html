@@ -1,14 +1,8 @@
 {% extends 'feed/base.html' %}
-{% load bootstrap5 %}
 {% block content %}
     <p>update user</p>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-            <button type="submit" class="btn btn-dark">
-            Submit
-            </button>
-        {% endbuttons %}
+        {% form.as_p %}
     </form>
 {% endblock %}

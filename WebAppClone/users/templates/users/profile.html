@@ -1,44 +1,58 @@
 {% extends 'feed/base.html' %}
+{% load static %}
 {% load humanize %}
 {% block content %}
-  <h1>Profile page for user:{{ profile_user.username}} with id:{{ profile_user.id }}</h1>
-  <img src="{{ profile_user.profile.pic.url }}" alt="{{ profile_user.profile.img.url }}"
-     height="200px" width="200px">
-  <p>Joined at {{ profile_user.profile.joined_at|naturalday }}</p>
-  <p>Bio:</p><p>{{ profile_user.profile.bio }}</p>
-  {% if user == profile_user %}
-    <a href="{% url 'users:update' %}">EDIT PROFILE</a>
-  {% else %}
-    {% if user in profile_user.profile.friends.all %}
-      <form method="POST" action="{% url 'users:unfriend' profile_user.id %}">
-        {% csrf_token %}
-        <input type="submit" value="UNFRIEND">
-      </form>
+    <h1>Profile page for user:{{ profile_user.username}} with id:{{ profile_user.id }}</h1>
+    <img src="{{ profile_user.profile.pic.url }}" alt="{{ profile_user.profile.img.url }}"
+         height="200px" width="200px">
+    <p>Joined at {{ profile_user.profile.joined_at|naturalday }}</p>
+    <p>Bio:</p><p>{{ profile_user.profile.bio }}</p>
+    {% if user == profile_user %}
+        <a href="{% url 'users:update' %}">EDIT PROFILE</a>
     {% else %}
-      <form method="POST" action="{% url 'users:befriend' profile_user.id %}">
-        {% csrf_token %}
-        <input type="submit" value="ADD FRIEND">
-      </form>
+        {% if user in profile_user.profile.friends.all %}
+            <form method="POST" action="{% url 'users:unfriend' profile_user.id %}">
+                {% csrf_token %}
+                <input type="submit" value="UNFRIEND">
+            </form>
+        {% else %}
+            <form method="POST" action="{% url 'users:befriend' profile_user.id %}">
+                {% csrf_token %}
+                <input type="submit" value="ADD FRIEND">
+            </form>
+        {% endif %}
     {% endif %}
-  {% endif %}
-  <p>User posts:</p>
-  {% if profile_user.postmodel_set.all %}
-  <ul>
-    {% for post in profile_user.postmodel_set.all %}
-    <li>
-      {% include 'feed/post.html' with post=post %}
-    </li>
+    <p>User posts:</p>
+    {% if profile_user.postmodel_set.all %}
+    <ul>
+        {% for post in profile_user.postmodel_set.all %}
+        <li>
+            {% include 'feed/post.html' with post=post %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <p>End of posts</p>
+    <p>Friends:</p>
+    {% if profile_user.profile.friends.all %}
+    {% for friend in profile_user.profile.friends.all %}
+        <p>{{ friend.username }}</p>
     {% endfor %}
-  </ul>
-  {% endif %}
-  <p>End of posts</p>
-  <p>Friends:</p>
-  {% if profile_user.profile.friends.all %}
-  {% for friend in profile_user.profile.friends.all %}
-    <p>{{ friend.username }}</p>
-  {% endfor %}
-  {% else %}
-    <p>No friends</p>
-  {% endif %}
+    {% else %}
+        <p>No friends</p>
+    {% endif %}
 {% endblock %}
-{% block js %}{% include 'feed/post_handling_js.html' %}{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        let get_comments_url = "{% url 'feed:get_comments' %}";
+        let get_likes_url = "{% url 'feed:getlikesurl' %}";
+        let like_url = "{% url 'feed:like' %}";
+        let unlike_url = "{% url 'feed:unlike' %}";
+        let add_comment_url = "{% url 'feed:add_comment' %}";
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" 
+                    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+                    crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="{% static 'js/post_handling.js' %}"></script>
+{% endblock %}

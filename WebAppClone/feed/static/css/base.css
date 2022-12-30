@@ -1,0 +1,33 @@
+body {
+    overflow: hidden;
+    margin: 0;
+}
+
+#navbar {
+    height: 80px;
+    width: 100vw;
+    background-color: lightblue;
+}
+
+#main {
+    display: flex;
+}
+
+#content {
+    background-color: rgb(235, 235, 229);
+    font-size: 40px;
+    line-height: 1.5em;
+    padding: 60px;
+    height: 100vh;
+    width: 85vw;
+    overflow-y: scroll;
+    /* Hide scrollbar in Firefox and IE */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    
+}
+
+/* Hide scrollbar in webkit base browsers */
+#content::-webkit-scrollbar {
+    display: none;
+}
