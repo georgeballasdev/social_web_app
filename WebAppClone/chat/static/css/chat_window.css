@@ -7,6 +7,22 @@
     position: relative;
 }
 
+.online {
+    height: 20px;
+    width: 20px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.offline {
+    height: 20px;
+    width: 20px;
+    background-color: grey;
+    border-radius: 50%;
+    display: inline-block;
+}
+
 #friends-window {
     display: flex;
     flex-direction: column;

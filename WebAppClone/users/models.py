@@ -8,3 +8,4 @@ class Profile(models.Model):
     joined_at = models.DateField(auto_now_add=True)
     pic = models.ImageField(upload_to='images/pics/', default='/images/no_pic.jpeg')
     friends = models.ManyToManyField(User, related_name='friends')
+    online_status = models.BooleanField(default=False)

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.views.generic import UpdateView
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -79,3 +80,12 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('users:profile')
+
+def getFriendsStatus(request):
+    if request.method == "GET":
+        friends = request.user.friends.all()
+        response = []
+        for friend in friends:
+            response.append({friend.user.username: friend.online_status})
+        return JsonResponse(response, status = 200, safe=False)
+    return JsonResponse({}, status = 400)

@@ -1,7 +1,7 @@
 import json
 from asgiref.sync import sync_to_async, async_to_sync
 from channels.db import database_sync_to_async
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer, WebsocketConsumer
 from django.contrib.auth.models import User
 from .models import ChatMessage
 
@@ -96,3 +96,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'content': message.content,
                 'timestamp': str(message.timestamp)})
         return result
+
+class StatusConsumer(WebsocketConsumer):
+    def connect(self):
+        username = self.scope['user'].username
+        user = User.objects.get(username=username)
+        user.profile.online_status = True
+        user.profile.save()
+        self.accept()
+
+    def disconnect(self, code):
+        username = self.scope['user'].username
+        user = User.objects.get(username=username)
+        user.profile.online_status = False
+        user.profile.save()
+
+    def receive(self, text_data):
+        pass
