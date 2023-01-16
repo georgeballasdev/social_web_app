@@ -23,6 +23,7 @@ def profile(request, id=None):
     if id and id != user.id:
         profile_user = get_object_or_404(User, id=id)
         context['profile_user'] = profile_user
+        context['friendship_button_state'] = user.profile.get_friendship_button_state(profile_user)
     return render(request, 'users/profile.html', context)
 
 def register(request):
@@ -48,23 +49,63 @@ def logout_view(request):
     logout(request)
     return redirect('users:login')
 
-@login_required
-def befriend_view(request, id):
+def handle_friendship(request, id):
     if request.method == 'POST':
-        friend = get_object_or_404(User, id=id)
-        request.user.profile.friends.add(friend)
-        friend.profile.friends.add(request.user)
-        return redirect(reverse('users:other_profile', args=[id,]))
+        user = request.user
+        other_user = get_object_or_404(User, id=id)
+        command = request.POST['command']
+
+        if command == 'ADD FRIEND':
+            if user in other_user.profile.requested_friends.all():
+                user.profile.friends.add(other_user)
+                other_user.profile.friends.add(user)
+                # send befriended notification to other_user
+                response = {'state': 'UNFRIEND'}
+            else:
+                user.profile.requested_friends.add(other_user)
+                # send friend request notification to other_user
+                response = {'state': 'CANCEL REQUEST'}
+        elif command == 'UNFRIEND':
+            if other_user in user.profile.friends.all():
+                user.profile.friends.remove(other_user)
+                other_user.profile.friends.remove(user)
+            response = {'state': 'ADD FRIEND'}
+        elif command == 'CANCEL REQUEST':
+            if other_user in user.profile.friends.all():
+                response = {'state': 'UNFRIEND'}
+            else:
+                user.profile.requested_friends.remove(other_user)
+                response = {'state': 'ADD FRIEND'}
+        else: # command == 'ACCEPT REQUEST'
+            if user in other_user.profile.requested_friends.all():
+                user.profile.friends.add(other_user)
+                other_user.profile.friends.add(user)
+                other_user.profile.requested_friends.remove(user)
+                # send befriended notification to other_user
+                response = {'state': 'UNFRIEND'}
+            else:
+                response = {'state': 'ADD FRIEND'}
+
+        return JsonResponse(response, status = 200)
     return redirect(reverse('feed:home'))
 
-@login_required
-def unfriend_view(request, id):
-    if request.method == 'POST':
-        friend = get_object_or_404(User, id=id)
-        request.user.profile.friends.remove(friend)
-        friend.profile.friends.remove(request.user)
-        return redirect(reverse('users:other_profile', args=[id,]))
-    return redirect(reverse('feed:home'))
+# @login_required
+# def befriend_view(request, id):
+#     if request.method == 'POST':
+#         friend = get_object_or_404(User, id=id)
+#         request.user.profile.friends.add(friend)
+#         friend.profile.friends.add(request.user)
+#         return redirect(reverse('users:other_profile', args=[id,]))
+#     return redirect(reverse('feed:home'))
+
+# @login_required
+# def unfriend_view(request, id):
+#     if request.method == 'POST':
+#         friend = get_object_or_404(User, id=id)
+#         request.user.profile.friends.remove(friend)
+#         friend.profile.friends.remove(request.user)
+#         return redirect(reverse('users:other_profile', args=[id,]))
+#     return redirect(reverse('feed:home'))
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'

@@ -8,4 +8,15 @@ class Profile(models.Model):
     joined_at = models.DateField(auto_now_add=True)
     pic = models.ImageField(upload_to='images/pics/', default='/images/no_pic.jpeg')
     friends = models.ManyToManyField(User, related_name='friends')
+    requested_friends = models.ManyToManyField(User, related_name='requested_friends')
     online_status = models.BooleanField(default=False)
+
+    def get_friendship_button_state(self, other_user):
+        user = self.user
+        if other_user in self.friends.all():
+            return 'UNFRIEND'
+        if other_user in self.requested_friends.all():
+            return 'CANCEL REQUEST'
+        if self.user in other_user.profile.requested_friends.all():
+            return 'ACCEPT REQUEST'
+        return 'ADD FRIEND'

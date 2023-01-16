@@ -10,7 +10,8 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('profile/<int:id>/', views.profile, name='other_profile'),
     path('profile/update/', views.UserUpdateView.as_view(), name='update'),
-    path('profile/befriend/<int:id>/', views.befriend_view, name='befriend'),
-    path('profile/unfriend/<int:id>/', views.unfriend_view, name='unfriend'),
+    # path('profile/befriend/<int:id>/', views.befriend_view, name='befriend'),
+    # path('profile/unfriend/<int:id>/', views.unfriend_view, name='unfriend'),
+    path('ajax/handle-friendship/<int:id>/', views.handle_friendship, name='handle_friendship'),
     path('ajax/getfriendsstatus/', views.getFriendsStatus, name='get_friends_status'),
 ]
