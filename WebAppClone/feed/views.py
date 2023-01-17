@@ -40,7 +40,6 @@ def add_comment_view(request):
         post = get_object_or_404(Post, id=id)
         comment = Comment.objects.create(owner=request.user, of_post=post,
                                               text=request.POST.get('text'))
-        comment.save()
     return render(request, 'feed/home.html')
 
 class GetCommentsView(LoginRequiredMixin, View):
