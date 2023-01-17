@@ -14,8 +14,8 @@
 {% if post.img %}<img src="{{ post.img.url }}" alt="{{ post.img.url }}">{% endif %}
 <button>Share</button>
 <div id="comments_of_{{ post.id }}">
-  {% if post.commentmodel_set.all %}
-    {% for comment in post.commentmodel_set.all %}
+  {% if post.comment_set.all %}
+    {% for comment in post.comment_set.all %}
       <p><b>{{ comment.owner.username }}:</b> {{ comment.text }} - {{ comment.created_at|naturaltime }}</p>
     {% endfor %}
   {% else %}

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'chat',
     'feed',
     'groups',
+    'notifications',
     'users',
 ]
 

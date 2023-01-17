@@ -1,5 +1,5 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/chat_window.css' %}">
+<link rel="stylesheet" href="{% static 'chat/css/chat_window.css' %}">
 <div id="chat-window">
     <div id="friends-window">
         <div id="list-header">Active friends</div>
@@ -24,7 +24,7 @@
         <div class="chat-log"></div>
         <div class="chat-input">
             <input class="msg-input" type="text">
-            <a href="#" class="send-btn"><img src="{% static 'icons/send.png' %}" width="40px" height="40px"></a>
+            <a href="#" class="send-btn"><img src="{% static 'chat/icons/send.png' %}" width="40px" height="40px"></a>
         </div>
     </div>
     <div id="chat2" class="chat">
@@ -35,7 +35,7 @@
         <div class="chat-log"></div>
         <div class="chat-input">
             <input class="msg-input" type="text">
-            <a href="#" class="send-btn"><img src="{% static 'icons/send.png' %}" width="40px" height="40px"></a>
+            <a href="#" class="send-btn"><img src="{% static 'chat/icons/send.png' %}" width="40px" height="40px"></a>
         </div>
     </div>
     <div id="chat3" class="chat">
@@ -46,12 +46,12 @@
         <div class="chat-log"></div>
         <div class="chat-input">
             <input class="msg-input" type="text">
-            <a href="#" class="send-btn"><img src="{% static 'icons/send.png' %}" width="40px" height="40px"></a>
+            <a href="#" class="send-btn"><img src="{% static 'chat/icons/send.png' %}" width="40px" height="40px"></a>
         </div>
     </div>            
 </div>
 <script type="text/javascript">
     let friends_url = "{% url 'users:get_friends_status' %}";
 </script>
-<script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/status.js' %}"></script>
+<script type="text/javascript" src="{% static 'chat/js/chat.js' %}"></script>
+<script type="text/javascript" src="{% static 'chat/js/status.js' %}"></script>

@@ -5,12 +5,12 @@ from django.shortcuts import get_object_or_404, HttpResponseRedirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, View
 from .forms import PostCreateForm
-from .models import CommentModel, PostModel
+from .models import Comment, Post
 
 
 @login_required
 def homeview(request):
-    posts = PostModel.objects.all().order_by('-created_at')[:10]
+    posts = Post.objects.all().order_by('-created_at')[:10]
     context = {'posts': posts}
     return render(request, 'feed/home.html', context)
 
@@ -18,7 +18,7 @@ def homeview(request):
 def like_view(request):
     if request.method == 'POST':
         id = request.POST.get('id')
-        post = get_object_or_404(PostModel, id=id)
+        post = get_object_or_404(Post, id=id)
         post.liked_by.add(request.user)
     return render(request, 'feed/home.html')
 
@@ -26,7 +26,7 @@ def like_view(request):
 def unlike_view(request):
     if request.method == 'POST':
         id = request.POST.get('id')
-        post = get_object_or_404(PostModel, id=id)
+        post = get_object_or_404(Post, id=id)
         post.liked_by.remove(request.user)
     return render(request, 'feed/home.html')
 
@@ -37,8 +37,8 @@ def getlikes(request):
 def add_comment_view(request):
     if request.method == 'POST':
         id = request.POST.get('id')
-        post = get_object_or_404(PostModel, id=id)
-        comment = CommentModel.objects.create(owner=request.user, of_post=post,
+        post = get_object_or_404(Post, id=id)
+        comment = Comment.objects.create(owner=request.user, of_post=post,
                                               text=request.POST.get('text'))
         comment.save()
     return render(request, 'feed/home.html')
@@ -46,13 +46,13 @@ def add_comment_view(request):
 class GetCommentsView(LoginRequiredMixin, View):
     def get(self, request):
         id = request.GET.get('id')
-        post = get_object_or_404(PostModel, id=id)
-        comments = [[p.owner.username+':', p.text] for p in post.commentmodel_set.all()]
+        post = get_object_or_404(Post, id=id)
+        comments = [[p.owner.username+':', p.text] for p in post.comment_set.all()]
         return JsonResponse(comments, safe=False)
 
 class GetLikesView(LoginRequiredMixin, View):
     def get(self, request, id):
-        post = get_object_or_404(PostModel, id=id)
+        post = get_object_or_404(Post, id=id)
         likes = post.liked_by.all().count()
         print(f'got post with id {id}')
         return JsonResponse(likes, safe=False)
@@ -72,8 +72,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
          return render(request, 'feed/post_create.html', {'form': form})
 
 class PostDetailView(LoginRequiredMixin, DetailView):
-    model = PostModel
+    model = Post
     template_name = 'feed/post_detail.html'
 
     def get_object(self):
-        return get_object_or_404(PostModel, id=self.kwargs['id'])
+        return get_object_or_404(Post, id=self.kwargs['id'])
