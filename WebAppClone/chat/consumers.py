@@ -1,5 +1,4 @@
 import json
-from asgiref.sync import sync_to_async, async_to_sync
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer, WebsocketConsumer
 from django.contrib.auth.models import User
@@ -121,6 +120,5 @@ class NotificationsConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def send_notification(self, data):
-        print(f'from django: {data}')
         await self.send(data['text'])
     
