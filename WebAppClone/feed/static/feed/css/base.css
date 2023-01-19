@@ -1,33 +1,77 @@
-body {
-    overflow: hidden;
-    margin: 0;
+:root {
+
 }
 
-#navbar {
-    height: 80px;
-    width: 100vw;
-    background-color: lightblue;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: red;
+    color: beige;
+}
+
+#brand {
+    margin: 1rem 2rem;
+}
+
+nav {
+    display: flex;
+    gap: 2rem;
+    margin: 1rem 2rem;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 2rem;
+    color: beige;
+}
+
+nav ul li a {
+    color: beige;
 }
 
 #main {
     display: flex;
+    background-color: blue;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+}
+
+#group-bar {
+    width: 10%;
+    text-align: center;
+}
+
+#group-bar ul {
+    list-style: none;
 }
 
 #content {
     background-color: rgb(235, 235, 229);
     font-size: 40px;
     line-height: 1.5em;
-    padding: 60px;
-    height: 100vh;
-    width: 85vw;
+    width: 66%;
     overflow-y: scroll;
-    /* Hide scrollbar in Firefox and IE */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    
 }
 
-/* Hide scrollbar in webkit base browsers */
-#content::-webkit-scrollbar {
-    display: none;
+#chat-window {
+    height: 100vh;
+    width: 24%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }

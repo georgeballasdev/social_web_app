@@ -1,8 +1,0 @@
-<h3>Your groups:</h3>
-<ul>
-    {% for group in user.members.all %}
-      <li><a href="{% url 'groups:group_page' group.id %}">{{ group.title }}</a></li>
-    {% endfor %}
-</ul>
-
-  

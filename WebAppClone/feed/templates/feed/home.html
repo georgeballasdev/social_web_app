@@ -1,16 +1,16 @@
 {% extends 'feed/base.html' %}
 {% load static %}
 {% block content %}
+    <link rel="stylesheet" href="{% static 'feed/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/css/post.css' %}">
     <a href="{% url 'feed:post_create' %}">NEW POST</a>
     <p>Feed:</p>
     {% if posts %}
-    <ul>
+    <div id="posts">
         {% for post in posts %}
-        <li>
             {% include 'feed/post.html' with post=post %}
-        </li>
         {% endfor %}
-    </ul>
+    </div>
     {% endif %}
     <p>End of posts</p>
 {% endblock %}
@@ -21,10 +21,6 @@
          let like_url = "{% url 'feed:like' %}";
          let unlike_url = "{% url 'feed:unlike' %}";
          let add_comment_url = "{% url 'feed:add_comment' %}";
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js" 
-            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
-            crossorigin="anonymous">
     </script>
     <script type="text/javascript" src="{% static 'feed/js/post_handling.js' %}"></script>
 {% endblock %}

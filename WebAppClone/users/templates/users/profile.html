@@ -16,9 +16,9 @@
         </form>
     {% endif %}
     <p>User posts:</p>
-    {% if profile_user.postmodel_set.all %}
+    {% if profile_user.post_set.all %}
     <ul>
-        {% for post in profile_user.postmodel_set.all %}
+        {% for post in profile_user.post_set.all %}
         <li>
             {% include 'feed/post.html' with post=post %}
         </li>
@@ -43,10 +43,6 @@
         let unlike_url = "{% url 'feed:unlike' %}";
         let add_comment_url = "{% url 'feed:add_comment' %}";
         let handleurl = "{% url 'users:handle_friendship' profile_user.id %}"
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js" 
-                    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
-                    crossorigin="anonymous">
     </script>
     <script type="text/javascript" src="{% static 'feed/js/post_handling.js' %}"></script>
     <script type="text/javascript" src="{% static 'users/js/profile.js' %}"></script>
