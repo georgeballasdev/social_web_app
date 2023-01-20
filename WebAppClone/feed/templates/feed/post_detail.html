@@ -4,12 +4,5 @@
     {% include 'feed/post.html' with post=object %}
 {% endblock %}
 {% block js %}
-    <script type="text/javascript">
-        let get_comments_url = "{% url 'feed:get_comments' %}";
-        let get_likes_url = "{% url 'feed:getlikesurl' %}";
-        let like_url = "{% url 'feed:like' %}";
-        let unlike_url = "{% url 'feed:unlike' %}";
-        let add_comment_url = "{% url 'feed:add_comment' %}";
-    </script>
-    <script type="text/javascript" src="{% static 'feed/js/post_handling.js' %}"></script>
+    <script type="text/javascript" src="{% static 'feed/js/post.js' %}"></script>
 {% endblock %}

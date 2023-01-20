@@ -7,7 +7,7 @@ $('#friendship-btn').click( (e) => {
         data:
         {
         command: btn.val(),
-        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+        csrfmiddlewaretoken: token
         },
         success: (response) => {
             btn.val(response['state']);

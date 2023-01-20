@@ -3,6 +3,7 @@
 <h2>Create new post</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% form.as_p %}
+        {{ form.as_p }}
+        <input type="submit">
     </form>
 {% endblock %}

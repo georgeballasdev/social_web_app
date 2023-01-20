@@ -1,5 +1,5 @@
 {% load humanize %}
-<div class="post">
+<div class="post" post-id="{{ post.id }}">
   <div class="post-header">
     <span class="post-timestamp">{{ post.created_at|naturaltime }}</span>
     <div class="post-title">
@@ -11,7 +11,11 @@
     </div>
     <div class="post-likes">
       <div class="likes-count">{{ post.liked_by.all.count }} likes</div>
+      {% if user in post.liked_by.all %}
+      <button class="like-btn">Unlike</button>
+      {% else %}
       <button class="like-btn">Like</button>
+      {% endif %}
     </div>
   </div>
   <div class="post-content">
@@ -34,7 +38,6 @@
       {% endif %}
     </div>
     <form action="" class="add-comment">
-      {% csrf_token %}
       <input type="text">
       <input type="submit" value="COMMENT">
     </form>

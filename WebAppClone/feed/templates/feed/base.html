@@ -46,8 +46,14 @@
 		<div id="content">{% block content %}{% endblock %}</div>
 		<div id="chat-window">{% include 'chat/chat_window.html' %}</div>
 	</div>
-	{% block js %}{% endblock %}
+	<!-- Django Template to JS variables -->
+	<script type="text/javascript">
+		const token = "{{ csrf_token }}";
+		const comments_url = "{% url 'feed:comments' %}";
+		const likes_url = "{% url 'feed:likes' %}";
+   </script>
 	<script type="text/javascript" src="{% static 'chat/js/chat.js' %}"></script>
 	<script type="text/javascript" src="{% static 'chat/js/status.js' %}"></script>  
+	{% block js %}{% endblock %}
 </body>
 </html>

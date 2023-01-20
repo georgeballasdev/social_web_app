@@ -1,60 +1,44 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, HttpResponseRedirect, render
+from django.shortcuts import HttpResponseRedirect, get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, View
+from django.views.generic import CreateView, DetailView
 from .forms import PostCreateForm
 from .models import Comment, Post
 
 
 @login_required
-def homeview(request):
+def home_view(request):
     posts = Post.objects.all().order_by('-created_at')[:10]
     context = {'posts': posts}
     return render(request, 'feed/home.html', context)
 
-@login_required
-def like_view(request):
+def comments_view(request):
     if request.method == 'POST':
-        id = request.POST.get('id')
-        post = get_object_or_404(Post, id=id)
-        post.liked_by.add(request.user)
-    return render(request, 'feed/home.html')
+        post_id = request.POST['post_id']
+        post = get_object_or_404(Post, id=post_id)
+        Comment.objects.create(
+            owner=request.user,
+            of_post=post,
+            text=request.POST['comment']
+            )
+        comments = [(f'{p.owner.username}: ' , p.text) for p in post.comment_set.all()]
+        return JsonResponse({"comments": comments})
 
-@login_required
-def unlike_view(request):
+def likes_view(request):
     if request.method == 'POST':
-        id = request.POST.get('id')
-        post = get_object_or_404(Post, id=id)
-        post.liked_by.remove(request.user)
-    return render(request, 'feed/home.html')
-
-def getlikes(request):
-    return render(request, 'feed/home.html')
-
-@login_required
-def add_comment_view(request):
-    if request.method == 'POST':
-        id = request.POST.get('id')
-        post = get_object_or_404(Post, id=id)
-        comment = Comment.objects.create(owner=request.user, of_post=post,
-                                              text=request.POST.get('text'))
-    return render(request, 'feed/home.html')
-
-class GetCommentsView(LoginRequiredMixin, View):
-    def get(self, request):
-        id = request.GET.get('id')
-        post = get_object_or_404(Post, id=id)
-        comments = [[p.owner.username+':', p.text] for p in post.comment_set.all()]
-        return JsonResponse(comments, safe=False)
-
-class GetLikesView(LoginRequiredMixin, View):
-    def get(self, request, id):
-        post = get_object_or_404(Post, id=id)
-        likes = post.liked_by.all().count()
-        print(f'got post with id {id}')
-        return JsonResponse(likes, safe=False)
+        command = request.POST['command']
+        post_id = request.POST['post_id']
+        post = get_object_or_404(Post, id=post_id)
+        if command == 'Like':
+            post.liked_by.add(request.user)
+            command = 'Unlike'
+        else:
+            post.liked_by.remove(request.user)
+            command = 'Like'
+        likes_count = post.liked_by.all().count()
+        return JsonResponse({"likes_count": likes_count, "command": command})
 
 class PostCreateView(LoginRequiredMixin, CreateView):
      def get(self, request):
