@@ -11,35 +11,110 @@
 a {
     text-decoration: none;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    align-items: center;
+    height: max(10vh, 5rem);
     background-color: red;
     color: beige;
+    font-size: 2rem;
 }
 
 #brand {
-    margin: 1rem 2rem;
+    margin-left: 5vw;
+}
+
+#search-bar {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
 }
 
 nav {
-    display: flex;
-    gap: 2rem;
-    margin: 1rem 2rem;
+    margin-right: 5vw;
 }
 
 nav ul {
     list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
+    align-items: center;
     gap: 2rem;
     color: beige;
 }
 
 nav ul li a {
     color: beige;
+}
+
+#search-bar input {
+    font-size: inherit;
+    width: 20rem;
+    letter-spacing: 0.2rem;
+    border-radius: 5px;
+    border: none;
+    padding: .5rem;
+}
+
+#notifications {
+    position: relative;
+}
+
+#notifications span{
+    font-size: 2rem;
+    position: absolute;
+    top: -60%;
+    right: -30%;
+    z-index: 100;
+    color: black;
+    background-color: blue;
+    width: 2rem;
+    text-align: center;
+    border-radius: 100%;
+}
+#profile {
+    position: relative;
+    cursor: pointer;
+}
+#profile img {
+    height: 4rem;
+    border-radius: 50%;
+}
+
+#profile-menu ul {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 100;
+    align-items: center;
+    flex-direction: column;
+    row-gap: .75rem;
+    background-color: rgb(222, 176, 181);
+    padding: .5rem 2rem;
+    border-radius: 5px;
 }
 
 #main {
@@ -74,4 +149,17 @@ nav ul li a {
     align-items: center;
     justify-content: center;
     position: relative;
+}
+
+#profile-popup {
+    background-color: red;
+    z-index: 99999;
+    width: 15%;
+    aspect-ratio: .9;
+    display: none;
+    position: absolute;
+}
+
+.hidden {
+    display: none;
 }

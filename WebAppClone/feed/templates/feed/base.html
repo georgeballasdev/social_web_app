@@ -9,6 +9,8 @@
 	<link rel="stylesheet" href="{% static 'chat/css/chat_window.css' %}">
 	<!-- Google Fonts -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
 	<!-- jQuery and jQuery-confirm stylesheets -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
@@ -20,16 +22,31 @@
 	<header>
 		<div id="brand"><a href="{% url 'feed:home' %}">BRAND</a></div>
 		<nav>
-			<div id="search-bar">
-				<img src="" alt="search fa">
-				<input type="text">
-			</div>
 			<ul id="primary-navigation">
 				<li>
-					<a href="#">LINK</a>
+					<div id="search-bar">
+						<i class="fa-solid fa-magnifying-glass"></i>
+						<input type="text">
+					</div>
 				</li>
 				<li>
-					<a href="#">LINK</a>
+					<div id="notifications">
+						<i class="fa-solid fa-circle-exclamation fa-xl"></i>
+						<span>3</span>
+					</div>
+				</li>
+				<li>
+					<div id="profile">
+						<img src="{{ user.profile.pic.url }}" alt="pic">
+						<i class="fa-solid fa-caret-up fa-2xs"></i>
+						<div id="profile-menu" class="hidden">
+							<ul>
+								<li><a href="{% url 'users:profile' %}">Profile</a></li>
+								<li><a href="{% url 'users:update' %}">Update</a></li>
+								<li><a href="{% url 'users:logout' %}">Logout</a></li>
+							</ul>
+						</div>
+					</div>
 				</li>
 			</ul>
 		</nav>
@@ -46,12 +63,14 @@
 		<div id="content">{% block content %}{% endblock %}</div>
 		<div id="chat-window">{% include 'chat/chat_window.html' %}</div>
 	</div>
+	<div id="profile-popup"></div>
 	<!-- Django Template to JS variables -->
 	<script type="text/javascript">
 		const token = "{{ csrf_token }}";
 		const comments_url = "{% url 'feed:comments' %}";
 		const likes_url = "{% url 'feed:likes' %}";
-   </script>
+    </script>
+    <script type="text/javascript" src="{% static 'feed/js/base.js' %}"></script>
 	<script type="text/javascript" src="{% static 'chat/js/chat.js' %}"></script>
 	<script type="text/javascript" src="{% static 'chat/js/status.js' %}"></script>  
 	{% block js %}{% endblock %}
