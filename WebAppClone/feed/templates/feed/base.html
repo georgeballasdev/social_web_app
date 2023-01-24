@@ -30,13 +30,18 @@
 					</div>
 				</li>
 				<li>
-					<div id="notifications">
+					<div id="notifications" class="hoverable">
 						<i class="fa-solid fa-circle-exclamation fa-xl"></i>
-						<span>3</span>
+						<span id="notifications-count"></span>
+						<div id="notifications-list" class="hidden">
+							<ul>
+								<li><a href="{% url 'notifications:home' %}">See all notifications</a></li>
+							</ul>
+						</div>
 					</div>
 				</li>
 				<li>
-					<div id="profile">
+					<div id="profile" class="hoverable">
 						<img src="{{ user.profile.pic.url }}" alt="pic">
 						<i class="fa-solid fa-caret-up fa-2xs"></i>
 						<div id="profile-menu" class="hidden">
@@ -66,9 +71,11 @@
 	<div id="profile-popup"></div>
 	<!-- Django Template to JS variables -->
 	<script type="text/javascript">
-		const token = "{{ csrf_token }}";
 		const comments_url = "{% url 'feed:comments' %}";
 		const likes_url = "{% url 'feed:likes' %}";
+		const notifications_url = "{% url 'notifications:notifications' %}";
+		const token = "{{ csrf_token }}";
+		const username = "{{ user.username }}";
     </script>
     <script type="text/javascript" src="{% static 'feed/js/base.js' %}"></script>
 	<script type="text/javascript" src="{% static 'chat/js/chat.js' %}"></script>

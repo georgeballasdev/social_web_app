@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#notifications {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    width: 80%;
+}
+
+.notification {
+    display: flex;
+    justify-content: space-between;
+    background-color: brown;
+    padding: 0 2rem;
+}
+ .notification a {
+    color: black;
+ }
+
+ .notification span {
+    font-size: 1.5rem;
+ }

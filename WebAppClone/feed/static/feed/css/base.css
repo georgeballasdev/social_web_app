@@ -12,24 +12,25 @@ a {
     text-decoration: none;
 }
 
-/* width */
 ::-webkit-scrollbar {
     width: 3px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: #888;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.hoverable:hover {
+    cursor: pointer;
+    transform: scale(1.1);
 }
 
 header {
@@ -78,11 +79,7 @@ nav ul li a {
     padding: .5rem;
 }
 
-#notifications {
-    position: relative;
-}
-
-#notifications span{
+#notifications-count{
     font-size: 2rem;
     position: absolute;
     top: -60%;
@@ -94,21 +91,22 @@ nav ul li a {
     text-align: center;
     border-radius: 100%;
 }
-#profile {
+#profile,
+#notifications {
     position: relative;
-    cursor: pointer;
+    z-index: 100;
 }
 #profile img {
     height: 4rem;
     border-radius: 50%;
 }
 
-#profile-menu ul {
+#profile-menu ul,
+#notifications-list ul {
     display: flex;
     position: absolute;
     top: 100%;
     right: 0;
-    z-index: 100;
     align-items: center;
     flex-direction: column;
     row-gap: .75rem;

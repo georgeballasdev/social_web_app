@@ -120,5 +120,5 @@ class NotificationsConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def send_notification(self, data):
-        await self.send(data['text'])
+        await self.send(json.dumps(data))
     

@@ -3,7 +3,6 @@ const chat_window = document.querySelector('#chat-window');
 const chat1 = document.querySelector('#chat1');
 const chat2 = document.querySelector('#chat2');
 const chat3 = document.querySelector('#chat3');
-const username = document.querySelector('#username').textContent;
 let active_chats = {};
 let sockets = {}
 

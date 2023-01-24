@@ -1,4 +1,17 @@
-This is the notifications home
-{% for n in notifications %}
-<p>{{n}} with link {{n.get_link}}</p>
-{% endfor %}
+{% extends 'feed/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'notifications/css/home.css' %}">
+<div class="container">
+    <h2>Notifications</h2>
+    <ul id="notifications">
+        {% for notification in notifications %}
+        <li class="notification">
+            <a href="{{ notification.get_link }}">{{ notification.text }}</a>
+            <span>{{ notification.timestamp|naturaltime }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

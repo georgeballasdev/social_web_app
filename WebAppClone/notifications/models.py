@@ -19,5 +19,11 @@ class Notification(models.Model):
         else:
             return 'chat'
 
+    def get_5_recent(user):
+        return Notification.objects.filter(user=user).order_by('-timestamp').all()[:5]
+
+    def get_unseen_count(user):
+        return Notification.objects.filter(user=user).filter(seen=False).count()
+
     def __str__(self):
         return f'Notification for {self.model_type} model with id {self.model_id}'

@@ -2,13 +2,6 @@
 statusUrl = 'ws://' + window.location.host + '/ws/status/';
 let statusSocket = new WebSocket(statusUrl);
 
-// Handle notifications
-notificationsUrl = 'ws://' + window.location.host + '/ws/notifications/';
-let notificationsSocket = new WebSocket(notificationsUrl);
-notificationsSocket.onmessage = (e) => {
-    console.log(e.data);
-}
-
 // Update friends list and statuses with AJAX
 const friendsList = document.querySelector('#friends-list');
 const getFriendsStatus = new XMLHttpRequest();
