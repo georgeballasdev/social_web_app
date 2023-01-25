@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from .models import Notification
@@ -13,10 +14,9 @@ def home(request):
 @login_required
 def get_notifications(request):
     if request.method == 'GET':
-        print(request.GET)
         user = get_object_or_404(User, username=request.GET['username'])
         count = Notification.get_unseen_count(user=user)
         notifications = Notification.get_5_recent(user=user)
-        list = [[x.get_link(), x.text] for x in notifications]
+        list = [[x.get_link(), x.text, naturaltime(x.timestamp)] for x in notifications]
         response = {'count': count, 'list': list}
         return JsonResponse(response)

@@ -3,7 +3,7 @@
   <div class="post-header">
     <span class="post-timestamp">{{ post.created_at|naturaltime }}</span>
     <div class="post-title">
-      <img class="pic pop-up" src="{{ post.owner.pic }}" alt="pic">
+      <img class="pic pop-up" src="{{ post.owner.profile.pic.url }}" alt="pic">
       <span>
         <a href="{% url 'feed:post' post.id %}">Post</a> by
         <a href="{% url 'users:other_profile' post.owner.id %}" class="pop-up"> {{ post.owner.username }}</a>
@@ -30,7 +30,8 @@
       {% if post.comment_set.all %}
         {% for comment in post.comment_set.all %}
           <div class="comment">
-            <span class="comment-user pop-up">{{ comment.owner.username }}: </span>{{ comment.text }}
+            <span class="comment-user pop-up">{{ comment.owner.username }}: </span>
+            {{ comment.text }} - {{ comment.created_at|naturaltime }}
           </div>
         {% endfor %}
       {% else %}

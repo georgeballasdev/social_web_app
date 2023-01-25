@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 class ChatMessage(models.Model):
     sender = models.ForeignKey(User, related_name='sender', on_delete=models.CASCADE)

@@ -39,7 +39,7 @@ $(".add-comment").on('submit', function(e) {
                 comments_section.append('<div class="comment">'+
                                     '<span class="comment-user">'+
                                     comments[i][0]+'</span>'+
-                                    comments[i][1]+
+                                    comments[i][1]+' - '+comments[i][2]+
                                 '</div>');
             }
             comments_section.scrollTop(9999);

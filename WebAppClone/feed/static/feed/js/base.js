@@ -27,7 +27,10 @@ notificationsSocket.onopen = (e) => {
         let n = response['list'];
         let list = notificationsList.find('ul');
         for (var i = 0; i < n.length; i++) {
-          list.append('<li><a href="'+ n[i][0] +'">'+ n[i][1] +'</a></li>');
+          list.append(
+            '<li><a href="'+ n[i][0] +'">'+
+            n[i][1] + ' - ' + n[i][2] +'</a></li>'
+          );
         }
     }
   });

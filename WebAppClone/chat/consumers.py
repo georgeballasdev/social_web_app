@@ -99,26 +99,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 class StatusConsumer(WebsocketConsumer):
     def connect(self):
-        username = self.scope['user'].username
-        user = User.objects.get(username=username)
+        user = self.scope['user']
         user.profile.online_status = True
         user.profile.save()
         self.accept()
 
     def disconnect(self, code):
-        username = self.scope['user'].username
-        user = User.objects.get(username=username)
+        user = self.scope['user']
         user.profile.online_status = False
         user.profile.save()
 
     def receive(self, text_data):
-        pass
-
-class NotificationsConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
-        await self.channel_layer.group_add(self.scope['user'].username, self.channel_name)
-        await self.accept()
-
-    async def send_notification(self, data):
-        await self.send(json.dumps(data))
-    
+        pass  

@@ -3,18 +3,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.http import JsonResponse
-from django.views.generic import UpdateView
+from django.http import HttpResponseRedirect, JsonResponse
+from django.views.generic import CreateView, UpdateView
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from .models import Profile
+from .forms import RegisterForm
 from .views_helpers import *
-from .forms import ProfileForm, UserForm
 
 
 def welcome(request):
-    if request.user.is_authenticated:
-        return redirect(reverse('feed:home'))
-    return redirect(reverse('users:login'))
+    return redirect(reverse('feed:home'))
 
 @login_required
 def profile(request, id=None):
@@ -26,29 +25,11 @@ def profile(request, id=None):
         context['friendship_button_state'] = user.profile.get_friendship_button_state(profile_user)
     return render(request, 'users/profile.html', context)
 
-def register(request):
-    if request.method == 'POST':
-        user_form = UserForm(request.POST)
-        profile_form = ProfileForm(request.POST)
-        if user_form.is_valid() and profile_form.is_valid():
-            usr = user_form.save()
-            prof = profile_form.save(commit=False)
-            prof.user = usr
-            prof.save()
-            login(request, usr)
-            return redirect('users:profile')
-    else:
-        if request.user.is_authenticated:
-            return redirect('feed:home')
-        user_form = UserForm()
-        profile_form = ProfileForm()
-    context = {'user_form':user_form, 'profile_form': profile_form}
-    return render(request, 'users/register.html', context)
-
 def logout_view(request):
     logout(request)
     return redirect('users:login')
 
+@login_required
 def handle_friendship(request, id):
     if request.method == 'POST':
         user = request.user
@@ -62,7 +43,30 @@ def handle_friendship(request, id):
         }
         response = {'state' : commands[command](user, other_user)}
         return JsonResponse(response)
-    return redirect(reverse('feed:home'))
+
+@login_required
+def get_friends_status(request):
+    if request.method == "GET":
+        response = {}
+        friends = request.user.profile.friends.all()
+        for friend in friends:
+            response[friend.user.username] = friend.online_status
+        return JsonResponse(response, status=200)
+
+class UserRegisterView(CreateView):
+    model = User
+    template_name = 'users/register.html'
+    form_class = RegisterForm
+    success_url = reverse_lazy('users:profile')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        Profile.objects.create(
+            user=self.object,
+            bio=form['bio'].value()
+        )
+        login(self.request, self.object)
+        return HttpResponseRedirect(self.get_success_url())
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'
@@ -78,11 +82,3 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('users:profile')
-
-def get_friends_status(request):
-    response = {}
-    if request.method == "GET":
-        friends = request.user.friends.all()
-        for friend in friends:
-            response[friend.user.username] = friend.online_status
-    return JsonResponse(response, status=200)

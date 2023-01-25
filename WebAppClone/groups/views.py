@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.views.generic import ListView
 from .models import Group
 
 @login_required

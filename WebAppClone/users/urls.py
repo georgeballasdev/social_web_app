@@ -1,15 +1,16 @@
 from django.urls import path
 from . import views
 
+
 app_name = 'users'
 urlpatterns = [
     path('', views.welcome, name='welcome'),
+    path('ajax/get-friends-status/', views.get_friends_status, name='get_friends_status'),
+    path('ajax/handle-friendship/<int:id>/', views.handle_friendship, name='handle_friendship'),
     path('login/', views.UserLoginView.as_view(), name='login'),
     path('logout/', views.logout_view, name='logout'),
-    path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
     path('profile/<int:id>/', views.profile, name='other_profile'),
     path('profile/update/', views.UserUpdateView.as_view(), name='update'),
-    path('ajax/handle-friendship/<int:id>/', views.handle_friendship, name='handle_friendship'),
-    path('ajax/get-friends-status/', views.get_friends_status, name='get_friends_status'),
+    path('register/', views.UserRegisterView.as_view(), name='register'),
 ]

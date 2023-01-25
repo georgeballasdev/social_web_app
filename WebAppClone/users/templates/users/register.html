@@ -1,18 +1,7 @@
 <h1> Register Here</h1>
-{% if user_form.errors %}
-  {% for err in user_form.errors %}
-    <p>{{ err }}</p>
-  {% endfor %}
-{% endif %}
-{% if profile_form.errors %}
-    {% for err in profile_form.errors %}
-        <p>{{ err }}</p>
-    {% endfor %}
-{% endif %}
 <form method="POST">
     {% csrf_token %}
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }}
+    {{ form.as_p }}
     <input type="submit" value="Register">
 </form>
 <p>OR <a href ="{% url 'users:login' %}">Login</a>
