@@ -13,7 +13,6 @@ function handleSocket(url, friend, chat) {
     active_chats[friend] = chatSocket;
     
     chatSocket.onopen = function(e) {
-        console.error('WS opened');
         chatSocket.send(JSON.stringify({
             'command': 'get_messages',
         }));

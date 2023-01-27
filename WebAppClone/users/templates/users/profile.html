@@ -2,7 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-    <h1>Profile page for user:{{ profile_user.username}} with id:{{ profile_user.id }}</h1>
+    <h1>Profile page for user:{{ profile_user.username }} with id:{{ profile_user.id }}</h1>
     <img src="{{ profile_user.profile.pic.url }}" alt="{{ profile_user.profile.img.url }}"
          height="200px" width="200px">
     <p>Joined at {{ profile_user.profile.joined_at|naturalday }}</p>
@@ -36,6 +36,7 @@
     {% endif %}
 {% endblock %}
 {% block js %}
+    <script> let handleurl = "{% url 'users:handle_friendship' profile_user.id %}"</script>
     <script type="text/javascript" src="{% static 'feed/js/post.js' %}"></script>
     <script type="text/javascript" src="{% static 'users/js/profile.js' %}"></script>
 {% endblock %}

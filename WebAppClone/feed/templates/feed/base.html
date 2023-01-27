@@ -75,6 +75,7 @@
 		const likes_url = "{% url 'feed:likes' %}";
 		const notifications_url = "{% url 'notifications:notifications' %}";
 		const token = "{{ csrf_token }}";
+		const statusUrl = 'ws://' + window.location.host + '/ws/status/';
 		const username = "{{ user.username }}";
     </script>
     <script type="text/javascript" src="{% static 'feed/js/base.js' %}"></script>

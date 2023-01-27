@@ -44,15 +44,6 @@ def handle_friendship(request, id):
         response = {'state' : commands[command](user, other_user)}
         return JsonResponse(response)
 
-@login_required
-def get_friends_status(request):
-    if request.method == "GET":
-        response = {}
-        friends = request.user.profile.friends.all()
-        for friend in friends:
-            response[friend.user.username] = friend.online_status
-        return JsonResponse(response, status=200)
-
 class UserRegisterView(CreateView):
     model = User
     template_name = 'users/register.html'

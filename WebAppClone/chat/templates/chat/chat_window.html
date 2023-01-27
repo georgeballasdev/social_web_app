@@ -1,6 +1,6 @@
 {% load static %}
 <div id="friends-window">
-    <div id="list-header">Active friends</div>
+    <!-- <div id="list-header">Chat</div> -->
     <ul id="friends-list">
         {% for friend in user.profile.friends.all %}
         <li>
@@ -46,7 +46,4 @@
         <input class="msg-input" type="text">
         <a href="#" class="send-btn"><img src="{% static 'chat/icons/send.png' %}" width="40px" height="40px"></a>
     </div>
-</div>            
-<script type="text/javascript">
-    let friends_url = "{% url 'users:get_friends_status' %}";
-</script>
+</div>

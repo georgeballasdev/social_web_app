@@ -5,7 +5,7 @@ from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 from chat.models import ChatMessage
 from feed.models import Comment
-from .models import Notification
+from .models import Client, Notification
 
 
 @receiver(post_save, sender=Comment)
@@ -16,7 +16,7 @@ def new_comment(sender, instance, **kwargs):
         model_type = 'post',
         model_id = instance.id
     )
-    user = notification.user.username
+    user = notification.user
     text = notification.text
     link = notification.get_link()
     send_notification(user, text, link)
@@ -31,22 +31,24 @@ def new_like(sender, instance, action, pk_set, **kwargs):
             model_type = 'post',
             model_id = instance.id
         )
-        user = notification.user.username
+        user = notification.user
         text = notification.text
         link = notification.get_link()
         send_notification(user, text, link)
 
 @receiver(post_save, sender=ChatMessage)
 def new_message(sender, instance, **kwargs):
-    user = instance.receiver.username
+    user = instance.receiver
     text = f'You have a new message from {instance.sender.username}.'
     send_notification(user, text)
 
 
 def send_notification(user, text, link=''):
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(user, {
-        "type": "send_notification",
-        "text": text,
-        "link": link
-        })
+    client = Client.objects.filter(user=user).first()
+    if client:
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.send)(client.notifications_channel, {
+            "type": "send.notification",
+            "text": text,
+            "link": link
+            })

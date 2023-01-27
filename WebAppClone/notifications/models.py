@@ -3,6 +3,22 @@ from django.db import models
 from django.urls import reverse
 
 
+class Client(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    notifications_channel = models.CharField(max_length=150, default=None, null=True)
+    status_channel = models.CharField(max_length=150, default=None, null=True)
+
+    def get_active_client_friends_status_channels(self):
+        result = []
+        friends = self.user.profile.friends.all()
+        active = Client.objects.filter(user__in=friends).all()
+        for friend in active:
+            result.append(friend.status_channel)
+        return result
+
+    def __str__(self):
+        return f'Client for user {self.user.username}'
+
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.CharField(max_length=100)

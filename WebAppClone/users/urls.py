@@ -5,7 +5,6 @@ from . import views
 app_name = 'users'
 urlpatterns = [
     path('', views.welcome, name='welcome'),
-    path('ajax/get-friends-status/', views.get_friends_status, name='get_friends_status'),
     path('ajax/handle-friendship/<int:id>/', views.handle_friendship, name='handle_friendship'),
     path('login/', views.UserLoginView.as_view(), name='login'),
     path('logout/', views.logout_view, name='logout'),
