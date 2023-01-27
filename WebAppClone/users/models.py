@@ -9,7 +9,6 @@ class Profile(models.Model):
     joined_at = models.DateField(auto_now_add=True)
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
     requested_friends = models.ManyToManyField(User, related_name='requested_friends', blank=True)
-    online_status = models.BooleanField(default=False)
 
     def get_friendship_button_state(self, other_user):
         if other_user in self.friends.all():

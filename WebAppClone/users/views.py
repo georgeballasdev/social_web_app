@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.views.generic import CreateView, UpdateView
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
+from notifications.models import Client
 from .models import Profile
 from .forms import RegisterForm
 from .views_helpers import *
@@ -55,6 +56,9 @@ class UserRegisterView(CreateView):
         Profile.objects.create(
             user=self.object,
             bio=form['bio'].value()
+        )
+        Client.objects.create(
+            user=self.object,
         )
         login(self.request, self.object)
         return HttpResponseRedirect(self.get_success_url())

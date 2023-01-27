@@ -3,13 +3,13 @@
     <!-- <div id="list-header">Chat</div> -->
     <ul id="friends-list">
         {% for friend in user.profile.friends.all %}
-        <li>
-            {% if friend.profile.online_status  %}
-                <span class="online"></span>
+        <li class="friend" id="{{ friend.username }}">
+            {% if friend.client.online_status  %}
+                <span class="status online"></span>
             {% else %}
-                <span class="offline"></span>
+                <span class="status"></span>
             {% endif %}
-            <a class="friend" href="#">{{ friend.username }}</a>
+            <a class="username" href="#">{{ friend.username }}</a>
         </li>
         {% endfor %}
     </ul>

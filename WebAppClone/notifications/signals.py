@@ -44,11 +44,22 @@ def new_message(sender, instance, **kwargs):
 
 
 def send_notification(user, text, link=''):
-    client = Client.objects.filter(user=user).first()
-    if client:
-        channel_layer = get_channel_layer()
-        async_to_sync(channel_layer.send)(client.notifications_channel, {
-            "type": "send.notification",
-            "text": text,
-            "link": link
-            })
+    client = Client.objects.get(user=user)
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.send)(client.notifications_channel, {
+        "type": "send.notification",
+        "text": text,
+        "link": link
+        })
+
+@receiver(post_save, sender=Client)
+def status_changed(sender, instance, **kwargs):
+    user = instance.user
+    channel_layer = get_channel_layer()
+    active_channels = instance.get_active_client_friends_status_channels()
+    for channel in active_channels:
+        async_to_sync(channel_layer.send)(channel, {
+            "type": "send.status",
+            "user": user.username,
+            "status": instance.online_status
+        })

@@ -4,7 +4,19 @@ const statusSocket = new WebSocket(statusUrl);
 statusSocket.onmessage = (e) => {
     console.log('got status notification:')
     console.log(e.data);
+    data = JSON.parse(e.data);
+    let user = data['user'];
+    let status = data['status'];
+    console.log(status);
+    if (status == true) {
+        console.log('true');
+        $('#'+user).find('span').addClass('online');
+    }
+    else {
+        $('#'+user).find('span').removeClass('online');
+    }
 }
+// CHECK IF JS IS THE PROBLEM, LOOK AT CONSOLE
 
 // getFriendsStatus.onload = function() {
 //     data = JSON.parse(this.responseText);
