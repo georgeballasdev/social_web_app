@@ -3,11 +3,11 @@ $('#friendship-btn').click( (e) => {
     let btn = $('#btn-state');
     $.ajax({
         type: 'POST',
-        url: handleurl,
+        url: PROFILE_DATASET.handleUrl,
         data:
         {
         command: btn.val(),
-        csrfmiddlewaretoken: token
+        csrfmiddlewaretoken: DATASET.token
         },
         success: (response) => {
             btn.val(response['state']);

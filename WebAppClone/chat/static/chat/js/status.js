@@ -1,4 +1,5 @@
 // Handle user online status
+const statusUrl = 'ws://' + window.location.host + '/ws/status/';
 const statusSocket = new WebSocket(statusUrl);
 
 statusSocket.onmessage = (e) => {

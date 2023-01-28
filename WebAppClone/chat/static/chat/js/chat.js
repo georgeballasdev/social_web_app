@@ -48,7 +48,7 @@ function handleSocket(url, friend, chat) {
         let msg = msg_input.value;
         chatSocket.send(JSON.stringify({
             'command': 'new_message',
-            'sender': username,
+            'sender': DATASET.username,
             'receiver': friend,
             'content': msg,
         }));
@@ -58,7 +58,7 @@ function handleSocket(url, friend, chat) {
 
 function getChatUrl(friend) {
     return 'ws://' + window.location.host + '/ws/chat/' +
-                username + '-' + friend + '/';
+                DATASET.username + '-' + friend + '/';
 }
 
 function openChat(chat, friend){

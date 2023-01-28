@@ -11,16 +11,16 @@ const notificationsCount = notifications.find('#notifications-count');
 const notificationsList = notifications.find('#notifications-list');
 
 // Handle notifications
-notificationsUrl = 'ws://' + window.location.host + '/ws/notifications/';
+const notificationsUrl = 'ws://' + window.location.host + '/ws/notifications/';
 let notificationsSocket = new WebSocket(notificationsUrl);
 
 notificationsSocket.onopen = (e) => {
   $.ajax({
     type: 'GET',
-    url: notifications_url,
+    url: DATASET.notificationsUrl,
     data:
     {
-        username: username,
+        username: DATASET.username,
     },
     success: (response) => {
         notificationsCount.text(response['count']);
@@ -65,6 +65,5 @@ profile.click( () => {
 })
 
 notifications.click( () => {
-  console.log('notd');
   notificationsList.toggleClass('hidden');
 })

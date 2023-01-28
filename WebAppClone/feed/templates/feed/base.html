@@ -69,14 +69,14 @@
 		<div id="chat-window">{% include 'chat/chat_window.html' %}</div>
 	</div>
 	<div id="profile-popup"></div>
-	<!-- Django Template to JS variables -->
-	<script type="text/javascript">
-		const comments_url = "{% url 'feed:comments' %}";
-		const likes_url = "{% url 'feed:likes' %}";
-		const notifications_url = "{% url 'notifications:notifications' %}";
-		const token = "{{ csrf_token }}";
-		const statusUrl = 'ws://' + window.location.host + '/ws/status/';
-		const username = "{{ user.username }}";
+	<!-- Django Template urls to JS -->
+	<script
+		data-comments-url = "{% url 'feed:comments' %}"
+		data-likes-url = "{% url 'feed:likes' %}"
+		data-notifications-url = "{% url 'notifications:notifications' %}"
+		data-token = "{{ csrf_token }}"
+		data-username = "{{ user.username }}">
+		const DATASET = document.currentScript.dataset;
     </script>
     <script type="text/javascript" src="{% static 'feed/js/base.js' %}"></script>
 	<script type="text/javascript" src="{% static 'chat/js/chat.js' %}"></script>

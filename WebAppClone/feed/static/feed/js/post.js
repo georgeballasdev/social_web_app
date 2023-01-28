@@ -3,12 +3,12 @@ $(".like-btn").on('click', function(e) {
     let post_id = $(this).closest('.post').attr('post-id');
     $.ajax({
         type: 'POST',
-        url: likes_url,
+        url: DATASET.likesUrl,
         data:
         {
             post_id: post_id,
             command: $(this).text(),
-            csrfmiddlewaretoken: token
+            csrfmiddlewaretoken: DATASET.token
         },
         success: (response) => {
             $(this).text(response["command"]);
@@ -24,12 +24,12 @@ $(".add-comment").on('submit', function(e) {
     let comments_section = $(this).prev();
     $.ajax({
         type: 'POST',
-        url: comments_url,
+        url: DATASET.commentsUrl,
         data:
         {
             post_id: post_id,
             comment: text_input.val(),
-            csrfmiddlewaretoken: token
+            csrfmiddlewaretoken: DATASET.token
         },
         success: (response) => {
             text_input.val('');
