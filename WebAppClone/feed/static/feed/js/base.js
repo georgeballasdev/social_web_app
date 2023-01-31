@@ -38,7 +38,6 @@ notificationsSocket.onopen = (e) => {
 
 notificationsSocket.onmessage = (e) => {
     let data = JSON.parse(e.data);
-    console.log('new notify ' + data);
     let list = notificationsList.find('ul');
     list.append('<li><a href="'+ data.link +'">'+ data.text +'</a></li>');
 }

@@ -146,7 +146,6 @@ nav ul li a {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
 }
 
 #profile-popup {

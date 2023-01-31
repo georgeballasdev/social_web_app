@@ -22,13 +22,13 @@ def comments_view(request):
     if request.method == 'POST':
         post_id = request.POST['post_id']
         post = get_object_or_404(Post, id=post_id)
-        Comment.objects.create(
+        comment = Comment.objects.create(
             owner=request.user,
             of_post=post,
             text=request.POST['comment']
             )
-        comments = [(f'{c.owner.username}: ' , c.text, naturaltime(c.created_at)) for c in post.comment_set.all()]
-        return JsonResponse({"comments": comments})
+        new_comment = (request.user.username, comment.text, naturaltime(comment.created_at))
+        return JsonResponse({"comment": new_comment})
 
 @login_required
 def likes_view(request):

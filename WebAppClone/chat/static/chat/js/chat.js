@@ -1,58 +1,36 @@
 // Variables
-const chat_window = document.querySelector('#chat-window');
-const chat1 = document.querySelector('#chat1');
-const chat2 = document.querySelector('#chat2');
-const chat3 = document.querySelector('#chat3');
-let active_chats = {};
-let sockets = {}
+const chat_window = $('#chat-window');
+const chats = $('#chats');
+const max_chats = 3;
+let activeChats = []; // stack of friendnames
+let sockets = {} // {'friendname': socket}
 
 // Functions
-function handleSocket(url, friend, chat) {
-    chat.querySelector('.msg-input').focus();
-    let chatSocket = new WebSocket(url);
-    active_chats[friend] = chatSocket;
-    
-    chatSocket.onopen = function(e) {
-        chatSocket.send(JSON.stringify({
+function handleSocket(socket, friend) {    
+    socket.onopen = () => {
+        socket.send(JSON.stringify({
             'command': 'get_messages',
         }));
     };
 
-    chatSocket.onmessage = function(e) {
+    socket.onmessage = (e) => {
             let data = JSON.parse(e.data);
-            let chat_log = chat.querySelector('.chat-log');
+            let chat = $('.chat[id=' + friend + '-chat]');
+            let chatLog = chat.find('.chat-log');
             if (data['command'] == 'get_messages') {
                 let messages = data['messages'];
                 for (var i = 0; i < messages.length; i++) {
-                    chat_log.innerText += (messages[i].sender + ': ' + messages[i].content +  messages[i].timestamp + '\n');
+                    chatLog.append('<p>' + messages[i].sender + ': ' + 
+                        messages[i].content +  messages[i].timestamp + '</p>');
                 }
             }
             else {
-                console.log('GOT new message');
-                chat_log.innerText += (data.sender + ': ' + data.content +  data.timestamp + '\n');
+                chatLog.append('<p>' + data.sender + ': ' + data.content +  data.timestamp + '</p>');
             }
     };
 
-    chatSocket.onclose = function(e) {
+    socket.onclose = () => {
         console.error('WS closed');
-    };
-
-    chat.querySelector('.msg-input').onkeyup = function(e) {
-        if (e.keyCode === 13) {
-            chat.querySelector('.send-btn').click();
-        }
-    };
-
-    chat.querySelector('.send-btn').onclick = function(e) {
-        let msg_input = chat.querySelector('.msg-input');
-        let msg = msg_input.value;
-        chatSocket.send(JSON.stringify({
-            'command': 'new_message',
-            'sender': DATASET.username,
-            'receiver': friend,
-            'content': msg,
-        }));
-        msg_input.value = '';
     };
 }
 
@@ -61,74 +39,77 @@ function getChatUrl(friend) {
                 DATASET.username + '-' + friend + '/';
 }
 
-function openChat(chat, friend){
-    chat.querySelector('.chat-log').innerText = '';
-    chat.querySelector('.msg-input').value = '';
-    chat.querySelector('.chat-head span').innerText = friend;
-    chat.style.display = 'flex';
-    handleSocket(getChatUrl(friend), friend, chat);
-}
-
-function moveChat(chat, prev_chat) {
-    if (chat.style.display != 'flex') {
-        prev_chat.style.display = 'none';
-        return;
-    }
-    prev_chat.innerHTML = chat.innerHTML;
-    chat.style.display = 'none';
-    prev_chat.style.display = 'flex';
-}
-
-function closeChat(chat, friend) {
-    if (chat == chat3) {
-        chat.style.display = 'none';
-    }
-    else if (chat == chat2) {
-        moveChat(chat3, chat2);
-    }
-    else {
-        moveChat(chat2, chat1);
-        moveChat(chat3, chat2);
-    }
-    active_chats[friend].close();
-    delete active_chats[friend];
-}
-
 function newChat(friend) {
-    if (friend in active_chats) {
-        return;
+    let newChat = document.createElement('div');
+    $(newChat).attr('class', 'chat');
+    $(newChat).attr('id', friend + '-chat');
+    $(newChat).append(('<div class="chat-head"><span>' + friend + '</span><button class="close-btn">x</button></div>\
+        <div class="chat-log"></div>\
+        <div class="chat-input">\
+            <input class="msg-input" type="text">\
+        <a href="#" class="send-btn">SEND</a>\
+        </div>'));
+    return newChat;
+}
+
+function openChat(friend) {
+    // If max_chats, close last chat
+    if (activeChats.length == max_chats) {
+        closeChat(activeChats[activeChats.length-1]);
     }
-    let chat_count = Object.keys(active_chats).length;
-    if (chat_count == 0) {
-        openChat(chat1, friend);
-    }
-    else if (chat_count == 1) {
-        openChat(chat2, friend);
-    }
-    else {
-        if (chat_count == 3) {
-            closeChat(chat3, friend);
-        };
-        openChat(chat3, friend);
-    }
+    // Open websocket
+    let chatSocket = new WebSocket(getChatUrl(friend));
+    // Update activeChats and sockets
+    activeChats.push(friend);
+    sockets[friend] = chatSocket;
+    // Get and append chat element
+    let chat = newChat(friend);
+    chats.append(chat);
+    // Handle websocket
+    handleSocket(chatSocket, friend);
+}
+
+function closeChat(friend) {
+    // Close websocket
+    sockets[friend].close();
+    // Update activeChats and sockets
+    let index = activeChats.indexOf(friend);
+    activeChats.splice(index, 1);
+    delete sockets[friend];
+    // Remove chat element
+    $('.chat[id=' + friend + '-chat]').remove();
 }
 
 // Event listeners
-chat_window.addEventListener('click', function(e) {
-    let target = e.target;
-    if (target.classList.contains('friend')) {
-        e.preventDefault();
-        newChat(target.innerText);
+chat_window.on('click', '.friend',(e) => {
+    let friend = e.currentTarget.dataset.friendUsername;
+    if (! activeChats.includes(friend)) {
+        openChat(friend);
     }
-    else if (target.classList.contains('close-btn')) {
-        let friend = target.previousElementSibling.innerText;
-        let chat = target.parentElement.parentElement;
-        closeChat(chat, friend);
-    }
-    else if (target.classList.contains('chat-head')) {
-        s1 = target.nextElementSibling;
-        s2 = s1.nextElementSibling;
-        s1.classList.toggle('collapsed');
-        s2.classList.toggle('collapsed');
-    }
+})
+
+chat_window.on('click', '.chat-head',(e) => {
+    $(e.target).next().toggleClass('hidden');
+    $(e.target).next().next().toggleClass('hidden');
+})
+
+chat_window.on('click', '.close-btn',(e) => {
+    e.stopImmediatePropagation();
+    let friend = $(e.target).prev().text();
+    closeChat(friend);
+})
+
+chat_window.on('click', '.send-btn',(e) => {
+    e.stopImmediatePropagation();
+    let chat = $(e.target).closest('.chat').attr('id');
+    let friend = (chat.slice(0, chat.length-5));
+    let msg_input = $(e.target).prev();
+    let msg = msg_input.val();
+    sockets[friend].send(JSON.stringify({
+        'command': 'new_message',
+        'sender': DATASET.username,
+        'receiver': friend,
+        'content': msg,
+    }));
+    msg_input.val('');
 })

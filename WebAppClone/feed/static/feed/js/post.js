@@ -1,27 +1,27 @@
-$(".like-btn").on('click', function(e) {
+$(".like-btn").on('click', (e) => {
     e.preventDefault();
-    let post_id = $(this).closest('.post').attr('post-id');
+    let post_id = $(e.target).closest('.post').attr('id');
     $.ajax({
         type: 'POST',
         url: DATASET.likesUrl,
         data:
         {
             post_id: post_id,
-            command: $(this).text(),
+            command: $(e.target).text(),
             csrfmiddlewaretoken: DATASET.token
         },
         success: (response) => {
-            $(this).text(response["command"]);
-            $(this).prev().text(response["likes_count"] + ' likes');
+            $(e.target).text(response["command"]);
+            $(e.target).prev().text(response["likes_count"] + ' likes');
         }
     });
 })
 
-$(".add-comment").on('submit', function(e) {
+$(".add-comment").on('submit', (e) => {
     e.preventDefault();
-    let post_id = $(this).closest('.post').attr('post-id');
-    let text_input = $(this).find('input[type=text]');
-    let comments_section = $(this).prev();
+    let post_id = $(e.target).closest('.post').attr('id');
+    let text_input = $(e.target).find('input[type=text]');
+    let comments_section = $(e.target).prev();
     $.ajax({
         type: 'POST',
         url: DATASET.commentsUrl,
@@ -33,15 +33,12 @@ $(".add-comment").on('submit', function(e) {
         },
         success: (response) => {
             text_input.val('');
-            comments = response['comments'];
-            comments_section.empty();
-            for (var i = 0; i < comments.length; i++){
-                comments_section.append('<div class="comment">'+
-                                    '<span class="comment-user">'+
-                                    comments[i][0]+'</span>'+
-                                    comments[i][1]+' - '+comments[i][2]+
-                                '</div>');
-            }
+            comment = response['comment'];
+            comments_section.append(
+                '<div class="comment">' +
+                '<span class="comment-user">' +
+                comment[0] + ': ' + '</span>' +
+                comment[1] + ' - ' + comment[2] + '</div>');
             comments_section.scrollTop(9999);
         }
     });

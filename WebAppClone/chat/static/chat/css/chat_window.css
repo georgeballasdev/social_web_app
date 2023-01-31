@@ -21,14 +21,6 @@
     padding: 0;
     list-style: none;
     overflow-y: scroll;
-    /* Hide scrollbar in Firefox and IE */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-/* Hide scrollbar in webkit base browsers */
-#friends-list::-webkit-scrollbar {
-    display: none;
 }
 
 .status {
@@ -43,68 +35,50 @@
     background-color: green;
 }
 
-
-#chat1 {
-    display: none;
-    right: 14vw;
-}
-
-#chat2 {
-    display: none;
-    right: 42.4vw;
-}
-
-#chat3 {
-    display: none;
-    right: 70.8vw;
-}
-
-.chat {
+#chats {
     position: absolute;
-    bottom: 8.6%;
+    top: 40vh;
+    right: 24vw;
+    border: solid black;
+    background-color: red;
+    height: 50vh;
+    width: 60vw;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.chat {
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
     border: solid lightcoral 0.01rem;
     border-radius: 3px;
+    width: 33%;
+    font-size: 2rem;
+    text-align: center;
 }
 
 .chat-head {
+    height: 10%;
     background-color: lightskyblue;
-    width: 28.4vw;
-    font-size: 32px;
-    text-align: center;
-    border-radius: 3px;
 }
 
 .chat-log {
-    height: 400px;
+    height: 80%;
     overflow-y: scroll;
-    width: auto;
     background-color:rgba(188, 203, 237, 0.95);
-    border-radius: 3px;
-    border: none;
 }
 
 .chat-input {
     display: flex;
-    align-items: flex-end;
     background-color: white;
-    padding-right: 4px;
 }
 
 .msg-input {
-    font-size: 24px;
-    width: 25vw;
-    height: 50px;
+    width: 90%;
+    font-size: inherit;
     letter-spacing: 0.075em;
     border: none;
-    border-radius: 3px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.msg-input:focus {
-    outline:none;
+    padding-inline: 1rem;
 }
 
 .send-btn {
@@ -112,11 +86,4 @@
 }
 .send-btn:hover {
     transform: scale(1.1);
-}
-.send-btn img {
-    border-radius: 5px;
-}
-
-.collapsed {
-    display: none;
 }
