@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Web App</title>
+    <link rel="stylesheet" href="{% static 'users/css/enter.css' %}">
+</head>
+<body>
+    {% if register %}
+    <h1>Register</h1>
+    {% else %}
+    <h1>Login</h1>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="field">
+            {{ field }}
+            {{ field.label_tag }}
+            <div class="help-text">
+                {{ field.help_text }}
+            </div>
+        </div>
+        {% endfor %}
+        {% if register %}
+        <input type="submit" id="btn" value="Register">
+        {% else %}
+        <input type="submit" id="btn" value="Login">
+        {% endif %}
+    </form>
+    {% if register %}
+    <p>Already have an account? <a href ="{% url 'users:login' %}">Login</a>
+    {% else %}
+    <p>Don't have an account? <a href ="{% url 'users:register' %}">Register</a>
+    {% endif %}
+</body>
+</html>

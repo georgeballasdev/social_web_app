@@ -1,8 +1,0 @@
-<p>Login page</p>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit">
-    <input type="hidden" name="next" value="{{ next }}">
-</form>
-<p>OR <a href ="{% url 'users:register' %}">Register</a>

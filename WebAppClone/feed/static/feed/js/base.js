@@ -34,10 +34,10 @@ notificationsSocket.onmessage = (e) => {
 }
 
 notifications.click( () => {
-  notificationsList.toggleClass('hidden');
+  notificationsList.toggle();
 })
 
-// Handle profile menu and pop-up
+// Handle profile menu
 const profile = $('#profile');
 const profileCaret = profile.find('i');
 const profileMenu = $('#profile-menu');
@@ -45,5 +45,5 @@ const profileMenu = $('#profile-menu');
 profile.click( () => {
     profileCaret.toggleClass('fa-caret-up');
     profileCaret.toggleClass('fa-caret-down');
-    profileMenu.toggle;
+    profileMenu.toggle();
 })

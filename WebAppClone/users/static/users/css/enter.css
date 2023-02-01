@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700&display=swap');
+
+:root {
+  --color-main: #D0E8F2;
+  --color-secondary: #79A3B1;
+  --color-dark: #456268;
+  --color-light: #FCF8EC;
+  --offwhite: #F8F0E3;
+  --offblack: #212427;
+  --font-light: 200;
+  --font-regular: 400;
+  --font-bold: 700;
+  font-size: 16px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Raleway', sans-serif;
+  font-weight: var(--font-regular);
+  color: var(--offblack);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+    margin-top: -1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: .5rem;
+    background-image: linear-gradient(var(--color-light), var(--color-main));
+}
+
+h1 {
+    text-shadow: 0 4px 3px var(--color-secondary);
+    font-size: 5rem;
+    font-weight: var(--font-bold);
+    color: var(--color-dark);
+}
+
+form {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.field {
+    position: relative;
+    margin: 1rem 0;
+}
+
+.field label {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  transition: .3s ease-out;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: var(--font-light);
+}
+
+.field input {
+    width: 100%;
+    padding-top: 2.25rem;
+    padding-bottom: .5rem;
+    padding-inline: 1rem;
+    margin-bottom: 1rem;
+    outline: none;
+    border: none;
+    border-bottom: 1.7px solid var(--color-secondary);
+    background: transparent;
+    text-align: center;
+    font-size: 3rem;
+}
+
+.field .help-text {
+    width: 200%;
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: .2s ease-in;
+    opacity: 0;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: var(--font-light);
+}
+  
+.field input:focus ~ label {
+    top: -10px;
+    left: 50%;
+    font-size: 1rem;
+  }
+
+.field input:focus ~ .help-text {
+    opacity: 1;
+}
+
+#btn {
+  width: max(30%, 200px);
+  align-self: center;
+  margin-top: 2rem;
+  margin-bottom: -3rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 3px 3px var(--color-secondary);
+  transition: .2s ease-in-out;
+  background-color: var(--color-light);
+  font-size: 2rem;
+  font-weight: var(--font-bold);
+  color: var(--color-dark);
+}
+
+#btn:hover {
+  transform: scale(1.05);
+  background-color: var(--offwhite);
+  box-shadow: 0 5px 3px var(--color-secondary);
+}
+
+#btn:focus {
+  background-color: var(--color-secondary);
+  color: var(--offwhite);
+}
+
+p {
+  margin-top: 3.5rem;
+  font-size: 1.2rem;
+  font-weight: var(--font-light);
+}
+
+p a {
+  text-decoration: none;
+  font-weight: var(--font-bold);
+}
+
+p a:hover {
+  color: var(--color-secondary);
+  text-shadow: 0 1px 1px var(--color-dark);
+}
+
+@media screen and (max-width: 800px) {
+  :root {
+    font-size: 12px;
+  }
+}

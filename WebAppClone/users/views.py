@@ -50,7 +50,6 @@ def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            print('form valid')
             user = User.objects.create(
                 username=form.cleaned_data['username'],
                 password=make_password(form.cleaned_data['password']),
@@ -67,10 +66,10 @@ def register(request):
             return redirect('users:profile')
     else:
         form = RegisterForm()
-    return render(request, 'users/register.html', {'form': form})
+    return render(request, 'users/enter.html', {'form': form, 'register': True})
 
 class UserLoginView(LoginView):
-    template_name = 'users/login.html'
+    template_name = 'users/enter.html'
     next_page = 'feed:home'
     redirect_authenticated_user = True
 
