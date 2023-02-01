@@ -1,9 +1,9 @@
 {% load static %}
 <div id="friends-window">
-    <!-- <div id="list-header">Chat</div> -->
+    <div id="list-header">Chat</div>
     <ul id="friends-list">
         {% for friend in user.profile.friends.all %}
-        <li class="friend" data-friend-username="{{ friend.username }}">
+        <li class="friend hoverable" data-friend-username="{{ friend.username }}">
             {% if friend.client.online_status  %}
                 <span class="status online"></span>
             {% else %}
@@ -14,15 +14,4 @@
         {% endfor %}
     </ul>
 </div>
-<div id="chats">
-    <!-- <div class="chat" id="friend-chat">
-        <div class="chat-head">
-            <span>Friend name1</span>
-            <button class="close-btn">x</button>
-        </div>
-        <div class="chat-log"></div>
-        <div class="chat-input">
-            <input class="msg-input" type="text">
-            <a href="#" class="send-btn"><img src="{% static 'chat/icons/send.png' %}" width="40px" height="40px"></a>
-        </div> -->
-</div>
+<div id="chats"></div>

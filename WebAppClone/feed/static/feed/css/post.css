@@ -8,11 +8,9 @@
 }
 
 .post {
-    width: 50vw;
+    width: max(360px, 50vw);
     background-color: rgb(26, 136, 99);
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    padding: 1.5rem;
     font-size: 2rem;
     display: flex;
     flex-direction: column;
@@ -21,8 +19,7 @@
 }
 
 .post-header {
-    width: 90%;
-    padding-top: 1.5rem;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -36,7 +33,12 @@
 
 .post-likes {
     display: flex;
+    align-items: baseline;
     gap: .5rem;
+}
+
+.like-btn {
+    color: red;
 }
 
 .post-content {
@@ -55,7 +57,6 @@
 
 .post-comments {
     width: 90%;
-    text-align: center;
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
@@ -72,8 +73,18 @@
 
 .comment {
     background-color: steelblue;
-    text-align: left;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    column-gap: 0.75rem;
     padding: 1rem;
+    width: 100%;
+    line-height: 2rem;
+    word-break: break-all;
+}
+
+.comment .pic {
+    height: 2.5rem;
 }
 
 .comment-user {

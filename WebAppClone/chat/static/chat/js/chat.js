@@ -43,11 +43,11 @@ function newChat(friend) {
     let newChat = document.createElement('div');
     $(newChat).attr('class', 'chat');
     $(newChat).attr('id', friend + '-chat');
-    $(newChat).append(('<div class="chat-head"><span>' + friend + '</span><button class="close-btn">x</button></div>\
+    $(newChat).append(('<div class="chat-head"><span>' + friend + '</span><i class="close-btn hoverable fa-solid fa-xmark"></i></div>\
         <div class="chat-log"></div>\
         <div class="chat-input">\
             <input class="msg-input" type="text">\
-        <a href="#" class="send-btn">SEND</a>\
+        <i class="send-btn hoverable fa-regular fa-paper-plane"></i>\
         </div>'));
     return newChat;
 }
@@ -65,6 +65,7 @@ function openChat(friend) {
     // Get and append chat element
     let chat = newChat(friend);
     chats.append(chat);
+    $(chat).find('.msg-input').focus();
     // Handle websocket
     handleSocket(chatSocket, friend);
 }
@@ -89,8 +90,8 @@ chat_window.on('click', '.friend',(e) => {
 })
 
 chat_window.on('click', '.chat-head',(e) => {
-    $(e.target).next().toggleClass('hidden');
-    $(e.target).next().next().toggleClass('hidden');
+    $(e.target).next().toggle();
+    $(e.target).next().next().toggle();
 })
 
 chat_window.on('click', '.close-btn',(e) => {

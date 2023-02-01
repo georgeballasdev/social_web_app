@@ -3,18 +3,18 @@
   <div class="post-header">
     <span class="post-timestamp">{{ post.created_at|naturaltime }}</span>
     <div class="post-title">
-      <img class="pic pop-up" src="{{ post.owner.profile.pic.url }}" alt="pic">
+      <img class="pic" src="{{ post.owner.profile.pic.url }}" alt="pic">
       <span>
         <a href="{% url 'feed:post' post.id %}">Post</a> by
-        <a href="{% url 'users:other_profile' post.owner.id %}" class="pop-up"> {{ post.owner.username }}</a>
+        <a href="{% url 'users:other_profile' post.owner.id %}"> {{ post.owner.username }}</a>
       </span>
     </div>
     <div class="post-likes">
       <div class="likes-count">{{ post.liked_by.all.count }} likes</div>
       {% if user in post.liked_by.all %}
-      <button class="like-btn">Unlike</button>
+      <i data-like-command="unlike" class="like-btn fa-solid fa-heart hoverable"></i>
       {% else %}
-      <button class="like-btn">Like</button>
+      <i data-like-command="like" class="like-btn fa-regular fa-heart hoverable"></i>
       {% endif %}
     </div>
   </div>
@@ -30,7 +30,8 @@
       {% if post.comment_set.all %}
         {% for comment in post.comment_set.all %}
           <div class="comment">
-            <span class="comment-user pop-up">{{ comment.owner.username }}: </span>
+            <img class="pic" src="{{ comment.owner.profile.pic.url }}" alt="pic">
+            <span class="comment-user"><a href="{% url 'users:other_profile' comment.owner.id %}">{{ comment.owner.username }}</a>: </span>
             {{ comment.text }} - {{ comment.created_at|naturaltime }}
           </div>
         {% endfor %}

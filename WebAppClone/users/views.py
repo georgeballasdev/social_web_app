@@ -1,12 +1,13 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseRedirect, JsonResponse
-from django.views.generic import CreateView, UpdateView
+from django.http import JsonResponse
+from django.views.generic import UpdateView
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from notifications.models import Client
 from .models import Profile
 from .forms import RegisterForm
@@ -45,23 +46,28 @@ def handle_friendship(request, id):
         response = {'state' : commands[command](user, other_user)}
         return JsonResponse(response)
 
-class UserRegisterView(CreateView):
-    model = User
-    template_name = 'users/register.html'
-    form_class = RegisterForm
-    success_url = reverse_lazy('users:profile')
-
-    def form_valid(self, form):
-        self.object = form.save()
-        Profile.objects.create(
-            user=self.object,
-            bio=form['bio'].value()
-        )
-        Client.objects.create(
-            user=self.object,
-        )
-        login(self.request, self.object)
-        return HttpResponseRedirect(self.get_success_url())
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            print('form valid')
+            user = User.objects.create(
+                username=form.cleaned_data['username'],
+                password=make_password(form.cleaned_data['password']),
+                email=form.cleaned_data['email']
+            )
+            Profile.objects.create(
+                user=user,
+                bio=form.cleaned_data['bio']
+            )
+            Client.objects.create(
+                user=user,
+            )
+            login(request, user)
+            return redirect('users:profile')
+    else:
+        form = RegisterForm()
+    return render(request, 'users/register.html', {'form': form})
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'

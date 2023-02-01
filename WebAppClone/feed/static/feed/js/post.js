@@ -7,11 +7,13 @@ $(".like-btn").on('click', (e) => {
         data:
         {
             post_id: post_id,
-            command: $(e.target).text(),
+            command: e.target.dataset.likeCommand,
             csrfmiddlewaretoken: DATASET.token
         },
         success: (response) => {
-            $(e.target).text(response["command"]);
+            $(e.target).toggleClass('fa-solid');
+            $(e.target).toggleClass('fa-regular');
+            $(e.target).attr('data-like-command', response['command']);
             $(e.target).prev().text(response["likes_count"] + ' likes');
         }
     });

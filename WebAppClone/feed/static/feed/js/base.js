@@ -1,20 +1,11 @@
-var mouseX;
-var mouseY;
-const profilePopUp = $('#profile-popup');
-
-const profile = $('#profile');
-const profileMenu = profile.find('#profile-menu');
-const profileCaret = profile.find('i');
-
-const notifications = $('#notifications');
-const notificationsCount = notifications.find('#notifications-count');
-const notificationsList = notifications.find('#notifications-list');
-
 // Handle notifications
+const notifications = $('#notifications');
+const notificationsCount = $('#notifications-count');
+const notificationsList = $('#notifications-list');
 const notificationsUrl = 'ws://' + window.location.host + '/ws/notifications/';
 let notificationsSocket = new WebSocket(notificationsUrl);
 
-notificationsSocket.onopen = (e) => {
+notificationsSocket.onopen = () => {
   $.ajax({
     type: 'GET',
     url: DATASET.notificationsUrl,
@@ -42,27 +33,17 @@ notificationsSocket.onmessage = (e) => {
     list.append('<li><a href="'+ data.link +'">'+ data.text +'</a></li>');
 }
 
-// Events
-$(document).mousemove( (e) => {
-   mouseX = e.pageX; 
-   mouseY = e.pageY;
-});  
+notifications.click( () => {
+  notificationsList.toggleClass('hidden');
+})
 
-$(".pop-up").mouseenter( () => {
-  profilePopUp.css({'top':mouseY-10,'left':mouseX-10});
-  profilePopUp.toggle();
-});
-
-profilePopUp.mouseout( () => {
-    profilePopUp.toggle();
-});
+// Handle profile menu and pop-up
+const profile = $('#profile');
+const profileCaret = profile.find('i');
+const profileMenu = $('#profile-menu');
 
 profile.click( () => {
     profileCaret.toggleClass('fa-caret-up');
     profileCaret.toggleClass('fa-caret-down');
-    profileMenu.toggleClass('hidden');
-})
-
-notifications.click( () => {
-  notificationsList.toggleClass('hidden');
+    profileMenu.toggle;
 })

@@ -36,12 +36,12 @@ def likes_view(request):
         command = request.POST['command']
         post_id = request.POST['post_id']
         post = get_object_or_404(Post, id=post_id)
-        if command == 'Like':
+        if command == 'like':
             post.liked_by.add(request.user)
-            command = 'Unlike'
+            command = 'unlike'
         else:
             post.liked_by.remove(request.user)
-            command = 'Like'
+            command = 'like'
         likes_count = post.liked_by.all().count()
         return JsonResponse({"likes_count": likes_count, "command": command})
 

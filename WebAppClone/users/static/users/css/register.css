@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 6rem;
+}
+
+form {
+    width: 50%;
+    font-size: 4rem;
+}
+
+.user-box {
+    position: relative;
+  }
+  
+.user-box input {
+    width: 100%;
+    padding-top: 2rem;
+    font-size: inherit;
+    text-align: center;
+    color: black;
+    margin-bottom: 2rem;
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
+    background: transparent;
+  }
+
+.user-box label {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    text-align: center;
+    color: black;
+    pointer-events: none;
+    transition: .5s;
+  }
+
+.user-box .help-text {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: .2s ease-in;
+    opacity: 0;
+}
+  
+.user-box input:focus ~ label {
+    top: -10px;
+    left: 50%;
+    color: slategrey;
+    font-size: 1rem;
+  }
+
+.user-box input:focus ~ .help-text {
+    opacity: 1;
+}

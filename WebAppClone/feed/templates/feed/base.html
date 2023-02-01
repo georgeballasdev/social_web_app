@@ -20,7 +20,7 @@
 </head>
 <body>
 	<header>
-		<div id="brand"><a href="{% url 'feed:home' %}">BRAND</a></div>
+		<div id="brand" class="hoverable"><a href="{% url 'feed:home' %}">BRAND</a></div>
 		<nav>
 			<ul id="primary-navigation">
 				<li>
@@ -68,7 +68,6 @@
 		<div id="content">{% block content %}{% endblock %}</div>
 		<div id="chat-window">{% include 'chat/chat_window.html' %}</div>
 	</div>
-	<div id="profile-popup"></div>
 	<!-- Django Template urls to JS -->
 	<script
 		data-comments-url = "{% url 'feed:comments' %}"
