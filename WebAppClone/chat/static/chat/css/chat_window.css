@@ -1,38 +1,37 @@
 #friends-window {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color:rgb(124, 163, 226);
-    width: 100%;
-    height: 100vh;
-    font-size: 3rem;
+    background-color:var(--color-main);
     text-align: center;
+    font-size: 3rem;
 }
 
 #list-header{
     width: 100%;
-    background-color: rgb(100, 154, 200);
+    background-color: var(--color-dark);
+    color: var(--offwhite); 
 }
 
 #friends-list{
     height: 100%;
     width: 100%;
-    list-style: none;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .friend {
+    padding-left: 2rem;
     display: flex;
     align-items: baseline;
     gap: 1rem;
-    padding-left: 2rem;
 }
 
 .status {
-    height: 20px;
-    width: 20px;
-    background-color: grey;
+    height: 1.5rem;
+    width: 1.5rem;
     border-radius: 50%;
+    background-color: grey;
 }
 
 .online {
@@ -41,52 +40,63 @@
 
 #chats {
     position: absolute;
-    top: 50vh;
-    right: 24vw;
-    height: 50vh;
-    width: 60vw;
+    bottom: 0;
+    right: 20%;
     display: flex;
     flex-direction: row-reverse;
-    pointer-events: none;
+    align-items: flex-end;
 }
 .chat {
+    height: max(40vh, 500px);
+    width: max(20vw, 400px);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    width: 33%;
-    font-size: 2rem;
+    border: 1px solid var(--color-dark);
+    border-radius: 10px;
     text-align: center;
-    pointer-events: all;
+    font-size: 2rem;
 }
 
 .chat-head {
-    height: 10%;
     width: 100%;
-    background-color: lightskyblue;
+    padding: .5rem 1rem;
     position: relative;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    background-color: var(--color-secondary);
+    text-align: center;
 }
+
+.chat-head span {
+    font-weight: var(--font-bold);
+    font-size: 2.5rem;
+}
+
 .close-btn {
     position: absolute;
-    right: .5rem;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 25%;
+    right: .75rem;
     transform-origin: -50%;
 }
+
 .chat-log {
     height: 80%;
     overflow-y: scroll;
-    background-color:rgba(188, 203, 237, 0.95);
+    background-color: var(--color-main);
 }
 
 .chat-input {
     display: flex;
-    background-color: white;
+    background-color: var(--offwhite);
 }
 
 .msg-input {
     width: 90%;
-    font-size: inherit;
-    letter-spacing: 0.075em;
+    padding: 1rem;
     border: none;
-    padding-inline: 1rem;
+    outline: none;
+    background-color: var(--offwhite);
+    letter-spacing: .2rem;
+    font-size: 2.25rem;
 }

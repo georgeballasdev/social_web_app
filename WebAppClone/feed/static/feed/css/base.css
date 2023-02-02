@@ -31,6 +31,10 @@ a {
     text-decoration: none;
 }
 
+ul {
+    list-style: none;
+}
+
 ::-webkit-scrollbar {
     width: 3px;
 }
@@ -40,15 +44,11 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: var(--color-secondary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-.hidden {
-    display: none;
+    background: var(--color-dark);
 }
 
 .hoverable {
@@ -61,28 +61,44 @@ a {
     transform: scale(1.1);
 }
 
+.hidden {
+    display: none;
+}
+
 body {
+    padding-top: 100px;
     display: flex;
     flex-direction: column;
     overflow-y: hidden;
-    height: 100vh;
-    width: 100%;
 }
 
 header {
+    height: 100px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    padding-inline: 3.5rem;
     display: flex;
-    align-items: center;
     justify-content: space-between;
     align-items: center;
-    height: max(10vh, 5rem);
-    width: 100vw;
-    background-color: red;
-    color: beige;
+    box-shadow: 0 1.5px 5px var(--color-dark);
+    background-color: var(--color-secondary);
     font-size: 2rem;
 }
 
 #brand {
-    margin-left: 5vw;
+    text-shadow: 0 3px 2px var(--color-dark);
+    font-size: 3rem;
+    font-weight: var(--font-bold);
+    color: var(--offwhite);
+}
+
+nav ul {
+    /* remove divs from li, have li have the ids */
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 }
 
 #search-bar {
@@ -91,48 +107,32 @@ header {
     gap: .5rem;
 }
 
-nav {
-    margin-right: 5vw;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    color: beige;
-}
-
-nav ul li a {
-    color: beige;
-}
-
 #search-bar input {
-    font-size: inherit;
     width: 20rem;
-    letter-spacing: 0.2rem;
-    border-radius: 5px;
-    border: none;
     padding: .5rem;
+    border: none;
+    border-radius: 5px;
+    letter-spacing: 0.2rem;
+    font-size: inherit;
 }
 
-#notifications-count{
-    font-size: 2rem;
-    position: absolute;
-    top: -60%;
-    right: -30%;
-    z-index: 100;
-    color: black;
-    background-color: blue;
+#notifications-count {
     width: 2rem;
-    text-align: center;
+    position: absolute;
+    top: -80%;
+    right: -40%;
+    z-index: 100;
     border-radius: 100%;
+    text-align: center;
+    font-size: 2rem;
+    color: var(--offwhite);
 }
+
 #profile,
 #notifications {
     position: relative;
-    z-index: 100;
 }
+
 #profile img {
     height: 4rem;
     border-radius: 50%;
@@ -140,55 +140,49 @@ nav ul li a {
 
 #profile-menu ul,
 #notifications-list ul {
-    display: flex;
     position: absolute;
+    padding: .5rem 2rem;
     top: 100%;
     right: 0;
-    align-items: center;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     row-gap: .75rem;
-    background-color: rgb(222, 176, 181);
-    padding: .5rem 2rem;
     border-radius: 5px;
+    background-color: var(--color-dark);
 }
 
 #main {
+    height: calc(100vh - 100px);
+    width: 100%;
     display: flex;
-    background-color: blue;
-    width: 100vw;
-    height: 90%;
+    background-color: var(--color-main);
 }
 
-#group-bar {
+#groups-window {
     width: 10%;
     text-align: center;
 }
 
-#group-bar ul {
-    list-style: none;
-}
-
 #content {
-    background-color: rgb(235, 235, 229);
-    font-size: 40px;
-    line-height: 1.5em;
-    padding-inline: 1rem;
-    width: 66%;
-    height: 90vh;
+    width: 70%;
+    padding: 1rem;
     overflow-y: scroll;
+    background-color: var(--color-light);
+    font-size: 2rem;
 }
 
 #chat-window {
-    height: 100vh;
-    width: 24%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 20%;
 }
 
 @media only screen and (max-width: 600px) {
-    #group-bar,
+    #groups-window,
     #chat-window {
         display: none;
+    }
+
+    #content {
+        width: 100%;
     }
 }

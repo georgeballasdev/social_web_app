@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <head>
-	<title>Social Web App</title>
+	<title>Socialbook</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Static stylesheets -->
@@ -20,9 +20,9 @@
 </head>
 <body>
 	<header>
-		<div id="brand" class="hoverable"><a href="{% url 'feed:home' %}">BRAND</a></div>
+		<a id="brand" class="hoverable" href="{% url 'feed:home' %}">Socialbook</a>
 		<nav>
-			<ul id="primary-navigation">
+			<ul>
 				<li>
 					<div id="search-bar">
 						<i class="fa-solid fa-magnifying-glass"></i>
@@ -57,7 +57,7 @@
 		</nav>
 	</header>
 	<div id="main">
-		<div id="group-bar">
+		<div id="groups-window">
 			<h3>Your groups:</h3>
 			<ul>
 				{% for group in user.members.all %}

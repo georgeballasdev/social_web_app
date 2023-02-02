@@ -115,6 +115,7 @@ form {
   border-radius: 5px;
   box-shadow: 0 3px 3px var(--color-secondary);
   transition: .2s ease-in-out;
+  cursor: pointer;
   background-color: var(--color-light);
   font-size: 2rem;
   font-weight: var(--font-bold);
