@@ -1,30 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700&display=swap');
 
 :root {
-  --color-main: #D0E8F2;
-  --color-secondary: #79A3B1;
-  --color-dark: #456268;
-  --color-light: #FCF8EC;
-  --offwhite: #F8F0E3;
-  --offblack: #212427;
-  --font-light: 200;
-  --font-regular: 400;
-  --font-bold: 700;
-  font-size: 16px;
+    --color-main: #D0E8F2;
+    --color-secondary: #79A3B1;
+    --color-dark: #456268;
+    --color-light: #FCF8EC;
+    --offwhite: #F8F0E3;
+    --offblack: #212427;
+    --font-light: 200;
+    --font-regular: 400;
+    --font-bold: 700;
+    font-size: 16px;
 }
 
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: 'Raleway', sans-serif;
-  font-weight: var(--font-regular);
-  color: var(--offblack);
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Raleway', sans-serif;
+    font-weight: var(--font-regular);
+    color: var(--offblack);
 }
 
 html,
 body {
-  height: 100%;
+    height: 100%;
 }
 
 body {
@@ -57,15 +57,15 @@ form {
 }
 
 .field label {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-  transition: .3s ease-out;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: var(--font-light);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    transition: .3s ease-out;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: var(--font-light);
 }
 
 .field input {
@@ -94,63 +94,63 @@ form {
     font-size: 1.5rem;
     font-weight: var(--font-light);
 }
-  
+    
 .field input:focus ~ label {
     top: -10px;
     left: 50%;
     font-size: 1rem;
-  }
+    }
 
 .field input:focus ~ .help-text {
     opacity: 1;
 }
 
 #btn {
-  width: max(30%, 200px);
-  align-self: center;
-  margin-top: 2rem;
-  margin-bottom: -3rem;
-  padding: 1rem;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 3px 3px var(--color-secondary);
-  transition: .2s ease-in-out;
-  cursor: pointer;
-  background-color: var(--color-light);
-  font-size: 2rem;
-  font-weight: var(--font-bold);
-  color: var(--color-dark);
+    width: max(30%, 200px);
+    align-self: center;
+    margin-top: 2rem;
+    margin-bottom: -3rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 3px 3px var(--color-secondary);
+    transition: .2s ease-in-out;
+    cursor: pointer;
+    background-color: var(--color-light);
+    font-size: 2rem;
+    font-weight: var(--font-bold);
+    color: var(--color-dark);
 }
 
 #btn:hover {
-  transform: scale(1.05);
-  background-color: var(--offwhite);
-  box-shadow: 0 5px 3px var(--color-secondary);
+    transform: scale(1.05);
+    background-color: var(--offwhite);
+    box-shadow: 0 5px 3px var(--color-secondary);
 }
 
 #btn:focus {
-  background-color: var(--color-secondary);
-  color: var(--offwhite);
+    background-color: var(--color-secondary);
+    color: var(--offwhite);
 }
 
 p {
-  margin-top: 3.5rem;
-  font-size: 1.2rem;
-  font-weight: var(--font-light);
+    margin-top: 3.5rem;
+    font-size: 1.2rem;
+    font-weight: var(--font-light);
 }
 
 p a {
-  text-decoration: none;
-  font-weight: var(--font-bold);
+    text-decoration: none;
+    font-weight: var(--font-bold);
 }
 
 p a:hover {
-  color: var(--color-secondary);
-  text-shadow: 0 1px 1px var(--color-dark);
+    color: var(--color-secondary);
+    text-shadow: 0 1px 1px var(--color-dark);
 }
 
 @media screen and (max-width: 800px) {
-  :root {
+    :root {
     font-size: 12px;
-  }
+    }
 }

@@ -21,27 +21,29 @@ $(".like-btn").on('click', (e) => {
 
 $(".add-comment").on('submit', (e) => {
     e.preventDefault();
-    let post_id = $(e.target).closest('.post').attr('id');
-    let text_input = $(e.target).find('input[type=text]');
-    let comments_section = $(e.target).prev();
+    let postId = $(e.target).closest('.post').attr('id');
+    let textInput = $(e.target).find('input[type=text]');
+    let comments = $(e.target).prev();
     $.ajax({
         type: 'POST',
         url: DATASET.commentsUrl,
         data:
         {
-            post_id: post_id,
-            comment: text_input.val(),
+            post_id: postId,
+            comment: textInput.val(),
             csrfmiddlewaretoken: DATASET.token
         },
         success: (response) => {
-            text_input.val('');
+            textInput.val('');
             comment = response['comment'];
-            comments_section.append(
-                '<div class="comment">' +
-                '<span class="comment-user">' +
-                comment[0] + ': ' + '</span>' +
-                comment[1] + ' - ' + comment[2] + '</div>');
-            comments_section.scrollTop(9999);
+            comments.append(
+                '<div class="comment">\
+                    <img class="pic" src="' + comment.url + '" alt="pic">\
+                    <span class="comment-user"><a href="' + comment.profile + '">' + comment.user + ':</a> </span>\
+                    <span class="comment-text">' + comment.text + '</span>\
+                    <span class="comment-timestamp">' + comment.timestamp + '</span>\
+                </div>');
+            comments.scrollTop(9999);
         }
     });
 })

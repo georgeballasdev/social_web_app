@@ -3,6 +3,7 @@
 :root {
   --color-main: #D0E8F2;
   --color-secondary: #79A3B1;
+  --color-accent: #95c0cf;
   --color-dark: #456268;
   --color-light: #FCF8EC;
   --offwhite: #F8F0E3;
@@ -45,6 +46,7 @@ ul {
 
 ::-webkit-scrollbar-thumb {
     background: var(--color-secondary);
+    border-radius: 60px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -54,6 +56,7 @@ ul {
 .hoverable {
     transition: transform .2s;
     transform-origin: center;
+    user-select: none;
 }
 
 .hoverable:hover {
@@ -94,7 +97,6 @@ header {
 }
 
 nav ul {
-    /* remove divs from li, have li have the ids */
     list-style: none;
     display: flex;
     align-items: center;

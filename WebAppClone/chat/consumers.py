@@ -2,6 +2,7 @@ import json
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.contrib.auth.models import User
+from django.contrib.humanize.templatetags.humanize import naturaltime
 from .models import ChatMessage
 
 
@@ -43,10 +44,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         content = data['content']
         message = await self.save_and_get_message(sender, receiver, self.group_name, content)
         await self.channel_layer.group_send(
-            self.group_name, {
+            self.group_name,
+            {
                 'type': 'chat_message',
                 'message': message,
-                }
+            }
         )
 
     commands = {
@@ -84,7 +86,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'sender': message.sender.username,
                 'receiver': message.receiver.username,
                 'content': message.content,
-                'timestamp': str(message.timestamp)}
+                'timestamp': str(naturaltime(message.timestamp))
+        }
 
     @database_sync_to_async
     def messages_to_json(self, messages):
@@ -94,5 +97,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'sender': message.sender.username,
                 'receiver': message.receiver.username,
                 'content': message.content,
-                'timestamp': str(message.timestamp)})
+                'timestamp': str(naturaltime(message.timestamp))
+            })
         return result

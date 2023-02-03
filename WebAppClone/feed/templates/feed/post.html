@@ -25,23 +25,24 @@
     <div class="post-body">{{ post.text }}</div>
   </div>
   <div class="post-comments">
-    Comments:
+    <span>Comments:</span>
     <div class="comments">
       {% if post.comment_set.all %}
         {% for comment in post.comment_set.all %}
           <div class="comment">
             <img class="pic" src="{{ comment.owner.profile.pic.url }}" alt="pic">
-            <span class="comment-user"><a href="{% url 'users:other_profile' comment.owner.id %}">{{ comment.owner.username }}</a>: </span>
-            {{ comment.text }} - {{ comment.created_at|naturaltime }}
+            <span class="comment-user"><a href="{% url 'users:other_profile' comment.owner.id %}">{{ comment.owner.username }}:</a> </span>
+            <span class="comment-text">{{ comment.text }}</span>
+            <span class="comment-timestamp">{{ comment.created_at|naturaltime }}</span>
           </div>
         {% endfor %}
       {% else %}
         <div class="comment">No comments yet.</div>
       {% endif %}
     </div>
-    <form action="" class="add-comment">
+    <form class="add-comment">
       <input type="text">
-      <input type="submit" value="COMMENT">
+      <input type="submit" value="ADD COMMENT" class="hoverable">
     </form>
   </div>
 </div>

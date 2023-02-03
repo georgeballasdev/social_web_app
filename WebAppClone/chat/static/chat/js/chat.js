@@ -1,7 +1,7 @@
 // Variables
-const chat_window = $('#chat-window');
+const chatWindow = $('#chat-window');
 const chats = $('#chats');
-const max_chats = 3;
+const maxChats = 3;
 let activeChats = []; // stack of friendnames
 let sockets = {} // {'friendname': socket}
 
@@ -20,17 +20,37 @@ function handleSocket(socket, friend) {
             if (data['command'] == 'get_messages') {
                 let messages = data['messages'];
                 for (var i = 0; i < messages.length; i++) {
-                    chatLog.append('<p>' + messages[i].sender + ': ' + 
-                        messages[i].content +  messages[i].timestamp + '</p>');
+                    var divClass;
+                    if (messages[i].sender == DATASET.username) {
+                        divClass = 'user-msg';
+                    }
+                    else {
+                        divClass = 'friend-msg';
+                    }
+                    chatLog.append(
+                        '<div class="' + divClass + '">\
+                            <span class="msg-text">' + messages[i].content + '</span>\
+                            <span class="msg-timestamp">' + messages[i].timestamp + '</span>\
+                         </div>'
+                    );
                 }
             }
             else {
-                chatLog.append('<p>' + data.sender + ': ' + data.content +  data.timestamp + '</p>');
+                var divClass;
+                if (data.sender == DATASET.username) {
+                    divClass = 'user-msg';
+                }
+                else {
+                    divClass = 'friend-msg';
+                }
+                chatLog.append(
+                    '<div class="' + divClass + '">\
+                        <span class="msg-text">' + data.content + '</span>\
+                        <span class="msg-timestamp">' + data.timestamp + '</span>\
+                     </div>'
+                );
             }
-    };
-
-    socket.onclose = () => {
-        console.error('WS closed');
+            chatLog.scrollTop(9999);
     };
 }
 
@@ -39,22 +59,27 @@ function getChatUrl(friend) {
                 DATASET.username + '-' + friend + '/';
 }
 
-function newChat(friend) {
+function newChat(friend, picUrl) {
     let newChat = document.createElement('div');
     $(newChat).attr('class', 'chat');
     $(newChat).attr('id', friend + '-chat');
-    $(newChat).append(('<div class="chat-head"><span>' + friend + '</span><i class="close-btn hoverable fa-solid fa-xmark"></i></div>\
-        <div class="chat-log"></div>\
-        <div class="chat-input">\
-            <input class="msg-input" type="text">\
-        <i class="send-btn hoverable fa-regular fa-paper-plane"></i>\
-        </div>'));
+    $(newChat).append(
+        '<div class="chat-head">\
+            <img src="' + picUrl + '" alt="pic">\
+            <span>' + friend + '</span>\
+            <i class="close-btn hoverable fa-solid fa-xmark"></i></div>\
+         <div class="chat-log"></div>\
+         <div class="chat-input">\
+             <input class="msg-input" type="text">\
+         <i class="send-btn hoverable fa-regular fa-paper-plane"></i>\
+         </div>'
+    );
     return newChat;
 }
 
-function openChat(friend) {
-    // If max_chats, close last chat
-    if (activeChats.length == max_chats) {
+function openChat(friend, picUrl) {
+    // If maxChats, close last chat
+    if (activeChats.length == maxChats) {
         closeChat(activeChats[activeChats.length-1]);
     }
     // Open websocket
@@ -63,7 +88,7 @@ function openChat(friend) {
     activeChats.push(friend);
     sockets[friend] = chatSocket;
     // Get and append chat element
-    let chat = newChat(friend);
+    let chat = newChat(friend, picUrl);
     chats.append(chat);
     $(chat).find('.msg-input').focus();
     // Handle websocket
@@ -82,35 +107,41 @@ function closeChat(friend) {
 }
 
 // Event listeners
-chat_window.on('click', '.friend',(e) => {
+chatWindow.on('click', '.friend',(e) => {
     let friend = e.currentTarget.dataset.friendUsername;
+    let picUrl = e.currentTarget.dataset.picUrl;
     if (! activeChats.includes(friend)) {
-        openChat(friend);
+        openChat(friend, picUrl);
     }
 })
 
-chat_window.on('click', '.chat-head',(e) => {
-    $(e.target).next().toggle();
-    $(e.target).next().next().toggle();
-})
-
-chat_window.on('click', '.close-btn',(e) => {
+chatWindow.on('click', '.close-btn',(e) => {
     e.stopImmediatePropagation();
     let friend = $(e.target).prev().text();
     closeChat(friend);
 })
 
-chat_window.on('click', '.send-btn',(e) => {
+chatWindow.on('click', '.send-btn',(e) => {
     e.stopImmediatePropagation();
     let chat = $(e.target).closest('.chat').attr('id');
     let friend = (chat.slice(0, chat.length-5));
-    let msg_input = $(e.target).prev();
-    let msg = msg_input.val();
-    sockets[friend].send(JSON.stringify({
-        'command': 'new_message',
-        'sender': DATASET.username,
-        'receiver': friend,
-        'content': msg,
-    }));
-    msg_input.val('');
+    let msgInput = $(e.target).prev();
+    let msg = msgInput.val();
+    if (msg != '') {
+        sockets[friend].send(JSON.stringify({
+            'command': 'new_message',
+            'sender': DATASET.username,
+            'receiver': friend,
+            'content': msg,
+        }));
+        msgInput.val('');
+    }
+    msgInput.focus();
+})
+
+chatWindow.on('keypress', '.msg-input', (e) => {
+    // Enter key corresponds to number 13
+    if (e.which === 13) {
+        $(e.target).next().click();
+    }
 })

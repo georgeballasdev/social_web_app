@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView
 from .models import Comment, Post
 
@@ -26,9 +26,15 @@ def comments_view(request):
             owner=request.user,
             of_post=post,
             text=request.POST['comment']
-            )
-        new_comment = (request.user.username, comment.text, naturaltime(comment.created_at))
-        return JsonResponse({"comment": new_comment})
+        )
+        new_comment = {
+            'user': request.user.username,
+            'profile': reverse('users:other_profile', kwargs={'id': request.user.id}),
+            'text': comment.text,
+            'timestamp': naturaltime(comment.created_at),
+            'url': request.user.profile.pic.url
+        }
+        return JsonResponse({'comment': new_comment})
 
 @login_required
 def likes_view(request):
@@ -43,7 +49,7 @@ def likes_view(request):
             post.liked_by.remove(request.user)
             command = 'like'
         likes_count = post.liked_by.all().count()
-        return JsonResponse({"likes_count": likes_count, "command": command})
+        return JsonResponse({'likes_count': likes_count, 'command': command})
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
