@@ -21,20 +21,20 @@ def new_comment(sender, instance, **kwargs):
     link = notification.get_link()
     send_notification(user, text, link)
 
-@receiver(m2m_changed, sender='feed.Post_liked_by')
-def new_like(sender, instance, action, pk_set, **kwargs):
-    if action == 'post_add':
-        liker = User.objects.get(id=list(pk_set)[0]).username
-        notification = Notification.objects.create(
-            user = instance.owner,
-            text = f'{liker} liked your post.',
-            model_type = 'post',
-            model_id = instance.id
-        )
-        user = notification.user
-        text = notification.text
-        link = notification.get_link()
-        send_notification(user, text, link)
+# @receiver(m2m_changed, sender='feed.Post_liked_by')
+# def new_like(sender, instance, action, pk_set, **kwargs):
+#     if action == 'post_add':
+#         liker = User.objects.get(id=list(pk_set)[0]).username
+#         notification = Notification.objects.create(
+#             user = instance.owner,
+#             text = f'{liker} liked your post.',
+#             model_type = 'post',
+#             model_id = instance.id
+#         )
+#         user = notification.user
+#         text = notification.text
+#         link = notification.get_link()
+#         send_notification(user, text, link)
 
 @receiver(post_save, sender=ChatMessage)
 def new_message(sender, instance, **kwargs):

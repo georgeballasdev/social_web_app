@@ -1,4 +1,4 @@
-$(".like-btn").on('click', (e) => {
+$('#content').on('click', '.like-btn', (e) => {
     e.preventDefault();
     let post_id = $(e.target).closest('.post').attr('id');
     $.ajax({
@@ -19,7 +19,7 @@ $(".like-btn").on('click', (e) => {
     });
 })
 
-$(".add-comment").on('submit', (e) => {
+$('#content').on('submit', '.add-comment', (e) => {
     e.preventDefault();
     let postId = $(e.target).closest('.post').attr('id');
     let textInput = $(e.target).find('input[type=text]');

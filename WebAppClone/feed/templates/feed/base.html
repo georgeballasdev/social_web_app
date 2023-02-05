@@ -67,6 +67,8 @@
 		data-comments-url = "{% url 'feed:comments' %}"
 		data-likes-url = "{% url 'feed:likes' %}"
 		data-notifications-url = "{% url 'notifications:notifications' %}"
+		data-next-messages = "{% url 'chat:next_messages' %}"
+		data-next-posts = "{% url 'feed:next_posts' %}"
 		data-token = "{{ csrf_token }}"
 		data-username = "{{ user.username }}">
 		const DATASET = document.currentScript.dataset;

@@ -6,6 +6,42 @@ let activeChats = []; // stack of friendnames
 let sockets = {} // {'friendname': socket}
 
 // Functions
+function handleChatScroll(chat){
+    let chatLog = chat.querySelector('.chat-log');
+    chatLog.addEventListener('scroll', (e) => {
+        if (e.target.scrollTop == 0) {
+            $.ajax({
+                type: 'POST',
+                url: DATASET.nextMessages,
+                data:
+                {
+                    id: chatLog.firstChild.dataset.messageId,
+                    csrfmiddlewaretoken: DATASET.token
+                },
+                success: (response) => {
+                    messages = response['messages'];
+                    var divClass;
+                    for (var i = 0; i < messages.length; i++) {
+                        if (messages[i].sender == DATASET.username) {
+                            divClass = 'user-msg';
+                        }
+                        else {
+                            divClass = 'friend-msg';
+                        }
+                        $(chatLog).prepend(
+                            '<div data-message-id="' + messages[i].id + '" class="' + divClass + '">\
+                            <span class="msg-text">' + messages[i].content + '</span>\
+                            <span class="msg-timestamp">' + messages[i].timestamp + '</span>\
+                            </div>'
+                        );
+                    }
+                }
+            });
+            $(e.target).scrollTop(1);
+        }
+    })
+}
+
 function handleSocket(socket, friend) {    
     socket.onopen = () => {
         socket.send(JSON.stringify({
@@ -28,7 +64,7 @@ function handleSocket(socket, friend) {
                         divClass = 'friend-msg';
                     }
                     chatLog.append(
-                        '<div class="' + divClass + '">\
+                        '<div data-message-id="' + messages[i].id + '" class="' + divClass + '">\
                             <span class="msg-text">' + messages[i].content + '</span>\
                             <span class="msg-timestamp">' + messages[i].timestamp + '</span>\
                          </div>'
@@ -44,7 +80,7 @@ function handleSocket(socket, friend) {
                     divClass = 'friend-msg';
                 }
                 chatLog.append(
-                    '<div class="' + divClass + '">\
+                    '<div data-message-id="' + data.id + '" class="' + divClass + '">\
                         <span class="msg-text">' + data.content + '</span>\
                         <span class="msg-timestamp">' + data.timestamp + '</span>\
                      </div>'
@@ -93,6 +129,8 @@ function openChat(friend, picUrl) {
     $(chat).find('.msg-input').focus();
     // Handle websocket
     handleSocket(chatSocket, friend);
+    // Handle loading next messages on scroll
+    handleChatScroll(chat);
 }
 
 function closeChat(friend) {
@@ -144,4 +182,41 @@ chatWindow.on('keypress', '.msg-input', (e) => {
     if (e.which === 13) {
         $(e.target).next().click();
     }
+})
+
+ chatWindow.on('scroll', '.chat-log',(e) => {
+    console.log('scrolling chat log');
+})
+
+$('#test').on('click', () => {
+    let chatLog = $('.chat-log');
+    let first = chatLog[0].firstChild;
+    let id= $(first).attr('data-message-id');
+    $.ajax({
+        type: 'POST',
+        url: DATASET.nextMessages,
+        data:
+        {
+            id: id,
+            csrfmiddlewaretoken: DATASET.token
+        },
+        success: (response) => {
+            messages = response['messages'];
+            var divClass;
+            for (var i = 0; i < messages.length; i++) {
+                if (messages[i].sender == DATASET.username) {
+                    divClass = 'user-msg';
+                }
+                else {
+                    divClass = 'friend-msg';
+                }
+                chatLog.prepend(
+                    '<div data-message-id="' + messages[i].id + '" class="' + divClass + '">\
+                        <span class="msg-text">' + messages[i].content + '</span>\
+                        <span class="msg-timestamp">' + messages[i].timestamp + '</span>\
+                     </div>'
+                );
+            }
+        }
+    });
 })

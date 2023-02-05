@@ -36,7 +36,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_recent_messages(self, group):
-        return ChatMessage.get_10_recent(group)
+        return ChatMessage.get_recent_messages(group)
 
     async def new_message(self, data):
         sender = data['sender']
@@ -86,7 +86,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'sender': message.sender.username,
                 'receiver': message.receiver.username,
                 'content': message.content,
-                'timestamp': str(naturaltime(message.timestamp))
+                'timestamp': str(naturaltime(message.timestamp)),
+                'id': message.id
         }
 
     @database_sync_to_async
@@ -97,6 +98,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'sender': message.sender.username,
                 'receiver': message.receiver.username,
                 'content': message.content,
-                'timestamp': str(naturaltime(message.timestamp))
+                'timestamp': str(naturaltime(message.timestamp)),
+                'id': message.id
             })
         return result

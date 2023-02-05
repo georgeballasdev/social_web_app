@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.db import models
 
 class ChatMessage(models.Model):
@@ -11,5 +13,19 @@ class ChatMessage(models.Model):
     def __str__(self):
         return f'ChatMessage of {self.group} - {self.id}'
 
-    def get_10_recent(group):
-        return ChatMessage.objects.filter(group=group).order_by('-timestamp').all()[:10:-1]
+    def get_recent_messages(group):
+        return ChatMessage.objects.filter(group=group).order_by('-timestamp').all()[:settings.RECENT_MESSAGES_N:-1]
+    
+    def get_next_n_recent_messages(self):
+        return ChatMessage.objects.filter(
+            group=self.group, timestamp__lt=self.timestamp
+            ).order_by('-timestamp').all()[:settings.RECENT_MESSAGES_N]
+
+    def serialized(self):
+        return {
+        'sender': self.sender.username,
+        'receiver': self.receiver.username,
+        'content': self.content,
+        'timestamp': str(naturaltime(self.timestamp)),
+        'id': self.id
+        }

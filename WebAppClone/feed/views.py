@@ -10,10 +10,8 @@ from .models import Comment, Post
 
 @login_required
 def home_view(request):
-    friends = request.user.profile.friends.all()
-    own_posts = Post.objects.filter(owner=request.user)
-    friends_posts = Post.objects.filter(owner__in=friends)
-    posts = own_posts.union(friends_posts).order_by('-created_at')[:10]
+    request.user.profile.update_latest_posts()
+    posts = request.user.profile.get_next_n_recent_posts()
     context = {'posts': posts}
     return render(request, 'feed/home.html', context)
 
@@ -35,6 +33,14 @@ def comments_view(request):
             'url': request.user.profile.pic.url
         }
         return JsonResponse({'comment': new_comment})
+
+@login_required
+def get_next_posts(request):
+    if request.method == 'POST':
+        iteration = int(request.POST['iteration'])
+        posts = request.user.profile.get_next_n_recent_posts(iteration)
+        posts_serialized = [post.serialized(request.user) for post in posts]
+        return JsonResponse({'posts': posts_serialized})
 
 @login_required
 def likes_view(request):

@@ -5,8 +5,9 @@
     <link rel="stylesheet" href="{% static 'feed/css/post.css' %}">
     <a href="{% url 'feed:post_create' %}">NEW POST</a>
     <p>Feed:</p>
+    <span id="test">test</span>
     {% if posts %}
-    <div id="posts">
+    <div id="posts" data-iteration="1">
         {% for post in posts %}
             {% include 'feed/post.html' with post=post %}
         {% endfor %}
@@ -15,5 +16,6 @@
     <p>End of posts</p>
 {% endblock %}
 {% block js %}
+    <script type="text/javascript" src="{% static 'feed/js/home.js' %}"></script>
     <script type="text/javascript" src="{% static 'feed/js/post.js' %}"></script>
 {% endblock %}
