@@ -4,7 +4,7 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'users/css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'feed/css/post.css' %}">
-    <h2 class="content-header">{{ profile_user.username }}'s Profile</h2>
+    <h2 class="content-header">{{ profile_user.username }}'s profile</h2>
     <div id="profile-info">
         <div id="container">
             <img src="{{ profile_user.profile.pic.url }}" alt="profile pic">
@@ -17,13 +17,28 @@
         <div id="friendship-btn">{{ friendship_button_state }}</div>
         {% endif %}
     </div>
+    {% if profile_user.profile.friends.all %}
+    <h3 class="content-subheader">{{ profile_user.profile.friends.count }} friends</h3>
+    <div id="friends-bar">
+        {% for friend in profile_user.profile.friends.all %}
+        <a class="friend-profile hoverable" href="{% url 'users:other_profile' friend.id %}">
+            <img src="{{ friend.profile.pic.url }}" alt="friend pic">
+            {{ friend.username }}
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h3 class="content-subheader">{{ profile_user.username }} has no friends yet</h3>
+    {% endif %}
     {% if profile_user.post_set.all %}
-    <a href="#profile-info"><i id="scroll-home" class="fa-solid fa-arrow-up"></i></a>
-    <h3>Posts:</h3>
+    <h3 class="content-subheader">Posts</h3>
     {% for post in profile_user.post_set.all %}
         {% include 'feed/post.html' with post=post %}
     {% endfor %}
+    {% else %}
+    <h3 class="content-subheader">{{ profile_user.username }} has no posts yet</h3>
     {% endif %}
+    <a href="#profile-info"><i id="scroll-home" class="fa-solid fa-arrow-up"></i></a>
 {% endblock %}
 {% block js %}
     <script

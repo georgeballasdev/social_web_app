@@ -177,7 +177,8 @@ nav ul {
     font-size: 2rem;
 }
 
-.content-header {
+.content-header,
+.content-subheader {
     width: 50%;
     padding-bottom: .5rem;
     border-bottom: 1px solid var(--offblack);
@@ -185,6 +186,12 @@ nav ul {
     font-weight: var(--font-bold);
     font-size: 3rem;
     color: var(--color-dark);
+}
+
+.content-subheader {
+    padding-top: .5rem;
+    border-top: 1px solid var(--offblack);
+    font-size: 2rem;
 }
 
 #chat-window {
