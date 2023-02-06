@@ -2,41 +2,30 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-    <h1>Profile page for user:{{ profile_user.username }} with id:{{ profile_user.id }}</h1>
-    <img src="{{ profile_user.profile.pic.url }}" alt="{{ profile_user.profile.img.url }}"
-         height="200px" width="200px">
-    <p>Joined at {{ profile_user.profile.joined_at|naturalday }}</p>
-    <p>Bio:</p><p>{{ profile_user.profile.bio }}</p>
-    {% if user == profile_user %}
+    <link rel="stylesheet" href="{% static 'users/css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/css/post.css' %}">
+    <h2 class="content-header">{{ profile_user.username }}'s Profile</h2>
+    <div id="profile-info">
+        <div id="container">
+            <img src="{{ profile_user.profile.pic.url }}" alt="profile pic">
+            <p>Joined at {{ profile_user.profile.joined_at|naturalday }}</p>
+        </div>
+        <div id="bio">{{ profile_user.profile.bio }}</div>
+        {% if user == profile_user %}
         <a href="{% url 'users:update' %}">EDIT PROFILE</a>
-    {% else %}
-        <form method="POST" id="friendship-btn">
-            {% csrf_token %}
-            <input type="submit" id="btn-state" value="{{ friendship_button_state }}">
-        </form>
-    {% endif %}
-    <p>User posts:</p>
+        {% else %}
+        <div id="friendship-btn">{{ friendship_button_state }}</div>
+        {% endif %}
+    </div>
     {% if profile_user.post_set.all %}
-    <ul>
-        {% for post in profile_user.post_set.all %}
-        <li>
-            {% include 'feed/post.html' with post=post %}
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    <p>End of posts</p>
-    <p>Friends:</p>
-    {% if profile_user.profile.friends.all %}
-    {% for friend in profile_user.profile.friends.all %}
-        <p>{{ friend.username }}</p>
+    <a href="#profile-info"><i id="scroll-home" class="fa-solid fa-arrow-up"></i></a>
+    <h3>Posts:</h3>
+    {% for post in profile_user.post_set.all %}
+        {% include 'feed/post.html' with post=post %}
     {% endfor %}
-    {% else %}
-        <p>No friends</p>
     {% endif %}
 {% endblock %}
 {% block js %}
-    <script> let handleurl = "{% url 'users:handle_friendship' profile_user.id %}"</script>
     <script
         data-handle-url = "{% url 'users:handle_friendship' profile_user.id %}">
 		const PROFILE_DATASET = document.currentScript.dataset;

@@ -1,7 +1,10 @@
 {% extends 'feed/base.html' %}
 {% load static %}
 {% block content %}
+    <link rel="stylesheet" href="{% static 'feed/css/post.css' %}">
+    <div id="posts">
     {% include 'feed/post.html' with post=object %}
+    </div>
 {% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static 'feed/js/post.js' %}"></script>

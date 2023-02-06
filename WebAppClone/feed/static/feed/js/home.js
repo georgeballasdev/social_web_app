@@ -1,7 +1,7 @@
+// Load next posts on feed scroll end
 const feed = $('#posts');
-const content = $('#content');
 
-content.on('scroll', (e) => {
+feed.on('scroll', (e) => {
     if (e.target.offsetHeight + e.target.scrollTop >= e.target.scrollHeight) {
         $.ajax({
             type: 'POST',

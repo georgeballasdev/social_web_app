@@ -169,9 +169,22 @@ nav ul {
 #content {
     width: 70%;
     padding: 1rem;
-    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1rem;
     background-color: var(--color-light);
     font-size: 2rem;
+}
+
+.content-header {
+    width: 50%;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--offblack);
+    text-align: center;
+    font-weight: var(--font-bold);
+    font-size: 3rem;
+    color: var(--color-dark);
 }
 
 #chat-window {

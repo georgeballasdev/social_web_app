@@ -1,6 +1,33 @@
-#posts {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: 1rem;
+#new-post-btn {
+    position: absolute;
+    top: 115px;
+    left: 10.85%;
+    width: 10rem;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 3px 3px var(--color-secondary);
+    transition: .2s ease-in-out;
+    cursor: pointer;
+    background-color: var(--color-main);
+    text-align: center;
+    font-size: 2rem;
+    font-weight: var(--font-bold);
+    color: var(--color-dark);
+}
+
+#new-post-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 3px var(--color-dark);
+    background-color: var(--color-secondary);
+    color: var(--offwhite);
+}
+
+
+#feed-header {
+    width: 50%;
+    border-bottom: 1px solid var(--offblack);
+    text-align: center;
+    font-weight: var(--font-bold);
+    font-size: 3rem;
+    color: var(--color-dark);
 }

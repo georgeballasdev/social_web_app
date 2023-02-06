@@ -1,3 +1,4 @@
+// Handle post like
 $('#content').on('click', '.like-btn', (e) => {
     e.preventDefault();
     let post_id = $(e.target).closest('.post').attr('id');
@@ -19,6 +20,7 @@ $('#content').on('click', '.like-btn', (e) => {
     });
 })
 
+// Handle post comment submit
 $('#content').on('submit', '.add-comment', (e) => {
     e.preventDefault();
     let postId = $(e.target).closest('.post').attr('id');

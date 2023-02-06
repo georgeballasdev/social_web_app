@@ -146,4 +146,4 @@ LOGIN_URL = 'users:login'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 RECENT_MESSAGES_N = 10
-RECENT_POSTS_N = 1
+RECENT_POSTS_N = 10

@@ -3,9 +3,8 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'feed/css/home.css' %}">
     <link rel="stylesheet" href="{% static 'feed/css/post.css' %}">
-    <a href="{% url 'feed:post_create' %}">NEW POST</a>
-    <p>Feed:</p>
-    <span id="test">test</span>
+    <a id="new-post-btn" href="{% url 'feed:post_create' %}">NEW POST</a>
+    <h2 class="content-header">Feed:</h2>
     {% if posts %}
     <div id="posts" data-iteration="1">
         {% for post in posts %}
@@ -13,7 +12,6 @@
         {% endfor %}
     </div>
     {% endif %}
-    <p>End of posts</p>
 {% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static 'feed/js/home.js' %}"></script>

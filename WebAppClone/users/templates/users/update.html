@@ -1,8 +1,19 @@
 {% extends 'feed/base.html' %}
+{% load static %}
 {% block content %}
-    <p>update user</p>
+    <link rel="stylesheet" href="{% static 'users/css/update.css' %}">
+    <h2 class="content-header">Update Profile</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% form.as_p %}
+        <label for="id_pic">
+            <img id="preview" src="{{ user.profile.pic.url }}" alt="pic">
+            <p>Change</p>
+            <input name="pic" type="file" accept="image/*" id="id_pic">
+        </label>
+        {{ form.bio }}
+        <input type="submit" value="UPDATE PROFILE">
     </form>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static 'users/js/update.js' %}"></script>
 {% endblock %}
