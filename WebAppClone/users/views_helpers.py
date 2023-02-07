@@ -1,4 +1,5 @@
 from django.urls import reverse
+from notifications.models import Notification
 from notifications.signals import send_notification
 
 
@@ -6,19 +7,23 @@ def handle_add(user, other_user):
     if user in other_user.profile.requested_friends.all():
         user.profile.friends.add(other_user)
         other_user.profile.friends.add(user)
-        send_notification(
-            other_user.username,
-            f'You are now friends with {user.username}',
-            reverse('users:other_profile', args=[user.id])
-            )
+        notification = Notification.objects.create(
+            user = other_user,
+            text = f'You are now friends with {user.username}',
+            model_type = 'profile',
+            model_id = user.id
+        )
+        send_notification(notification)
         return 'UNFRIEND'
     else:
         user.profile.requested_friends.add(other_user)
-        send_notification(
-            other_user.username,
-            f'You have a new friend request from {user.username}',
-            reverse('users:other_profile', args=[user.id])
-            )
+        notification = Notification.objects.create(
+            user = other_user,
+            text = f'You have a new friend request from {user.username}',
+            model_type = 'profile',
+            model_id = user.id
+        )
+        send_notification(notification)
         return 'CANCEL REQUEST'
 
 def handle_unfriend(user, other_user):
@@ -39,11 +44,13 @@ def handle_accept(user, other_user):
         user.profile.friends.add(other_user)
         other_user.profile.friends.add(user)
         other_user.profile.requested_friends.remove(user)
-        send_notification(
-            other_user.username,
-            f'You are now friends with {user.username}',
-            reverse('users:other_profile', args=[user.id])
-            )
+        notification = Notification.objects.create(
+            user = other_user,
+            text = f'You are now friends with {user.username}',
+            model_type = 'profile',
+            model_id = user.id
+        )
+        send_notification(notification)
         return 'UNFRIEND'
     else:
         return 'ADD FRIEND'

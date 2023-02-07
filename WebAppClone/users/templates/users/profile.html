@@ -23,7 +23,7 @@
         {% for friend in profile_user.profile.friends.all %}
         <a class="friend-profile hoverable" href="{% url 'users:other_profile' friend.id %}">
             <img src="{{ friend.profile.pic.url }}" alt="friend pic">
-            {{ friend.username }}
+            <span>{{ friend.username }}</span>
         </a>
         {% endfor %}
     </div>

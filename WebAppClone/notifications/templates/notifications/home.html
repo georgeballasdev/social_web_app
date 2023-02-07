@@ -2,16 +2,31 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'notifications/css/home.css' %}">
-<div class="container">
-    <h2>Notifications</h2>
-    <ul id="notifications">
-        {% for notification in notifications %}
-        <li class="notification">
-            <a href="{{ notification.get_link }}">{{ notification.text }}</a>
+    <link rel="stylesheet" href="{% static 'notifications/css/home.css' %}">
+    <h2 class="content-header">New notifications</h2>
+    {% if unseen %}
+    <div id="unseen">
+    {% for notification in unseen %}
+        <a class="notification hoverable" href="{{ notification.get_link }}">
+            {{ notification.text }}
             <span>{{ notification.timestamp|naturaltime }}</span>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+        </a>
+    {% endfor %}
+    </div>
+    {% else %}
+    <p>No new notifications</p>
+    {% endif %}
+    <h2 class="content-header">Older notifications</h2>
+    {% if seen %}
+    <div id="seen">
+    {% for notification in seen %}
+        <a class="notification hoverable" href="{{ notification.get_link }}">
+            {{ notification.text }}
+            <span>{{ notification.timestamp|naturaltime }}</span>
+        </a>
+    {% endfor %}
+    </div>
+    {% else %}
+    <p>No older notifications</p>
+    {% endif %}
 {% endblock %}

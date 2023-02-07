@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.db import models
 from django.urls import reverse
 
@@ -34,10 +35,18 @@ class Notification(models.Model):
             return 'chat'
 
     def get_5_recent(user):
-        return Notification.objects.filter(user=user).order_by('-timestamp').all()[:5]
+        return Notification.objects.filter(user=user).filter(seen=False).order_by('-timestamp').all()[:5]
 
     def get_unseen_count(user):
         return Notification.objects.filter(user=user).filter(seen=False).count()
+
+    def serialized(self):
+        return {
+            'id': self.id,
+            'text': self.text,
+            'link': self.get_link(),
+            'timestamp': str(naturaltime(self.timestamp)),
+        }
 
     def __str__(self):
         return f'Notification for {self.model_type} model with id {self.model_id}'

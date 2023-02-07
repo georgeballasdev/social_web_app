@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@900&display=swap');
 
 :root {
     --color-main: #D0E8F2;
@@ -28,6 +29,7 @@ body {
 }
 
 body {
+    position: relative;
     margin-top: -1rem;
     display: flex;
     flex-direction: column;
@@ -37,8 +39,34 @@ body {
     background-image: linear-gradient(var(--color-light), var(--color-main));
 }
 
+header {
+    position: absolute;
+    top: 10%;
+    left: 6%;
+    z-index: -1;
+    display: flex;
+    align-items: flex-end;
+    column-gap: 4vh;
+    opacity: .7;
+}
+
+header div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header div span {
+    text-shadow: 0 0 6px var(--color-dark);
+    font-family: 'Kanit', sans-serif;
+    font-weight: 900;
+    font-size: 15vh;
+    color: var(--color-dark);
+    line-height: 8rem;
+}
+
 h1 {
-    text-shadow: 0 4px 3px var(--color-secondary);
+    text-shadow: 0 4px 3px var(--color-main);
     font-size: 5rem;
     font-weight: var(--font-bold);
     color: var(--color-dark);
@@ -152,5 +180,10 @@ p a:hover {
 @media screen and (max-width: 800px) {
     :root {
     font-size: 12px;
+    }
+
+    header {
+        left: 2%;
+        column-gap: 1vh;
     }
 }

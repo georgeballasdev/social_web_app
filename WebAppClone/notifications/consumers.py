@@ -1,7 +1,7 @@
 import json
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-from .models import Client
+from .models import Client, Notification
 
 
 class NotificationsConsumer(AsyncWebsocketConsumer):
@@ -14,6 +14,19 @@ class NotificationsConsumer(AsyncWebsocketConsumer):
 
     async def send_notification(self, data):
         await self.send(json.dumps(data))
+
+    async def receive(self, text_data):
+        count = await self.mark_unseen(json.loads(text_data))
+        await self.send(json.dumps({"count": count}))
+
+    @database_sync_to_async
+    def mark_unseen(self, data):
+        for id in data['seen']:
+            obj = Notification.objects.get(id=int(id))
+            obj.seen = True
+            obj.save()
+        return Notification.get_unseen_count(self.scope['user'])
+        
 
 class StatusConsumer(AsyncWebsocketConsumer):
     async def connect(self):
