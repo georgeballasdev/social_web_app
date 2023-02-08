@@ -1,0 +1,20 @@
+{% extends 'feed/base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'groups/css/create.css' %}">
+    <h2 class="content-header">Create new group</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.title }}
+        {{ form.info }}
+        <label for="id_img">
+            <img id="preview" src="#" alt="">
+            <i class="fa-regular fa-image"></i>
+            {{ form.img }} 
+        </label>
+        <input type="submit" value="CREATE GROUP">
+    </form>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static 'groups/js/create.js' %}"></script>
+{% endblock %}

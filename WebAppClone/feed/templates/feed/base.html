@@ -51,12 +51,30 @@
 	</header>
 	<div id="main">
 		<div id="groups-window">
-			<h3>Your groups:</h3>
-			<ul>
-				{% for group in user.members.all %}
-				<li><a href="{% url 'groups:group_page' group.id %}">{{ group.title }}</a></li>
-				{% endfor %}
-			</ul>
+			<div id="groups-header">Groups</div>
+			<div id="owned-groups" class="sub-group">
+				<h3 class="groups-subheader">Your groups</h3>
+				<ul>
+					{% for group in user.profile.get_owned_groups.all %}
+					<li><a href="{% url 'groups:group' group.id %}">{{ group.title }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div id="joined-groups" class="sub-group">
+				<h3 class="groups-subheader">Joined groups</h3>
+				<ul>
+					{% for group in user.profile.get_joined_groups.all %}
+					<li><a href="{% url 'groups:group' group.id %}">{{ group.title }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div id="suggested-groups" class="sub-group">
+				<h3 class="groups-subheader">Suggested group</h3>
+				<ul>
+					<li><a href="#">Random group</a></li>
+				</ul>
+			</div>
+			<a href="{% url 'groups:create' %}" id="new-group-btn">NEW GROUP</a>
 		</div>
 		<div id="content">{% block content %}{% endblock %}</div>
 		<div id="chat-window">{% include 'chat/chat_window.html' %}</div>

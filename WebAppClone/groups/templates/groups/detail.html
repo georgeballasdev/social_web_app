@@ -1,0 +1,54 @@
+{% extends 'feed/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'groups/css/detail.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/css/post.css' %}">
+    <h2 class="content-header">Group: {{ group.title }}</h2>
+    <div id="group-info">
+        <div id="container">
+            <img src="{{ group.img.url }}" alt="group image">
+            <p>Created at {{ group.timestamp|naturalday }}</p>
+        </div>
+        <div id="info">{{ group.info }}</div>
+        {% if user == group.owner %}
+        <a href="{% url 'users:update' %}">EDIT GROUP</a>
+        {% else %}
+        {% if user in group.members.all %}
+        <div id="join-btn">LEAVE GROUP</div>
+        {% else %}
+        <div id="join-btn">JOIN GROUP</div>
+        {% endif %}
+        {% endif %}
+    </div>
+    <h3 class="content-subheader">{{ group.members.count }} members</h3>
+    <div id="members-bar">
+        {% for member in group.members.all %}
+        <a class="friend-profile hoverable" href="{% url 'users:other_profile' member.id %}">
+            <img src="{{ member.profile.pic.url }}" alt="friend pic">
+            <span>{{ member.username }}</span>
+        </a>
+        {% endfor %}
+    </div>
+    {% if user in group.members.all %}
+    {% if group.posts.all %}
+    <h3 class="content-subheader">Group posts</h3>
+    {% for post in group.posts.all %}
+        {% include 'feed/post.html' with post=post %}
+    {% endfor %}
+    {% else %}
+    <h3 class="content-subheader">No group posts yet</h3>
+    {% endif %}
+    {% else %}
+    <p>You have to be a member to view group posts</p>
+    {% endif %}
+    <a href="#group-info"><i id="scroll-home" class="fa-solid fa-arrow-up"></i></a>
+{% endblock %}
+{% block js %}
+    <script
+        data-handle-url = "{% url 'groups:handle_join' group.id %}">
+        const GROUP_DATASET = document.currentScript.dataset;
+    </script>
+    <script type="text/javascript" src="{% static 'groups/js/detail.js' %}"></script>
+    <script type="text/javascript" src="{% static 'feed/js/post.js' %}"></script>
+{% endblock %}

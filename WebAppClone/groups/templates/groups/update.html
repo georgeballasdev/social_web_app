@@ -1,0 +1,19 @@
+{% extends 'feed/base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'groups/css/update.css' %}">
+    <h2 class="content-header">Update group: {{ group.title }}</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="id_img">
+            <img id="preview" src="{{ group.img.url }}" alt="image">
+            <p>Change</p>
+            <input name="img" type="file" accept="image/*" id="id_img">
+        </label>
+        {{ form.info }}
+        <input type="submit" value="UPDATE GROUP">
+    </form>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static 'groups/js/update.js' %}"></script>
+{% endblock %}

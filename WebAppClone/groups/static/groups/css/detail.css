@@ -1,0 +1,132 @@
+#content {
+    row-gap: 2rem;
+    overflow-y: scroll;
+}
+
+#group-info {
+    width: 100%;
+    padding-block: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items:flex-start;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    row-gap: .75rem;
+}
+
+#container img {
+    max-width: 300px;
+    border-radius: 15px;
+}
+
+#container p {
+    font-weight: var(--font-light);
+    font-size: 1.25rem;
+}
+
+#info {
+    max-height: 200px;
+    max-width: 40%;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 2px var(--color-dark);
+    background-color: var(--color-secondary);
+    overflow-y: scroll;
+    word-break: break-all;
+    text-shadow: 0px 1px 1px var(--offblack);
+    color: var(--offwhite);
+}
+
+#info::-webkit-scrollbar-thumb {
+    background: var(--color-light);
+    border-radius: 60px;
+}
+
+#group-info a,
+#join-btn {
+    height: fit-content;
+    width: 200px;
+    align-self:center;
+    padding: 1rem;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 3px 3px var(--color-secondary);
+    transition: .2s ease-in-out;
+    cursor: pointer;
+    background-color: var(--color-main);
+    text-align: center;
+    overflow-wrap: break-word;
+    font-size: 2rem;
+    font-weight: var(--font-bold);
+    color: var(--color-dark);
+}
+
+#group-info a:hover,
+#join-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 3px var(--color-dark);
+    background-color: var(--color-secondary);
+    color: var(--offwhite);
+}
+
+#scroll-home {
+    position: absolute;
+    right: 22.75%;
+    bottom: 20%;
+    display: none;
+    transition: .2s ease-in-out;
+    cursor: pointer;
+    text-shadow: 0 4px 2px var(--color-main);
+    font-size: 6rem;
+    color: var(--color-secondary);
+}
+
+#scroll-home:hover {
+    transform: scale(1.05);
+    color: var(--color-dark);
+}
+
+#friends-bar {
+    height: 200px;
+    max-width: 80%;
+    padding: 1rem;
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    column-gap: 2rem;
+    align-items: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    border-radius: 35px;
+    background-color: var(--color-secondary);
+}
+
+
+#friends-bar::-webkit-scrollbar-thumb {
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    border-radius: 60px;
+}
+
+#friends-bar::-webkit-scrollbar {
+    height: 20px;
+}
+
+.friend-profile {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-shadow: 0px 1px 1px var(--offblack);
+    color: var(--offwhite);
+}
+
+.friend-profile img {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+}
