@@ -45,7 +45,7 @@
     background: var(--color-light);
     border-radius: 60px;
 }
-#owner-btns {
+#group-btns {
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
@@ -65,7 +65,7 @@
     background-color: var(--color-main);
     text-align: center;
     overflow-wrap: break-word;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: var(--font-bold);
     color: var(--color-dark);
 }

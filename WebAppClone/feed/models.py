@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.db import models
 from django.urls import reverse
+from groups.models import Group
 
 class Post(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -9,6 +10,7 @@ class Post(models.Model):
     img = models.ImageField(upload_to='images/pics', blank= True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     liked_by = models.ManyToManyField(User, related_name='liked_by', blank=True)
+    of_group = models.ForeignKey(Group, blank=True, null=True, on_delete=models.CASCADE, related_name='posts')
 
     def serialized(self, user):
         comments_query = self.comment_set.all().order_by('-created_at')

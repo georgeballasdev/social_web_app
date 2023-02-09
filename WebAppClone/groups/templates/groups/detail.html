@@ -1,5 +1,6 @@
 {% extends 'feed/base.html' %}
 {% load static %}
+{% load groups_extras %}
 {% load humanize %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'groups/css/detail.css' %}">
@@ -11,20 +12,23 @@
             <p>Created at {{ group.timestamp|naturalday }}</p>
         </div>
         <div id="info">{{ group.info }}</div>
-        {% if user == group.owner %}
-        <div id="owner-btns">
-            <a href="{% url 'groups:update' group.id %}">EDIT GROUP</a>
-            <a href="{% url 'groups:manage' group.id %}">MANAGE MEMBERS</a>
+        <div id="group-btns">
+            {% with joined=user|joined:group.members.all %}
+            {% if joined %}
+                <a href="{% url 'groups:create_post' group.id %}">NEW GROUP POST</a>
+            {% endif %}
+            {% if user == group.owner %}
+                <a href="{% url 'groups:update' group.id %}">EDIT GROUP</a>
+                <a href="{% url 'groups:manage' group.id %}">MANAGE MEMBERS</a>
+            {% elif joined %}
+                <div id="join-btn">LEAVE GROUP</div>
+            {% elif user in group.requested_members.all %}
+                <div id="join-btn">CANCEL REQUEST</div>
+            {% else %}
+                <div id="join-btn">JOIN GROUP</div>
+            {% endif %}
+            {% endwith %}
         </div>
-        {% else %}
-        {% if user in group.members.all %}
-        <div id="join-btn">LEAVE GROUP</div>
-        {% elif user in group.requested_members.all %}
-        <div id="join-btn">CANCEL REQUEST</div>
-        {% else %}
-        <div id="join-btn">JOIN GROUP</div>
-        {% endif %}
-        {% endif %}
     </div>
     <h3 class="content-subheader">{{ group.members.count }} members</h3>
     <div id="members-bar">

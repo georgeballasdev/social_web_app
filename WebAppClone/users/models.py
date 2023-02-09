@@ -29,9 +29,10 @@ class Profile(models.Model):
         return 'ADD FRIEND'
 
     def update_latest_posts(self):
-        own_posts = Post.objects.filter(owner=self.user)
+        own_posts = Post.objects.filter(owner=self.user).filter(of_group__isnull=True)
         friends_posts = Post.objects.filter(owner__in=self.friends.all())
-        self.latest_posts_query.set(own_posts.union(friends_posts))
+        group_posts = Post.objects.filter(of_group__in=self.groups.all())
+        self.latest_posts_query.set(own_posts.union(group_posts).union(friends_posts))
 
     def get_next_n_recent_posts(self, iteration=0):
         start = iteration * settings.RECENT_POSTS_N

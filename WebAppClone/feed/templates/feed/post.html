@@ -2,12 +2,19 @@
 <div class="post" id="{{ post.id }}">
   <div class="post-header">
     <span class="post-timestamp">{{ post.created_at|naturaltime }}</span>
-    <div class="post-title">
-      <img class="pic" src="{{ post.owner.profile.pic.url }}" alt="pic">
-      <span>
-        <a href="{% url 'feed:post' post.id %}">Post</a> by
-        <a href="{% url 'users:other_profile' post.owner.id %}"> {{ post.owner.username }}</a>
-      </span>
+    <div class="post-origin">
+      {% if post.of_group != None %}
+      <div class="post-group">
+        <a href="{% url 'groups:group' post.of_group.id %}">Group: {{ post.of_group.title }}</a>
+      </div>
+      {% endif %}
+      <div class="post-title">
+        <img class="pic" src="{{ post.owner.profile.pic.url }}" alt="pic">
+        <span>
+          <a href="{% url 'feed:post' post.id %}">Post</a> by
+          <a href="{% url 'users:other_profile' post.owner.id %}"> {{ post.owner.username }}</a>
+        </span>
+      </div>
     </div>
     <div class="post-likes">
       <div class="likes-count">{{ post.liked_by.all.count }} likes</div>

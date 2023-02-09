@@ -19,7 +19,7 @@ $('#join-btn').click( (e) => {
 
 // Scroll up button
 const content = $('#content');
-const profileInfo = $('#profile-info');
+const groupInfo = $('#group-info');
 const scrollHomeBtn = $('#scroll-home');
 
 content.on('scroll', (e) => {
@@ -34,6 +34,6 @@ content.on('scroll', (e) => {
 scrollHomeBtn.on('click', (e) => {
     e.preventDefault();
     content.animate({
-        scrollTop: $(profileInfo).offset().top
+        scrollTop: $(groupInfo).offset().top
     }, 800, 'swing');
 })

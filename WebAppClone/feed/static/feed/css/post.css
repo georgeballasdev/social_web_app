@@ -35,6 +35,25 @@
     font-size: 1.2rem;
 }
 
+.post-origin {
+    position: relative;
+}
+
+.post-group {
+    position: absolute;
+    width: 100%;
+    bottom: 90%;
+    left: 20%;
+}
+
+.post-group a {
+    font-size: 1.3rem;
+}
+
+.post-group a:hover {
+    color: var(--color-dark);
+}
+
 .post-title {
     display: flex;
     align-items: center;
@@ -125,7 +144,8 @@
 }
 
 .comment .pic {
-    height: 2.5rem;
+    height: 3rem;
+    width: 3rem;
 }
 
 .comment-user {

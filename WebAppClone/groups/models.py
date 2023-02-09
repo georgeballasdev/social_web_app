@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from feed.models import Post
+
 
 class Group(models.Model):
     title = models.CharField(max_length=200)
@@ -13,6 +13,3 @@ class Group(models.Model):
 
     def get_joined_members(self):
         return self.members.exclude(id=self.owner.id)
-
-class GroupPost(Post):
-    of_group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='posts')

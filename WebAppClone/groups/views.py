@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, UpdateView
+from feed.models import Post
 from users.models import User
-from .models import Group, GroupPost
+from .models import Group
 from .views_helpers import *
 
 
@@ -33,7 +34,7 @@ class GroupDetail(LoginRequiredMixin, DetailView):
         return get_object_or_404(Group, id=self.kwargs['id'])
 
 class GroupPostCreate(LoginRequiredMixin, CreateView):
-    model = GroupPost
+    model = Post
     template_name = 'feed/post_create.html'
     fields = ['text', 'img']
 

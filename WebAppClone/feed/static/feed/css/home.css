@@ -31,3 +31,7 @@
     font-size: 3rem;
     color: var(--color-dark);
 }
+
+#posts {
+    padding-block: 2rem;
+}
