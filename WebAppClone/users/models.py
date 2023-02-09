@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from feed.models import Post
 from groups.models import Group
+from random import choice
 
 
 class Profile(models.Model):
@@ -42,3 +43,10 @@ class Profile(models.Model):
 
     def get_joined_groups(self):
         return self.groups.exclude(owner=self.user).order_by('title')
+
+    def get_random_group(self):
+        all_pks = Group.objects.values_list('pk', flat=True)
+        member_pks = self.groups.values_list('pk', flat=True)
+        not_member_pks = all_pks.difference(member_pks)
+        random_pk = choice(not_member_pks)
+        return Group.objects.get(pk=random_pk)

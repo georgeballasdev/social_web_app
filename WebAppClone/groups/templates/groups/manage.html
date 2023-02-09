@@ -1,0 +1,47 @@
+{% extends 'feed/base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'groups/css/manage.css' %}">
+    <h2 class="content-header">Manage group members</h2>
+    <div id="requested-members">
+        <h3 class="content-subheader">Member requests</h3>
+        <ul>
+            {% for member in group.requested_members.all %}
+            <li class="member">
+                <a href="{% url 'users:other_profile' member.id %}" class="hoverable">
+                    <img src="{{ member.profile.pic.url }}" alt="profile pic">
+                    <span>{{ member.username }}</span>
+                </a>
+                <div>
+                    <button class="handle-btn" data-member-id="{{ member.id }}">APPROVE</button>
+                    <button class="handle-btn" data-member-id="{{ member.id }}">DISAPPROVE</button>
+                </div>
+            </li>
+            {% empty %}
+            <p>No members requests</p>
+            {% endfor %}
+        </ul>
+    </div>
+    <div id="members">
+        <h3 class="content-subheader">Members</h3>
+        <ul>
+            {% for member in group.get_joined_members %}
+            <li class="member">
+                <a href="{% url 'users:other_profile' member.id %}" class="hoverable">
+                    <img src="{{ member.profile.pic.url }}" alt="profile pic">
+                    <span>{{ member.username }}</span>
+                </a>
+                <button class="handle-btn" data-member-id="{{ member.id }}">KICK</button>
+            </li>
+            {% empty %}
+            <p>No members but you :(</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+{% block js %}
+    <script data-handle-member-url="{% url 'groups:handle_member' group.id %}">
+        const GROUP_DATASET = document.currentScript.dataset;
+    </script>
+    <script type="text/javascript" src="{% static 'groups/js/manage.js' %}"></script>
+{% endblock %}

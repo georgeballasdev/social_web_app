@@ -12,10 +12,15 @@
         </div>
         <div id="info">{{ group.info }}</div>
         {% if user == group.owner %}
-        <a href="{% url 'users:update' %}">EDIT GROUP</a>
+        <div id="owner-btns">
+            <a href="{% url 'groups:update' group.id %}">EDIT GROUP</a>
+            <a href="{% url 'groups:manage' group.id %}">MANAGE MEMBERS</a>
+        </div>
         {% else %}
         {% if user in group.members.all %}
         <div id="join-btn">LEAVE GROUP</div>
+        {% elif user in group.requested_members.all %}
+        <div id="join-btn">CANCEL REQUEST</div>
         {% else %}
         <div id="join-btn">JOIN GROUP</div>
         {% endif %}
@@ -46,7 +51,7 @@
 {% endblock %}
 {% block js %}
     <script
-        data-handle-url = "{% url 'groups:handle_join' group.id %}">
+        data-handle-membership-url = "{% url 'groups:handle_membership' group.id %}">
         const GROUP_DATASET = document.currentScript.dataset;
     </script>
     <script type="text/javascript" src="{% static 'groups/js/detail.js' %}"></script>

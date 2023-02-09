@@ -1,18 +1,20 @@
 // Handle join button
 $('#join-btn').click( (e) => {
-    console.log('join');
-    // $.ajax({
-    //     type: 'POST',
-    //     url: PROFILE_DATASET.handleUrl,
-    //     data:
-    //     {
-    //     command: $(e.target).text(),
-    //     csrfmiddlewaretoken: DATASET.token
-    //     },
-    //     success: (response) => {
-    //         $(e.target).text(response['state']);
-    //     }
-    // });
+    $.ajax({
+        type: 'POST',
+        url: GROUP_DATASET.handleMembershipUrl,
+        data:
+        {
+        command: $(e.target).text(),
+        csrfmiddlewaretoken: DATASET.token
+        },
+        success: (response) => {
+            if (response.state == 'REFRESH') {
+                window.location.reload();
+            }
+            $(e.target).text(response.state);
+        }
+    });
 })
 
 // Scroll up button

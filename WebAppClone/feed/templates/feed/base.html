@@ -71,7 +71,9 @@
 			<div id="suggested-groups" class="sub-group">
 				<h3 class="groups-subheader">Suggested group</h3>
 				<ul>
-					<li><a href="#">Random group</a></li>
+					{% with group=user.profile.get_random_group %}
+					<li><a href="{% url 'groups:group' group.id %}">{{ group.title }}</a></li>
+					{% endwith %}
 				</ul>
 			</div>
 			<a href="{% url 'groups:create' %}" id="new-group-btn">NEW GROUP</a>

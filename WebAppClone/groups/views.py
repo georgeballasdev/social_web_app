@@ -1,10 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.http import JsonResponse, Http404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, UpdateView
+from users.models import User
 from .models import Group, GroupPost
+from .views_helpers import *
 
 
 class GroupCreate(LoginRequiredMixin, CreateView):
@@ -55,18 +57,48 @@ class GroupUpdate(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('groups:group', kwargs={'id': self.kwargs['id']})
 
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user != self.object.owner:
+            return redirect('groups:group', id=self.object.id)
+        return super(GroupUpdate, self).dispatch(
+            request, *args, **kwargs)
+
 @login_required
-def handle_join(request, id):
-    return JsonResponse({'ok':'ok'})
-    # if request.method == 'POST':
-    #     user = request.user
-    #     other_user = get_object_or_404(User, id=id)
-    #     command = request.POST['command']
-    #     commands = {
-    #         'ADD FRIEND': handle_add,
-    #         'UNFRIEND': handle_unfriend,
-    #         'CANCEL REQUEST': handle_cancel,
-    #         'ACCEPT REQUEST': handle_accept,
-    #     }
-    #     response = {'state' : commands[command](user, other_user)}
-    #     return JsonResponse(response)
+def handle_membership(request, id):
+    if request.method == 'POST':
+        group = get_object_or_404(Group, id=id)
+        user = request.user
+        command = request.POST['command']
+        commands = {
+            'JOIN GROUP': handle_join,
+            'CANCEL REQUEST': handle_cancel,
+            'LEAVE GROUP': handle_leave
+        }
+        response = {'state' : commands[command](group, user)}
+        return JsonResponse(response)
+
+@login_required
+def handle_member(request, id):
+    if request.method == 'POST':
+        group = get_object_or_404(Group, id=id)
+        if request.user != group.owner:
+            return
+        user_id = request.POST['id']
+        user = get_object_or_404(User, id=user_id)
+        command = request.POST['command']
+        commands = {
+            'APPROVE': handle_approve,
+            'DISAPPROVE': handle_disapprove,
+            'KICK': handle_kick,
+        }
+        response = {'state' : commands[command](group, user)}
+        return JsonResponse(response)
+
+@login_required
+def manage_members(request, id):
+    if request.method == 'GET':
+        group = get_object_or_404(Group, id=id)
+        if request.user == group.owner:
+            return render(request, 'groups/manage.html', {'group': group})
+    return redirect('groups:group', kwargs={'id':id})

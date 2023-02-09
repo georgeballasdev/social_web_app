@@ -45,6 +45,11 @@
     background: var(--color-light);
     border-radius: 60px;
 }
+#owner-btns {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
 
 #group-info a,
 #join-btn {

@@ -15,10 +15,6 @@ form > * {
     font-size: 1.5rem;
 }
 
-#id_title {
-    color: blue;
-}
-
 #id_info {
     padding: 1rem;
     border: none;
