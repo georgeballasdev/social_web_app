@@ -118,11 +118,15 @@ nav ul {
     font-size: inherit;
 }
 
+.dropdown {
+    position: relative;
+}
+
 #notifications-count {
     width: 2rem;
     position: absolute;
-    top: -80%;
-    right: -40%;
+    bottom: 80%;
+    left: 70%;
     z-index: 100;
     border-radius: 100%;
     text-align: center;
@@ -130,29 +134,82 @@ nav ul {
     color: var(--offwhite);
 }
 
-#profile,
-#notifications {
-    position: relative;
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    padding: .75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: .5rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 2px var(--color-dark);
+    background-color: var(--color-light);
+    opacity: 0;
+    transition: .3s ease-out;
+    pointer-events: none;
+}
+
+#profile .dropdown-menu {
+    width: 125px;
+    top: 70%;
+}
+
+#notifications .dropdown-menu {
+    width: 250px;
+}
+
+.dropdown-btn,
+.dropdown-menu > a,
+.dropdown-menu li {
+    transition: transform .2s ease-in;
+}
+
+.dropdown-btn:hover,
+.dropdown-menu > a:hover,
+.dropdown-menu li:hover {
+    transform: scale(1.08);
+}
+
+.dropdown-btn:hover + .dropdown-menu,
+.dropdown-menu:hover {
+    top: 120%;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#profile > .dropdown-btn:hover + .dropdown-menu,
+#profile .dropdown-menu:hover {
+    top: 90%;
+}
+
+.dropdown-menu ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: .5rem;
+}
+
+.dropdown-menu > a,
+.dropdown-menu li {
+    padding: .5rem;
+    border-radius: 15px;
+    background-color: var(--color-accent);
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.dropdown-menu li a span {
+    text-align: right;
+    font-weight: var(--font-light);
+    font-size: 1.25rem;
 }
 
 #profile img {
     height: 4rem;
     width: 4rem;
     border-radius: 50%;
-}
-
-#profile-menu ul,
-#notifications-list ul {
-    position: absolute;
-    padding: .5rem 2rem;
-    top: 100%;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: .75rem;
-    border-radius: 5px;
-    background-color: var(--color-dark);
 }
 
 #main {

@@ -37,7 +37,10 @@ $('#content').on('submit', '.add-comment', (e) => {
         },
         success: (response) => {
             textInput.val('');
-            comment = response['comment'];
+            let comment = response['comment'];
+            if (comments[0].firstElementChild.classList.contains('placeholder')) {
+                comments.empty();
+            }
             comments.append(
                 '<div class="comment">\
                     <img class="pic" src="' + comment.url + '" alt="pic">\

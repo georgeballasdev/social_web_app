@@ -12,6 +12,9 @@ def home(request):
         'unseen': notifications.filter(seen=False).order_by('-timestamp'),
         'seen': notifications.filter(seen=True).order_by('-timestamp')
     }
+    for notification in context['unseen']:
+        notification.seen = True
+        notification.save()
     return render(request, 'notifications/home.html', context)
 
 @login_required

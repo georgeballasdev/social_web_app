@@ -95,12 +95,13 @@
     color: var(--color-dark);
 }
 
-#friends-bar {
-    height: 200px;
+#members-bar {
+    height: 220px;
     max-width: 80%;
     padding: 1rem;
     flex-shrink: 0;
     display: flex;
+    align-items: center;
     flex-wrap: nowrap;
     column-gap: 2rem;
     align-items: center;
@@ -111,13 +112,13 @@
 }
 
 
-#friends-bar::-webkit-scrollbar-thumb {
+#members-bar::-webkit-scrollbar-thumb {
     background: var(--color-light);
     border: 1px solid var(--color-dark);
     border-radius: 60px;
 }
 
-#friends-bar::-webkit-scrollbar {
+#members-bar::-webkit-scrollbar {
     height: 20px;
 }
 
@@ -125,6 +126,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     text-shadow: 0px 1px 1px var(--offblack);
     color: var(--offwhite);

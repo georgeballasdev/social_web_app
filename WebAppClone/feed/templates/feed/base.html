@@ -27,24 +27,23 @@
 					<i class="fa-solid fa-magnifying-glass"></i>
 					<input type="text">
 				</li>
-				<li id="notifications" class="hoverable">
-					<i class="fa-solid fa-circle-exclamation fa-xl"></i>
+				<li id="notifications" class="dropdown">
 					<span id="notifications-count"></span>
-					<div id="notifications-list" class="hidden">
+					<i class="fa-solid fa-circle-exclamation fa-xl dropdown-btn"></i>
+					<div id="notifications-list" class="dropdown-menu">
 						<ul></ul>
 						<a href="{% url 'notifications:home' %}">See all notifications</a>
 					</div>
 				</li>
-				<li id="profile" class="hoverable">
-					<img src="{{ user.profile.pic.url }}" alt="pic">
-					<i class="fa-solid fa-caret-up fa-2xs"></i>
-					<div id="profile-menu" class="hidden">
-						<ul>
-							<li><a href="{% url 'users:profile' %}">Profile</a></li>
-							<li><a href="{% url 'users:update' %}">Update</a></li>
-							<li><a href="{% url 'users:logout' %}">Logout</a></li>
-						</ul>
+				<li id="profile" class="dropdown">
+					<div class="dropdown-btn">
+						<img src="{{ user.profile.pic.url }}" alt="pic">
 					</div>
+					<ul id="profile-menu" class="dropdown-menu">
+						<li><a href="{% url 'users:profile' %}">Profile</a></li>
+						<li><a href="{% url 'users:update' %}">Update</a></li>
+						<li><a href="{% url 'users:logout' %}">Logout</a></li>
+					</ul>
 				</li>
 			</ul>
 		</nav>

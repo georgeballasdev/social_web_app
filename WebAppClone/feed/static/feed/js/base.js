@@ -21,7 +21,7 @@ notificationsSocket.onopen = () => {
             list.append(
                 '<li data-notification-id="' + data[i].id + '">\
                     <a href="' + data[i].link + '">' + data[i].text +
-                    '<span>' + data[i].timestamp + '</span></a>\
+                    '<span> - ' + data[i].timestamp + '</span></a>\
                 </li>'
             );
         }
@@ -47,7 +47,7 @@ notificationsSocket.onmessage = (e) => {
             list.prepend(
                 '<li data-notification-id="' + notification.id + '">\
                 <a href="' + notification.link + '">' + notification.text +
-                '<span>' + notification.timestamp + '</span></a>\
+                '<span> - ' + notification.timestamp + '</span></a>\
                 </li>'
                 );
                 // Remove oldest notification from dropdown
@@ -58,10 +58,10 @@ notificationsSocket.onmessage = (e) => {
     }
 }
 
-notifications.click( () => {
-    notificationsDropdown.toggle();
-    // If opening, mark dropdown notifications as seen
+notifications.on('mouseenter', () => {
+    // If visible, mark dropdown notifications as seen
     if(notificationsDropdown.is(':visible')){
+        console.log('visible');
         let markSeen = [];
         let notifications = notificationsDropdown.find('li');
         for (var i = 0; i < notifications.length; i++) {
@@ -71,15 +71,4 @@ notifications.click( () => {
             'seen': markSeen
         }));
     }
-})
-
-// Handle profile menu
-const profile = $('#profile');
-const profileCaret = profile.find('i');
-const profileMenu = $('#profile-menu');
-
-profile.click( () => {
-    profileCaret.toggleClass('fa-caret-up');
-    profileCaret.toggleClass('fa-caret-down');
-    profileMenu.toggle();
 })
