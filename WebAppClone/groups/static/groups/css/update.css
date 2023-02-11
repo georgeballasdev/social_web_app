@@ -52,7 +52,8 @@ label[for=id_img] p {
     display: none;
 }
 
-input[type=submit] {
+input[type=submit],
+#delete {
     padding: 1rem;
     border: none;
     border-radius: 15px;
@@ -65,10 +66,19 @@ input[type=submit] {
     color: var(--color-dark);
 }
 
+#delete {
+    background-color: red;
+}
+
 label[for=id_img]:hover,
-input[type=submit]:hover {
+input[type=submit]:hover,
+#delete:hover {
     transform: scale(1.05);
     box-shadow: 0 5px 3px var(--color-dark);
     background-color: var(--color-secondary);
     color: var(--offwhite);
+}
+
+#delete:hover {
+    background-color: red;
 }

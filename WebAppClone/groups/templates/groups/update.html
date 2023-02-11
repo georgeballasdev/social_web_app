@@ -13,6 +13,10 @@
         {{ form.info }}
         <input type="submit" value="UPDATE GROUP">
     </form>
+    <form action="{% url 'groups:delete' group.id %}" method="POST">
+        {% csrf_token %}
+        <input id="delete" type="submit" value="DELETE GROUP">
+    </form>
 {% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static 'groups/js/update.js' %}"></script>

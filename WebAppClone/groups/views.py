@@ -66,6 +66,16 @@ class GroupUpdate(LoginRequiredMixin, UpdateView):
             request, *args, **kwargs)
 
 @login_required
+def group_delete(request, id):
+    if request.method == 'POST':
+        group = get_object_or_404(Group, id=id)
+        user = request.user
+        if request.user == group.owner:
+            group.delete()
+            return redirect('feed:home')
+    return redirect('groups:group', id=id)
+
+@login_required
 def handle_membership(request, id):
     if request.method == 'POST':
         group = get_object_or_404(Group, id=id)
@@ -102,4 +112,4 @@ def manage_members(request, id):
         group = get_object_or_404(Group, id=id)
         if request.user == group.owner:
             return render(request, 'groups/manage.html', {'group': group})
-    return redirect('groups:group', kwargs={'id':id})
+    return redirect('groups:group', id=id)

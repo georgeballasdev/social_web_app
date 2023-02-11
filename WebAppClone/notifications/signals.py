@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 from chat.models import ChatMessage
-from feed.models import Comment
+from feed.models import Comment, Post
 from .models import Client, Notification
 
 
@@ -41,6 +41,19 @@ def new_message(sender, instance, **kwargs):
         "type": "send.notification",
         "user": user.username,
         })
+
+@receiver(post_save, sender=Post)
+def new_group_post(sender, instance, created, **kwargs):
+    group = instance.of_group
+    if group and not created:
+        for member in group.members.exclude(id=instance.owner.id).all():
+            notification = Notification.objects.create(
+                user = member,
+                text = f'{instance.owner.username} posted in group {instance.of_group.title}',
+                model_type = 'post',
+                model_id = instance.id
+            )
+            send_notification(notification)
 
 def send_notification(notification):
     client = Client.objects.get(user=notification.user)

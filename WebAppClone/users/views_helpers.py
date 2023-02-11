@@ -1,4 +1,3 @@
-from django.urls import reverse
 from notifications.models import Notification
 from notifications.signals import send_notification
 

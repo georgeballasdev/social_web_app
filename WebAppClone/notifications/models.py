@@ -31,6 +31,8 @@ class Notification(models.Model):
             return reverse('feed:post', args=[self.model_id])
         elif self.model_type == 'profile':
             return reverse('users:other_profile', args=[self.model_id])
+        elif self.model_type == 'group':
+            return reverse('groups:manage', args=[self.model_id])
         else:
             return 'chat'
 

@@ -9,6 +9,7 @@ urlpatterns = [
     path('<int:id>/update/', views.GroupUpdate.as_view(), name='update'),
     path('<int:id>/manage/', views.manage_members, name='manage'),
     path('create/', views.GroupCreate.as_view(), name='create'),
+    path('<int:id>/delete/', views.group_delete, name='delete'),
     path('ajax/handle-membership/<int:id>/', views.handle_membership, name='handle_membership'),
     path('ajax/handle-member/<int:id>/', views.handle_member, name='handle_member'),
 ]
