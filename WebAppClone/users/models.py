@@ -6,10 +6,13 @@ from groups.models import Group
 from random import choice
 
 
+def profile_pic_path(instance, filename):
+    return f'images/profile-pics/{instance.user.username}/{filename}'
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500)
-    pic = models.ImageField(upload_to='images/pics/', default='/images/no_pic.jpeg')
+    pic = models.ImageField(upload_to=profile_pic_path, default='/images/generic/no_pic.jpeg')
     joined_at = models.DateField(auto_now_add=True)
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
     requested_friends = models.ManyToManyField(User, related_name='requested_friends', blank=True)
@@ -50,4 +53,5 @@ class Profile(models.Model):
         member_pks = self.groups.values_list('pk', flat=True)
         not_member_pks = all_pks.difference(member_pks)
         random_pk = choice(not_member_pks)
-        return Group.objects.get(pk=random_pk)
+        if random_pk:
+            return Group.objects.get(pk=random_pk)

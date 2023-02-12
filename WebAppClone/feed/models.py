@@ -4,10 +4,14 @@ from django.db import models
 from django.urls import reverse
 from groups.models import Group
 
+
+def group_pic_path(instance, filename):
+    return f'images/post-pics/{instance.owner.username}/{filename}'
+
 class Post(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField(max_length=500)
-    img = models.ImageField(upload_to='images/pics', blank= True, null=True)
+    img = models.ImageField(upload_to=group_pic_path, blank= True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     liked_by = models.ManyToManyField(User, related_name='liked_by', blank=True)
     of_group = models.ForeignKey(Group, blank=True, null=True, on_delete=models.CASCADE, related_name='posts')

@@ -13,7 +13,7 @@ from .views_helpers import *
 class GroupCreate(LoginRequiredMixin, CreateView):
     model = Group
     template_name = 'groups/create.html'
-    fields = ['title', 'info']
+    fields = ['title', 'info', 'img']
     
     def get_success_url(self):
         return reverse('groups:group', kwargs={'id':self.object.id})
