@@ -1,6 +1,7 @@
 import json
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.contrib.auth.models import User
 from .models import Client, Notification
 
 
@@ -30,17 +31,24 @@ class NotificationsConsumer(AsyncWebsocketConsumer):
 
 class StatusConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        # Update Client
-        user = self.scope['user']
-        await update_client(user, online_status=True, status_channel=self.channel_name)
-        # Accept connection
         await self.accept()
 
     async def disconnect(self, code):
-        # Update client
-        user = self.scope['user']
-        await update_client(user, online_status=False)
+        # Resend offline status in case beaforeunload fails
+        await update_client(
+                self.scope['user'],
+                online_status=False
+            )
         self.close()
+
+    async def receive(self, text_data=None, byte_data=None):
+        if text_data:
+            data = json.loads(text_data)
+            await update_client(
+                self.scope['user'],
+                online_status=data['status'],
+                status_channel=self.channel_name
+            )
 
     async def send_status(self, data):
         await self.send(json.dumps({
@@ -55,6 +63,6 @@ def update_client(user, online_status=None, notifications_channel=None, status_c
         client.online_status = online_status
     if notifications_channel:
         client.notifications_channel = notifications_channel
-    elif status_channel:
+    if status_channel:
         client.status_channel = status_channel
     client.save()
