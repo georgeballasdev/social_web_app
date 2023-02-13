@@ -16,6 +16,7 @@ form > * {
 }
 
 #id_bio {
+    height: 200px;
     padding: 1rem;
     border: none;
     outline: none;
@@ -52,7 +53,8 @@ label[for=id_pic] p {
     display: none;
 }
 
-input[type=submit] {
+input[type=submit],
+#content a {
     padding: 1rem;
     border: none;
     border-radius: 15px;
@@ -66,7 +68,8 @@ input[type=submit] {
 }
 
 label[for=id_pic]:hover,
-input[type=submit]:hover {
+input[type=submit]:hover,
+#content a:hover {
     transform: scale(1.05);
     box-shadow: 0 5px 3px var(--color-dark);
     background-color: var(--color-secondary);

@@ -3,11 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.http import JsonResponse
 from django.views.generic import UpdateView
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from notifications.models import Client
 from .models import Profile
 from .forms import RegisterForm
@@ -82,3 +82,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('users:profile')
+
+class UserPasswordChangeView(PasswordChangeView):
+    template_name = 'users/change_password.html'
+    success_url = reverse_lazy('users:profile')

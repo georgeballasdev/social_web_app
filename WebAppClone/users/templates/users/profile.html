@@ -12,7 +12,7 @@
         </div>
         <div id="bio">{{ profile_user.profile.bio }}</div>
         {% if user == profile_user %}
-        <a href="{% url 'users:update' %}">EDIT PROFILE</a>
+        <a href="{% url 'users:update' %}">UPDATE PROFILE</a>
         {% else %}
         <div id="friendship-btn">{{ friendship_button_state }}</div>
         {% endif %}

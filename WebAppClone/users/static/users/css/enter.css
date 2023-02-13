@@ -4,6 +4,7 @@
 :root {
     --color-main: #D0E8F2;
     --color-secondary: #79A3B1;
+    --color-accent: #95c0cf;
     --color-dark: #456268;
     --color-light: #FCF8EC;
     --offwhite: #F8F0E3;
@@ -76,7 +77,6 @@ form {
     width: 50%;
     display: flex;
     flex-direction: column;
-
 }
 
 .field {
@@ -176,6 +176,28 @@ p a:hover {
     color: var(--color-secondary);
     text-shadow: 0 1px 1px var(--color-dark);
 }
+
+.errorlist {
+    position: absolute;
+    left: 70%;
+    bottom: 50%;
+    width: 50%;
+    padding: .75rem;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    border-radius: 35px;
+    background-color: var(--color-accent);
+    text-align: center;
+    font-weight: var(--font-bold);
+    font-size: 1.25rem;
+}
+
+.nonfield {
+    position: unset;
+    align-self: center;
+}
+
 
 @media screen and (max-width: 800px) {
     :root {

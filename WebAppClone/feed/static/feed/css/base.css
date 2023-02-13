@@ -226,6 +226,7 @@ nav ul {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    background-color: var(--color-accent);
 }
 
 #groups-header {
@@ -322,6 +323,7 @@ nav ul {
 
 #chat-window {
     width: 20%;
+    background-color: var(--color-accent);
 }
 
 @media only screen and (max-width: 600px) {

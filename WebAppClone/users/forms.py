@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 
 
@@ -27,3 +28,18 @@ class RegisterForm(forms.Form):
         required=False,
         help_text='Optional bio for your profile',
     )
+
+    # Check for username and email uniqueness
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        existing_user = User.objects.filter(username=username)
+        if existing_user:
+            raise forms.ValidationError(f"Username {username} already exists")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        existing_user = User.objects.filter(email=email)
+        if existing_user:
+            raise forms.ValidationError(f"Email {email} already exists")
+        return email

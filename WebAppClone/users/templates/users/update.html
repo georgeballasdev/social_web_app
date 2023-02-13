@@ -13,6 +13,7 @@
         {{ form.bio }}
         <input type="submit" value="UPDATE PROFILE">
     </form>
+    <a href="{% url 'users:change_password' %}">CHANGE PASSWORD</a>
 {% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static 'users/js/update.js' %}"></script>
