@@ -23,9 +23,15 @@
 		<a id="brand" class="hoverable" href="{% url 'feed:home' %}">Socialbook</a>
 		<nav>
 			<ul>
-				<li id="search-bar">
+				<li id="search-bar" class="dropdown">
 					<i class="fa-solid fa-magnifying-glass"></i>
-					<input type="text">
+					<div id="search-list" class="dropdown-menu">
+						<ul id="search-users"></ul>
+						<ul id="search-groups"></ul>
+					</div>
+					<form action="{% url 'search:search_results' %}">
+						<input type="search" name="query">
+					</form>
 				</li>
 				<li id="notifications" class="dropdown">
 					<span id="notifications-count"></span>
@@ -87,6 +93,7 @@
 		data-notifications-url = "{% url 'notifications:notifications' %}"
 		data-next-messages = "{% url 'chat:next_messages' %}"
 		data-next-posts = "{% url 'feed:next_posts' %}"
+		data-search-url = "{% url 'search:search_results' %}"
 		data-token = "{{ csrf_token }}"
 		data-username = "{{ user.username }}">
 		const DATASET = document.currentScript.dataset;

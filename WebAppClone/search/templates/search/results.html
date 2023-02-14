@@ -1,0 +1,27 @@
+{% extends 'feed/base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/results.css' %}">
+    <h2 class="content-header">Search Results for {{ query }}</h2>
+    <h3 class="content-subheader">Users</h3>
+    <div id="user-results">
+    {% for result in results.users %}
+        <a class="result hoverable" href="{{ result.link }}">
+            <img src="{{ result.pic }}" alt="pic">
+            <span>{{ result.username }}</span>
+        </a>
+    {% empty %}
+    <p>No matching users</p>
+    {% endfor %}
+    </div>
+    <h3 class="content-subheader">Groups</h3>
+    <div id="groups-results">
+    {% for result in results.groups %}
+        <a class="result hoverable" href="{{ result.link }}">
+            <span>Group: {{ result.title }}</span>
+        </a>
+    {% empty %}
+    <p>No matching groups</p>
+    {% endfor %}
+    </div>
+{% endblock %}

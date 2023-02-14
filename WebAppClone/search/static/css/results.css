@@ -1,0 +1,34 @@
+#content {
+    overflow-y: scroll;
+}
+
+#user-results,
+#groups-results {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 2rem;
+}
+
+.result {
+    width: 60%;
+    padding: 1rem 10rem;
+    display: flex;
+    align-items: center;
+    column-gap: 2rem;
+    border-radius: 25px;
+    background-color: var(--color-accent);
+}
+
+.result img {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+
+.result span {
+    font-weight: var(--font-bold);
+    font-size: 2rem;
+}

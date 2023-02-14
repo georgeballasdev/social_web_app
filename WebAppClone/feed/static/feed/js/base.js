@@ -61,7 +61,6 @@ notificationsSocket.onmessage = (e) => {
 notifications.on('mouseenter', () => {
     // If visible, mark dropdown notifications as seen
     if(notificationsDropdown.is(':visible')){
-        console.log('visible');
         let markSeen = [];
         let notifications = notificationsDropdown.find('li');
         for (var i = 0; i < notifications.length; i++) {
@@ -70,5 +69,54 @@ notifications.on('mouseenter', () => {
         notificationsSocket.send(JSON.stringify({
             'seen': markSeen
         }));
+    }
+})
+
+// Handle search
+const searchBar = $('#search-bar');
+const searchInput = searchBar.find('input');
+const searchList = $('#search-list');
+const searchUsers = $('#search-users');
+const searchGroups = $('#search-groups');
+
+searchInput.on('focus', () => {
+    if (searchUsers.find('li').length + searchGroups.find('li').length > 0){
+        searchList.css({opacity: '1', top: '120%', pointerEvents: 'auto'});
+    }
+})
+
+searchInput.on('blur', () => {
+    searchList.css({opacity: '0', top: '100%'});
+})
+
+searchInput.on('input', () => {
+    searchList.css({opacity: '1', top: '120%', pointerEvents: 'auto'});
+    let query = searchInput.val();
+    let isValidQuery = /^[a-zA-Z0-9!? ]+$/.test(query);
+    if (isValidQuery) {
+        $.ajax({
+            type: 'GET',
+            url: DATASET.searchUrl,
+            data:
+            {
+                query: query,
+            },
+            success: (response) => {
+                searchUsers.empty();
+                searchGroups.empty();
+                response.users.forEach(user => {
+                    searchUsers.append(
+                        '<li><a href="' + user.link + '">' +
+                        '<img alt="pic" src="' + user.pic + '">' +
+                        user.username + '</a></li>'
+                    );
+                })
+                response.groups.forEach(group => {
+                    searchGroups.append(
+                        '<li><a href="' + group.link + '"> Group: ' + group.title + '</a></li>'
+                    );
+                })
+            }
+        })
     }
 })
