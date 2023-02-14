@@ -10,7 +10,8 @@
 #list-header{
     width: 100%;
     user-select: none;
-    background-color: var(--color-dark);
+    background-color: var(--color-accent);
+    box-shadow: 0 2px 4px var(--color-dark);
     color: var(--offwhite); 
 }
 
@@ -22,6 +23,7 @@
 }
 
 .friend {
+    padding-block: 1rem;
     padding-left: 2rem;
     display: flex;
     align-items: baseline;
@@ -33,11 +35,11 @@
     height: 1.5rem;
     width: 1.5rem;
     border-radius: 50%;
-    background-color: grey;
+    background-color: #99686A;
 }
 
 .online {
-    background-color: green;
+    background-color: #58CD36;
 }
 
 #chats {
@@ -79,12 +81,18 @@
     height: 3rem;
     width: 3rem;
     border-radius: 50%;
-    border: 1px solid var(--color-light);
 }
 
-.chat-head span {
+.chat-head a {
+    transition: .2s;
+    text-shadow: 0 1px 2px var(--offwhite);
     font-weight: var(--font-bold);
     font-size: 2.5rem;
+}
+
+.chat-head a:hover {
+    text-shadow: 0 2px 4px var(--offblack);
+    color: var(--color-light);
 }
 
 .close-btn {

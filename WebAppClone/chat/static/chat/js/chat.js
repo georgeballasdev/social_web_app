@@ -95,14 +95,14 @@ function getChatUrl(friend) {
                 DATASET.username + '-' + friend + '/';
 }
 
-function newChat(friend, picUrl) {
+function newChat(friend, picUrl, profileUrl) {
     let newChat = document.createElement('div');
     $(newChat).attr('class', 'chat');
     $(newChat).attr('id', friend + '-chat');
     $(newChat).append(
         '<div class="chat-head">\
             <img src="' + picUrl + '" alt="pic">\
-            <span>' + friend + '</span>\
+            <a href="' + profileUrl + '">' + friend + '</a>\
             <i class="close-btn hoverable fa-solid fa-xmark"></i></div>\
          <div class="chat-log"></div>\
          <div class="chat-input">\
@@ -113,7 +113,7 @@ function newChat(friend, picUrl) {
     return newChat;
 }
 
-function openChat(friend, picUrl) {
+function openChat(friend, picUrl, profileUrl) {
     // If maxChats, close last chat
     if (activeChats.length == maxChats) {
         closeChat(activeChats[activeChats.length-1]);
@@ -124,7 +124,7 @@ function openChat(friend, picUrl) {
     activeChats.push(friend);
     sockets[friend] = chatSocket;
     // Get and append chat element
-    let chat = newChat(friend, picUrl);
+    let chat = newChat(friend, picUrl, profileUrl);
     chats.append(chat);
     $(chat).find('.msg-input').focus();
     // Handle websocket
@@ -148,8 +148,9 @@ function closeChat(friend) {
 chatWindow.on('click', '.friend',(e) => {
     let friend = e.currentTarget.dataset.friendUsername;
     let picUrl = e.currentTarget.dataset.picUrl;
+    let profileUrl = e.currentTarget.dataset.profileUrl;
     if (! activeChats.includes(friend)) {
-        openChat(friend, picUrl);
+        openChat(friend, picUrl, profileUrl);
     }
 })
 

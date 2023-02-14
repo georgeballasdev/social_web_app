@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Static stylesheets -->
+	<link rel="stylesheet" href="{% static 'feed/css/loading.css' %}">
 	<link rel="stylesheet" href="{% static 'feed/css/base.css' %}">
 	<link rel="stylesheet" href="{% static 'chat/css/chat_window.css' %}">
 	<!-- Google Fonts -->
@@ -19,6 +20,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </head>
 <body>
+	<div id="loading">
+		<div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+	</div>
 	<header>
 		<a id="brand" class="hoverable" href="{% url 'feed:home' %}">Socialbook</a>
 		<nav>

@@ -58,7 +58,7 @@ header div {
 }
 
 header div span {
-    text-shadow: 0 0 6px var(--color-dark);
+    text-shadow: 0 0 6px #A91D36;
     font-family: 'Kanit', sans-serif;
     font-weight: 900;
     font-size: 15vh;

@@ -1,3 +1,11 @@
+// Handle loading icon
+$(document).ready( () => {
+    $('#loading').animate({opacity: '0'}, 100, () => {
+        $('#loading').hide();
+    });
+})
+
+
 // Handle notifications
 const notifications = $('#notifications');
 const notificationsCount = $('#notifications-count');

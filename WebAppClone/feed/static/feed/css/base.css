@@ -67,12 +67,11 @@ ul {
 .hidden {
     display: none;
 }
-
 body {
     padding-top: 100px;
     display: flex;
     flex-direction: column;
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 header {
@@ -84,7 +83,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 1.5px 5px var(--color-dark);
+    box-shadow: 0 1px 2px #bd8282;
     background-color: var(--color-secondary);
     font-size: 2rem;
 }
@@ -249,7 +248,7 @@ nav ul {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--color-accent);
+    background-image: linear-gradient(230deg, var(--color-light), var(--color-main), var(--color-accent));
 }
 
 #groups-header {
@@ -323,7 +322,7 @@ nav ul {
     flex-direction: column;
     align-items: center;
     row-gap: 1rem;
-    background-color: var(--color-light);
+    background-image: radial-gradient(#FFD4D4, var(--offwhite), var(--color-light));
     font-size: 2rem;
 }
 
@@ -346,7 +345,7 @@ nav ul {
 
 #chat-window {
     width: 20%;
-    background-color: var(--color-accent);
+    background-image: linear-gradient(180deg, var(--color-light), var(--color-main), var(--color-accent));
 }
 
 @media only screen and (max-width: 600px) {

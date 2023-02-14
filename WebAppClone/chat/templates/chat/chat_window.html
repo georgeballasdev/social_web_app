@@ -5,7 +5,8 @@
         {% for friend in user.profile.friends.all %}
         <li class="friend hoverable"
             data-friend-username="{{ friend.username }}"
-            data-pic-url="{{ friend.profile.pic.url }}">
+            data-pic-url="{{ friend.profile.pic.url }}"
+            data-profile-url="{% url 'users:other_profile' friend.id %}">
             {% if friend.client.online_status  %}
                 <span class="status online"></span>
             {% else %}
