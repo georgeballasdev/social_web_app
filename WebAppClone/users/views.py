@@ -68,6 +68,20 @@ def register(request):
         form = RegisterForm()
     return render(request, 'users/enter.html', {'form': form, 'register': True})
 
+@login_required
+def info_message(request):
+    profile = request.user.profile
+    if request.method == 'GET':
+        info = profile.info_message
+        profile.info_message = ''
+        profile.save()
+        return JsonResponse({
+            'info': info
+        })
+    info = request.POST['info']
+    profile.info_message = info
+    profile.save()
+
 class UserLoginView(LoginView):
     template_name = 'users/enter.html'
     next_page = 'feed:home'
@@ -76,6 +90,12 @@ class UserLoginView(LoginView):
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'users/update.html'
     fields = ['bio', 'pic']
+
+    def form_valid(self, form):
+        profile = self.request.user.profile
+        profile.info_message = 'Profile updated'
+        profile.save()
+        return super().form_valid(form)
 
     def get_object(self):
         return self.request.user.profile
@@ -86,3 +106,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 class UserPasswordChangeView(PasswordChangeView):
     template_name = 'users/change_password.html'
     success_url = reverse_lazy('users:profile')
+
+    def form_valid(self, form):
+        profile = self.request.user.profile
+        profile.info_message = 'Password changed'
+        profile.save()
+        return super().form_valid(form)

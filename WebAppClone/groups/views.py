@@ -52,6 +52,12 @@ class GroupUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'groups/update.html'
     fields = ['info', 'img']
 
+    def form_valid(self, form):
+        profile = self.request.user.profile
+        profile.info_message = 'Group updated'
+        profile.save()
+        return super().form_valid(form)
+
     def get_object(self):
         return get_object_or_404(Group, id=self.kwargs['id'])
 

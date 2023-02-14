@@ -152,6 +152,9 @@ chatWindow.on('click', '.friend',(e) => {
     if (! activeChats.includes(friend)) {
         openChat(friend, picUrl, profileUrl);
     }
+    let newMsgIcon = $(e.currentTarget).find('i');
+    console.log(newMsgIcon.css('opacity'));
+    newMsgIcon.animate({opacity: '0'}, 300);
 })
 
 chatWindow.on('click', '.close-btn',(e) => {

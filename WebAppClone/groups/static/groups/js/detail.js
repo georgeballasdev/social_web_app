@@ -10,9 +10,12 @@ $('#join-btn').click( (e) => {
         },
         success: (response) => {
             if (response.state == 'REFRESH') {
+                updateInfoMessage('Left group');
                 window.location.reload();
             }
-            $(e.target).text(response.state);
+            else {
+                $(e.target).text(response.state);
+            }
         }
     });
 })

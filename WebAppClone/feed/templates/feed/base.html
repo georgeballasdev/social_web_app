@@ -23,6 +23,7 @@
 	<div id="loading">
 		<div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 	</div>
+	<div id="info">INFO</div>
 	<header>
 		<a id="brand" class="hoverable" href="{% url 'feed:home' %}">Socialbook</a>
 		<nav>
@@ -81,7 +82,9 @@
 				<h3 class="groups-subheader">Suggested group</h3>
 				<ul>
 					{% with group=user.profile.get_random_group %}
+					{% if group %}
 					<li><a href="{% url 'groups:group' group.id %}">{{ group.title }}</a></li>
+					{% endif %}
 					{% endwith %}
 				</ul>
 			</div>
@@ -99,7 +102,8 @@
 		data-next-posts = "{% url 'feed:next_posts' %}"
 		data-search-url = "{% url 'search:search_results' %}"
 		data-token = "{{ csrf_token }}"
-		data-username = "{{ user.username }}">
+		data-username = "{{ user.username }}"
+		data-info-message-url= "{% url 'users:info_message' %}">
 		const DATASET = document.currentScript.dataset;
     </script>
 	<!-- Static scripts -->

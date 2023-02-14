@@ -42,6 +42,10 @@
     background-color: #58CD36;
 }
 
+.new-msg {
+    opacity: 0;
+}
+
 #chats {
     position: absolute;
     bottom: 0;

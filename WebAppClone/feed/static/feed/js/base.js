@@ -1,10 +1,41 @@
-// Handle loading icon
 $(document).ready( () => {
+    // Handle loading icon
     $('#loading').animate({opacity: '0'}, 100, () => {
         $('#loading').hide();
     });
+
+    // Handle info message
+    $.ajax({
+        type: 'GET',
+        url: DATASET.infoMessageUrl,
+        success: (response) => {
+            if (response.info != '') {
+                newInfo(response.info);
+            }
+        }
+      });
 })
 
+// Info message functions
+const infoBox = $('#info');
+
+function newInfo(info) {
+    infoBox.text(info);
+    $(infoBox).animate({left: '72%'}, 600);
+    setTimeout(() => {$(infoBox).animate({left: '100%'}, 600)}, 2000);
+}
+
+function updateInfoMessage(info) {
+    $.ajax({
+        type: 'POST',
+        url: DATASET.infoMessageUrl,
+        data:
+        {
+            info: info,
+            csrfmiddlewaretoken: DATASET.token
+        },
+      });
+}
 
 // Handle notifications
 const notifications = $('#notifications');
@@ -41,7 +72,16 @@ notificationsSocket.onmessage = (e) => {
     let data = JSON.parse(e.data);
     // New chat notification
     if (data.user){
-        console.log('You have a new message from ' + data.user);
+        if (!activeChats.includes(data.user)){
+            let newMsgIcon = chatWindow.find('.friend[data-friend-username=' + data.user + ']').find('i');
+            let iconActive = newMsgIcon.css('opacity') == 1 ? true : false;
+            if (!iconActive) {
+                newInfo('New message from ' + data.user);
+            }
+            newMsgIcon.animate({opacity: '1', fontSize: '3.5rem'}, 300, () => {
+                newMsgIcon.animate({fontSize: '3rem'}, 300);
+            });
+        }
     }
     // New notification
     else {

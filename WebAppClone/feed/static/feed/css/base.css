@@ -67,11 +67,28 @@ ul {
 .hidden {
     display: none;
 }
+
 body {
     padding-top: 100px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+#info {
+    position: absolute;
+    top: 12%;
+    left: 100%;
+    width: 300px;
+    padding: 1rem;
+    z-index: 100;
+    opacity: 1;
+    border-radius: 50px;
+    background-color: #b67b7de5;
+    text-align: center;
+    text-shadow: 0 1px 3px var(--color-dark);
+    font-size: 2rem;
+    color: var(--offwhite);
 }
 
 header {

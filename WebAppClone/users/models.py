@@ -18,6 +18,7 @@ class Profile(models.Model):
     requested_friends = models.ManyToManyField(User, related_name='requested_friends', blank=True)
     latest_posts_query = models.ManyToManyField(Post, related_name='latest_posts_query', blank=True)
     groups = models.ManyToManyField(Group, related_name='groups', blank=True)
+    info_message = models.CharField(max_length=100, default='', blank=True)
 
     def __str__(self):
         return f'Profile of {self.user.username}'
@@ -52,6 +53,8 @@ class Profile(models.Model):
         all_pks = Group.objects.values_list('pk', flat=True)
         member_pks = self.groups.values_list('pk', flat=True)
         not_member_pks = all_pks.difference(member_pks)
+        if not not_member_pks:
+            return None
         random_pk = choice(not_member_pks)
         if random_pk:
             return Group.objects.get(pk=random_pk)
