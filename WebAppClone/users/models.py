@@ -34,7 +34,7 @@ class Profile(models.Model):
 
     def update_latest_posts(self):
         own_posts = Post.objects.filter(owner=self.user).filter(of_group__isnull=True)
-        friends_posts = Post.objects.filter(owner__in=self.friends.all())
+        friends_posts = Post.objects.filter(owner__in=self.friends.all()).filter(of_group__isnull=True)
         group_posts = Post.objects.filter(of_group__in=self.groups.all())
         self.latest_posts_query.set(own_posts.union(group_posts).union(friends_posts))
 

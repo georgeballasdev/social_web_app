@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     # External apps
     'daphne',
+    'django_extensions',
 
     # Django apps
     'django.contrib.admin',

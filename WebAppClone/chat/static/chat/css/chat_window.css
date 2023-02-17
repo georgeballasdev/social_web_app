@@ -5,6 +5,9 @@
     background-color:var(--color-main);
     text-align: center;
     font-size: 3rem;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: 100%;
 }
 
 #list-header{

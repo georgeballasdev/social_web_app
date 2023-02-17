@@ -11,7 +11,7 @@
             <img src="{{ group.img.url }}" alt="group image">
             <p>Created at {{ group.timestamp|naturalday }}</p>
         </div>
-        <div id="info">{{ group.info }}</div>
+        <div id="info-body">{{ group.info }}</div>
         <div id="group-btns">
             {% with joined=user|joined:group.members.all %}
             {% if joined %}

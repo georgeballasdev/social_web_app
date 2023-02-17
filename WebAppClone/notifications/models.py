@@ -6,8 +6,8 @@ from django.urls import reverse
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    notifications_channel = models.CharField(max_length=150, default='')
-    status_channel = models.CharField(max_length=150, default='')
+    notifications_channel = models.CharField(max_length=150, default='', blank=True)
+    status_channel = models.CharField(max_length=150, default='', blank=True)
     online_status = models.BooleanField(default=False)
 
     def get_active_client_friends_status_channels(self):
