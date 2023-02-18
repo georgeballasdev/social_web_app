@@ -3,7 +3,7 @@
     <div id="list-header">Chat</div>
     <ul id="friends-list">
         {% for friend in user.profile.friends.all %}
-        <li class="friend hoverable"
+        <li class="friend"
             data-friend-username="{{ friend.username }}"
             data-pic-url="{{ friend.profile.pic.url }}"
             data-profile-url="{% url 'users:other_profile' friend.id %}">

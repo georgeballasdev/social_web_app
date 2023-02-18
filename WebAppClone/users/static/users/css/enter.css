@@ -38,6 +38,7 @@ body {
     align-items: center;
     row-gap: .5rem;
     background-image: linear-gradient(var(--color-light), var(--color-main));
+    overflow-y: hidden;
 }
 
 header {

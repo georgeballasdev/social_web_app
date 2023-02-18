@@ -32,6 +32,13 @@
     align-items: baseline;
     gap: 1rem;
     user-select: none;
+    transition: .2s ease-in;
+}
+
+.friend:hover {
+    cursor: pointer;
+    background-color: var(--color-light);
+    font-size: 3.1rem;
 }
 
 .status {
