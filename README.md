@@ -2,7 +2,7 @@
 
 A social web app clone, as part of my **developer portfolio**, built with Django.
 
-## [SocialBook](www.socialbook.dev) - Live site
+## [**SocialBook** - *Live app*](https://socialbook.dev)
  
  ---
 
@@ -49,6 +49,8 @@ A social web app clone, as part of my **developer portfolio**, built with Django
 > [Known bugs](#known-bugs)
 
 > [Future development](#future-development)
+
+> [Deployment](#deployment)
 
 ---
 
@@ -170,3 +172,9 @@ Django features, technologies and packages implemented:
 - Add password reset with email capability
 - Login with third party capability
 - Add suggested friends page
+
+
+---
+
+### Deployment
+Socialbook is deployed on **Heroku**, using *ElephantSQL* for the Postgresql database, *Upstash for Redis* for the channels handling on the redis part and *Cloudinary* as the media storage solution. The web app is available on the [socialbook.dev](https://socialbook.dev) domain name, secured with SSL.
