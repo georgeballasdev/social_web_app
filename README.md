@@ -2,7 +2,7 @@
 
 A social web app clone, as part of my **developer portfolio**, built with Django.
 
-## [**SocialBook** - *Live app*](https://socialbook.dev)
+## [**SocialBook** - *Live app*](https://www.socialbook.dev)
  
  ---
 
@@ -177,4 +177,4 @@ Django features, technologies and packages implemented:
 ---
 
 ### Deployment
-Socialbook is deployed on **Heroku**, using *ElephantSQL* for the Postgresql database, *Upstash for Redis* for the channels handling on the redis part and *Cloudinary* as the media storage solution. The web app is available on the [socialbook.dev](https://socialbook.dev) domain name, secured with SSL.
+Socialbook is deployed on **Heroku**, using *ElephantSQL* for the Postgresql database, *Upstash for Redis* for the channels handling on the redis part and *Cloudinary* as the media storage solution. The web app is available on the [socialbook.dev](https://www.socialbook.dev) domain name, secured with SSL.
