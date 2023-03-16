@@ -3,7 +3,10 @@
 A social web app clone, as part of my **developer portfolio**, built with Django.
 
 ## [**SocialBook** - *Live app*](https://socialbook.dev)
- 
+
+
+<img src="images/login.gif" width="100%" height="280">
+
  ---
 
 ## Features
@@ -66,6 +69,8 @@ Friend/Unfriend/Accept requests are handled using AJAX, to and from the backend.
 
 The profile model also stores the info_message field, which is a message to be displayed the next time the user navigates the web app. The information message informs the user for successful actions performed previously, like `'Post created'`, `'Group created'`, `'Password changed'` etc.
 
+<img src="images/profile.gif" width="100%" height="280">
+
 ---
 
 ### Posts
@@ -73,6 +78,8 @@ The profile model also stores the info_message field, which is a message to be d
 Posts are created by users in the feed or as part of a group. They include the post body and an optional image. Posts can be liked and commented on. Each users feed shows the user's, the user's friends and the user's joined group's posts, ordered by time created. Each group page shows only the group posts. In the feed, the latest n number of posts are loaded, with n being a developer setting, and more n posts are loaded on feed scroll end. The user profile also includes the user's posts.
 
 The owner of a post gets notified for new likes and comments on their post.
+
+<img src="images/post.gif" width="100%" height="280">
 
 ---
 
@@ -83,6 +90,8 @@ Groups are created by a user. The user then becomes the group's owner, and is th
 Join/Leave/Approve/Disapprove/Kick actions are handled using AJAX, to and from the backend.
 
 The web app shows groups where user is the owner, groups where user is just a member and a suggested random group which the user is not a member of.
+
+<img src="images/group.gif" width="100%" height="280">
 
 ---
 
@@ -118,6 +127,8 @@ The ChatMessage model itself stored the two users as sender and receiver, the cr
 
 The dedicated AsyncWebsocketConsumer is responsible for validating the user connecting as part of the respective channel group, setting the group name, loading chat messages from history, creating new ChatMessage objects and finally sending those messages serialized to the correct recipients.
 
+<img src="images/chat.gif" width="100%" height="280">
+
 ---
 
 ### Search
@@ -125,6 +136,8 @@ The dedicated AsyncWebsocketConsumer is responsible for validating the user conn
 Searching users and groups in the search bar works using AJAX calls to the Django view on every new character typed in the input bar. The view then performs filter and order_by queries and returns the serialized results. The results are categorized by users and groups and are displayed dynamically under the search bar.
 
 On the submit event of the input bar, the user is redirected to the search results page, which shows the static results of the search query.
+
+<img src="images/search.gif" width="100%" height="280">
 
 ---
 
@@ -177,4 +190,5 @@ Django features, technologies and packages implemented:
 ---
 
 ### Deployment
+
 Socialbook is deployed on **Heroku**, using *ElephantSQL* for the Postgresql database, *Upstash for Redis* for the channels handling on the redis part and *Cloudinary* as the media storage solution. The web app is available on the [socialbook.dev](https://socialbook.dev) domain name, secured with SSL.
