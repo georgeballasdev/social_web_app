@@ -2,7 +2,7 @@
 
 A social web app clone, as part of my **developer portfolio**, built with Django.
 
-## [**SocialBook** - *Live app*](https://socialbook.dev)
+## [**SocialBook** - *Live app*](https://www.socialbook.dev)
 
 
 <img src="images/login.gif" width="100%">
